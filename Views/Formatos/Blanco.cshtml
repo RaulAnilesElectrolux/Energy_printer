@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EnerGuide Label</title>
+
+    <style>
+        @page {
+            size: 5.2in 7.15in;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        html {
+            width: fit-content;
+            height: fit-content;
+        }
+
+        body {
+            display: flex;
+            margin: 0;
+        }
+
+        .label {
+            width: 5.2in;
+            height: 7.15in;
+            background: white;
+            border: 2px solid #000;
+            padding: 2px 2px 2px 2px;
+            position: relative;
+            overflow: hidden;
+            page-break-after: always;
+            break-after: page;
+        }
+
+        .country {
+            text-align: center;
+            font-size: 42px;
+            margin-top: 10px;
+            font-family: "Times New Roman", serif;
+        }
+
+        .energuide-box {
+            background: #000;
+            color: white;
+            margin: 10px auto 20px;
+            padding: 18px 25px;
+            text-align: center;
+        }
+
+        .energuide {
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+            .energuide .g {
+                display: inline-block;
+                border: 8px solid #fff;
+                border-radius: 50%;
+                width: 70px;
+                height: 70px;
+                line-height: 54px;
+                text-align: center;
+                margin: 0 5px;
+                position: relative;
+                top: 8px;
+            }
+
+        .sub-title {
+            text-align: center;
+            font-size: unset;
+            font-weight: bold;
+            margin-top: 0.15in;
+            margin-bottom: 0.35in;
+        }
+
+        .consumption {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            gap: 25px;
+            margin-bottom: 15px;
+        }
+
+            .consumption .value {
+                font-size: 65px;
+                font-weight: bold;
+                line-height: 1;
+            }
+
+            .consumption .unit {
+                font-size: 35px;
+                font-weight: bold;
+                line-height: 1.1;
+            }
+
+                .consumption .unit small {
+                    display: block;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+
+        .model-arrow {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .arrow {
+            width: 0.19in;
+            height: 0.19in;
+            border-left: 0.11in solid transparent;
+            border-right: 0.11in solid transparent;
+            border-top: 0.22in solid #000;
+        }
+
+        .scale {
+            margin-bottom: 0.15in;
+            box-shadow: inset 4px 20px 0 0 black, inset -4px 20px 0 0 black;
+            padding-inline: 4px;
+        }
+
+        .bar {
+            height: 0.23in;
+            background: linear-gradient(to right,#f3f3f3,#111);
+            border: 3px solid #000;
+            position: relative;
+        }
+
+        .scale-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: small;
+            font-weight: 600;
+            margin-top: 5px;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+
+        .energy-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.15in;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .type-section {
+            text-align: center;
+            margin-bottom: 0.15in;
+            display: flex;
+            justify-content: center;
+            font-size: 15px;
+            align-items: center;
+        }
+
+            .type-section .type {
+                font-size: 50px;
+                font-weight: bold;
+            }
+
+            .type-section .volume {
+                width: 80%;
+                font-weight: bold;
+                font-size: 15px;
+            }
+
+        .model {
+            text-align: center;
+            margin-bottom: 0.15in;
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            align-items: center;
+        }
+
+            .model .label-title {
+                font-size: 14px;
+            }
+
+            .model .number {
+                font-size: 20px;
+                font-weight: bold;
+                margin-top: 8px;
+            }
+
+        .warning {
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .bottom {
+            display: flex;
+            align-items: center;
+        }
+
+        .energy-star {
+            width: 140px;
+            background: #000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .bottom-text {
+            flex: 1;
+            font-size: 9.7px;
+            line-height: 1.1;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .bottom-section {
+            margin-right: 10%;
+        }
+
+        .imagen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 4.68in;
+        }
+
+        /*
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                display: block;
+                min-height: unset;
+            }
+
+            .label {
+                margin: 1px;
+            }
+        }
+        */
+    </style>
+</head>
+<body>
+
+    <div class="label">
+        <div style="border: 2px solid black; padding-left: 0.11in;padding-right: 0.11in; padding-top:0.19in; margin-bottom:2px; height: 5.86in;">
+            <div>
+                <div class="imagen">
+                    <img src="./Energuide2.png" width="95%" />
+                </div>
+            </div>
+
+            <div class="sub-title">
+                Energy consumption / Consommation énergétique
+            </div>
+
+            <div class="consumption">
+                <div class="value" id="MODEL_KW"></div>
+
+                <div class="unit">
+                    kWh
+                    <small>per year / par année</small>
+                </div>
+            </div>
+
+            <div class="model-arrow">
+                <div class="arrow"></div>
+                <div>This Model / Ce Modèle</div>
+            </div>
+
+            <div class="scale">
+                <div class="bar"></div>
+
+                <div class="scale-values">
+                    <span class="inicio"><span id="LOW_KW"></span> kWh</span>
+                    <span class="final"><span id="HIGH_KW"></span> kWh</span>
+                </div>
+            </div>
+
+            <div class="energy-info">
+                <div>
+                    Uses least energy /<br>
+                    Consomme le moins d'énergie
+                </div>
+                <div class="type">
+                    <h2 style="width: max-content; margin: 0;" id="TYPE">Type</h2>
+                </div>
+                <div style="text-align:right;">
+                    Uses most energy /<br>
+                    Consomme le plus d'énergie
+                </div>
+            </div>
+
+            <div class="type-section">
+                <div style="text-align: left; font-size: 14px;">Similar models compared</div>
+                <div class="volume">
+                    <span id="RANGE"></span><br>
+                    volume in ft.³ / volume en pi³
+                </div>
+                <div style="text-align: right; font-size: 14px;">Modèles similaires comparés</div>
+            </div>
+
+            <div class="model">
+                <div class="label-title">Model number</div>
+
+                <div class="number" id="MODEL"></div>
+
+                <div class="label-title" style="text-align: right">Numéro du modèle</div>
+            </div>
+
+            <div class="warning">
+                Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36) <br />
+                Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)
+            </div>
+        </div>
+
+        <div class="bottom">
+            <img src="CanStar2.jpg" width="15%" style="margin-left:0.23in;margin-right:0.23in;height:fit-content;" />
+
+            <div class="bottom-section">
+                <div class="bottom-text">
+                    The Energy Star® mark on this EnerGuide label signifies that this is
+                    an energy-efficient appliance. Its energy performance meets or
+                    exceeds the Government of Canada’s high efficiency levels. Use the
+                    EnerGuide rating to determine how this appliance compares to other
+                    similar models.
+                </div>
+                <div class="bottom-text">
+                    La marque Energy Star® sur cette étiquette Énerguide signifie
+                    que l’appareil est éconergétique et que son rendement énergétique
+                    satisfait ou dépasse les niveaux de haute efficacité du gouvernement
+                    du Canada. Utilisez la cote Énerguide afin de comparer le rendement
+                    De l’appareil avec celui d’autres modèles similaires.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script>
+    window.onload = function () {
+        // Objeto con las nuevas variables
+        const datosEtiqueta = {
+            "MODEL": "fghb2868T*",
+            "MODEL_KW": 647,
+            "LOW_KW": 640,
+            "HIGH_KW": 716,
+            "TYPE": "Type 7",
+            "RANGE": "24.5 TO 26.4 CU. FT.",
+            "ENERGY_LOGO": "Y"
+        };
+
+        // Asignación directa a los IDs en el HTML
+        for (const [id, valor] of Object.entries(datosEtiqueta)) {
+            const elemento = document.getElementById(id);
+            if (elemento && id != "ENERGY_LOGO") {
+                elemento.textContent = typeof valor == "string" ? valor.toUpperCase() : valor;
+            }
+        }
+
+        // El cálculo matemático ahora lee de las nuevas llaves
+        const valorKwh = datosEtiqueta["MODEL_KW"];
+        const inicio = datosEtiqueta["LOW_KW"];
+        const final = datosEtiqueta["HIGH_KW"];
+
+        let porcentaje = 0;
+        if (final - inicio !== 0) {
+            porcentaje = (100 * (valorKwh - inicio)) / (final - inicio);
+        }
+
+        const arrow = document.querySelector('.arrow');
+        if (arrow) {
+            arrow.style.marginLeft = porcentaje + '%';
+        }
+
+        const energyLogo = document.querySelector('.bottom');
+        if (energyLogo && datosEtiqueta["ENERGY_LOGO"] == "N") {
+            energyLogo.style.display = "none";
+        }
+    };
+</script>
+</html>
