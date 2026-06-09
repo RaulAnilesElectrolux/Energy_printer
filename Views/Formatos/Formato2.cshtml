@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Etiquetas Combinadas / Combined Labels</title>
 
+    <!-- ============================================================
+         VARIABLES DE DATOS / DATA VARIABLES
+         ============================================================ -->
     <script>
         // ── FORMATO BLANCO (EnerGuide Canada) ──────────────────────
         const datosBlanco = {
@@ -37,6 +40,9 @@
         };
     </script>
 
+    <!-- ============================================================
+         ESTILOS GLOBALES / GLOBAL STYLES
+         ============================================================ -->
     <style>
         * {
             box-sizing: border-box;
@@ -55,7 +61,7 @@
         }
 
         /* Cada etiqueta es una "página" al imprimir */
-        @media print {
+        @@media print {
             body {
                 background: white;
                 padding: 0;
@@ -65,11 +71,14 @@
         }
     </style>
 
+    <!-- ============================================================
+         ESTILOS FORMATO BLANCO (scoped con .wrap-blanco)
+         ============================================================ -->
     <style>
         /* Página propia para el formato Blanco */
-        @page blanco-page {
+        @@page blanco-page {
             size: 5.2in 7.15in;
-            margin: 4px;
+            margin: 0;
         }
 
         .wrap-blanco {
@@ -274,15 +283,18 @@
             width: 4.68in;
         }
 
-        @media print {
+        @@media print {
             .wrap-blanco {
                 page: blanco-page;
             }
         }
     </style>
 
+    <!-- ============================================================
+         ESTILOS FORMATO AMARILLO (scoped con .wrap-amarillo)
+         ============================================================ -->
     <style>
-        @page amarillo-page {
+        @@page amarillo-page {
             size: 14.5cm 19.1cm;
             margin: 0;
         }
@@ -437,7 +449,7 @@
             align-items: center;
         }
 
-        .wrap-amarillo .display-costo {
+        .wrap-amarillo #display-costo {
             font-size: 36pt;
             vertical-align: super;
             margin-left: 2px;
@@ -523,7 +535,7 @@
             align-items: center;
         }
 
-        .wrap-amarillo .separador-sim {
+        .wrap-amarillo #separador-sim {
             position: absolute;
             top: 0;
             width: 3px;
@@ -634,7 +646,7 @@
             text-align: left;
         }
 
-        @media print {
+        @@media print {
             .wrap-amarillo {
                 page: amarillo-page;
             }
@@ -643,12 +655,15 @@
 </head>
 <body>
 
+    <!-- ============================================================
+         FORMATO 1: BLANCO (EnerGuide Canada)
+         ============================================================ -->
     <div class="wrap-blanco">
         <div class="label">
             <div style="border: 2px solid black; padding-left: 0.11in; padding-right: 0.11in; padding-top: 0.19in; margin-bottom: 2px; height: 5.86in;">
                 <div>
                     <div class="imagen">
-                        <img src="./Energuide2.png" width="95%" />
+                        <img src="~/Assets/Energuide2.png" width="95%" />
                     </div>
                 </div>
 
@@ -657,7 +672,7 @@
                 </div>
 
                 <div class="consumption">
-                    <div class="value b-MODEL_KW"></div>
+                    <div class="value" id="b-MODEL_KW"></div>
                     <div class="unit">
                         kWh
                         <small>per year / par année</small>
@@ -665,15 +680,15 @@
                 </div>
 
                 <div class="model-arrow">
-                    <div class="arrow b-arrow"></div>
+                    <div class="arrow" id="b-arrow"></div>
                     <div>This Model / Ce Modèle</div>
                 </div>
 
                 <div class="scale">
                     <div class="bar"></div>
                     <div class="scale-values">
-                        <span class="inicio"><span class="b-LOW_KW"></span> kWh</span>
-                        <span class="final"><span class="b-HIGH_KW"></span> kWh</span>
+                        <span class="inicio"><span id="b-LOW_KW"></span> kWh</span>
+                        <span class="final"><span id="b-HIGH_KW"></span> kWh</span>
                     </div>
                 </div>
 
@@ -683,7 +698,7 @@
                         Consomme le moins d'énergie
                     </div>
                     <div class="type">
-                        <h2 style="width: max-content; margin: 0;" class="b-TYPE">Type</h2>
+                        <h2 style="width: max-content; margin: 0;" id="b-TYPE">Type</h2>
                     </div>
                     <div style="text-align:right;">
                         Uses most energy /<br>
@@ -694,7 +709,7 @@
                 <div class="type-section">
                     <div style="text-align: left; font-size: 14px;">Similar models compared</div>
                     <div class="volume">
-                        <span class="b-RANGE"></span><br>
+                        <span id="b-RANGE"></span><br>
                         volume in ft.³ / volume en pi³
                     </div>
                     <div style="text-align: right; font-size: 14px;">Modèles similaires comparés</div>
@@ -702,7 +717,7 @@
 
                 <div class="model">
                     <div class="label-title">Model number</div>
-                    <div class="number b-MODEL"></div>
+                    <div class="number" id="b-MODEL"></div>
                     <div class="label-title" style="text-align: right">Numéro du modèle</div>
                 </div>
 
@@ -712,98 +727,7 @@
                 </div>
             </div>
 
-            <div class="bottom b-bottom">
-                <img src="CanStar2.jpg" width="15%" style="margin-left:0.23in; margin-right:0.23in; height:fit-content;" />
-                <div class="bottom-section">
-                    <div class="bottom-text">
-                        The Energy Star® mark on this EnerGuide label signifies that this is
-                        an energy-efficient appliance. Its energy performance meets or
-                        exceeds the Government of Canada's high efficiency levels. Use the
-                        EnerGuide rating to determine how this appliance compares to other
-                        similar models.
-                    </div>
-                    <div class="bottom-text">
-                        La marque Energy Star® sur cette étiquette Énerguide signifie
-                        que l'appareil est éconergétique et que son rendement énergétique
-                        satisfait ou dépasse les niveaux de haute efficacité du gouvernement
-                        du Canada. Utilisez la cote Énerguide afin de comparer le rendement
-                        De l'appareil avec celui d'autres modèles similaires.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrap-blanco">
-        <div class="label">
-            <div style="border: 2px solid black; padding-left: 0.11in; padding-right: 0.11in; padding-top: 0.19in; margin-bottom: 2px; height: 5.86in;">
-                <div>
-                    <div class="imagen">
-                        <img src="./Energuide2.png" width="95%" />
-                    </div>
-                </div>
-
-                <div class="sub-title">
-                    Energy consumption / Consommation énergétique
-                </div>
-
-                <div class="consumption">
-                    <div class="value b-MODEL_KW"></div>
-                    <div class="unit">
-                        kWh
-                        <small>per year / par année</small>
-                    </div>
-                </div>
-
-                <div class="model-arrow">
-                    <div class="arrow b-arrow"></div>
-                    <div>This Model / Ce Modèle</div>
-                </div>
-
-                <div class="scale">
-                    <div class="bar"></div>
-                    <div class="scale-values">
-                        <span class="inicio"><span class="b-LOW_KW"></span> kWh</span>
-                        <span class="final"><span class="b-HIGH_KW"></span> kWh</span>
-                    </div>
-                </div>
-
-                <div class="energy-info">
-                    <div>
-                        Uses least energy /<br>
-                        Consomme le moins d'énergie
-                    </div>
-                    <div class="type">
-                        <h2 style="width: max-content; margin: 0;" class="b-TYPE">Type</h2>
-                    </div>
-                    <div style="text-align:right;">
-                        Uses most energy /<br>
-                        Consomme le plus d'énergie
-                    </div>
-                </div>
-
-                <div class="type-section">
-                    <div style="text-align: left; font-size: 14px;">Similar models compared</div>
-                    <div class="volume">
-                        <span class="b-RANGE"></span><br>
-                        volume in ft.³ / volume en pi³
-                    </div>
-                    <div style="text-align: right; font-size: 14px;">Modèles similaires comparés</div>
-                </div>
-
-                <div class="model">
-                    <div class="label-title">Model number</div>
-                    <div class="number b-MODEL"></div>
-                    <div class="label-title" style="text-align: right">Numéro du modèle</div>
-                </div>
-
-                <div class="warning">
-                    Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36) <br />
-                    Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)
-                </div>
-            </div>
-
-            <div class="bottom b-bottom">
+            <div class="bottom" id="b-bottom">
                 <img src="CanStar2.jpg" width="15%" style="margin-left:0.23in; margin-right:0.23in; height:fit-content;" />
                 <div class="bottom-section">
                     <div class="bottom-text">
@@ -826,6 +750,9 @@
     </div>
 
 
+    <!-- ============================================================
+         FORMATO 2: AMARILLO (EnergyGuide USA)
+         ============================================================ -->
     <div class="wrap-amarillo">
         <div class="usa-container">
 
@@ -839,21 +766,21 @@
             </div>
 
             <div class="usa-main-title">
-                <img src="Logo_titulo.png" alt="EnergyGuide Logo" class="logo-energyguide">
+                <img src="~/Assets/Logo_titulo.png" alt="EnergyGuide Logo" class="logo-energyguide">
             </div>
 
             <table class="specs-table">
                 <tr>
                     <td class="specs-left">
-                        <span class="a-display-ref-type"></span><br>
-                        • <span class="a-display-defrost"></span><br>
-                        • <span class="a-display-doertype"></span><br>
-                        • <span class="a-display-ice"></span>
+                        <span id="a-display-ref-type"></span><br>
+                        • <span id="a-display-defrost"></span><br>
+                        • <span id="a-display-doertype"></span><br>
+                        • <span id="a-display-ice"></span>
                     </td>
                     <td class="specs-right">
-                        <span class="a-display-marca"></span><br>
-                        Model: <span class="a-display-modelo"></span><br>
-                        Capacity: <span class="a-display-capacidad"></span>
+                        <span id="a-display-marca"></span><br>
+                        Model: <span id="a-display-modelo"></span><br>
+                        Capacity: <span id="a-display-capacidad"></span>
                     </td>
                 </tr>
             </table>
@@ -866,10 +793,10 @@
             <div class="cost-box efecto-mascara">
                 <div class="cost-title">Estimated Yearly Energy Cost</div>
                 <div class="cost-scale-align">
-                    <div class="moving-pointer a-indicador-maestro">
+                    <div id="a-indicador-maestro" class="moving-pointer">
                         <div class="cost-value">
                             <span class="dollar-sign">$</span>
-                            <span class="display-costo"></span>
+                            <span id="display-costo"></span>
                         </div>
                         <div class="triangulo-movil"></div>
                     </div>
@@ -886,11 +813,11 @@
                                     <tr>
                                         <td class="range-label">Models with<br>similar features</td>
                                         <td style="width: 100%; position: relative;">
-                                            <div class="separador-sim"></div>
+                                            <div id="separador-sim"></div>
                                             <div class="track-outline">
-                                                <div class="track-fill-2 barra-similar">
-                                                    <div class="track-text">$<span class="display-min-sim"></span></div>
-                                                    <div class="track-text">$<span class="display-max-sim"></span></div>
+                                                <div class="track-fill-2" id="barra-similar">
+                                                    <div class="track-text">$<span id="display-min-sim"></span></div>
+                                                    <div class="track-text">$<span id="display-max-sim"></span></div>
                                                 </div>
                                             </div>
                                         </td>
@@ -899,9 +826,9 @@
                                         <td class="range-label">All models</td>
                                         <td style="width:100%; position:relative;">
                                             <div class="track-outline">
-                                                <div class="track-fill-2 barra-all">
-                                                    <div class="track-text">$<span class="display-min-all"></span></div>
-                                                    <div class="track-text">$<span class="display-max-all"></span></div>
+                                                <div class="track-fill-2" id="barra-all">
+                                                    <div class="track-text">$<span id="display-min-all"></span></div>
+                                                    <div class="track-text">$<span id="display-max-all"></span></div>
                                                 </div>
                                             </div>
                                         </td>
@@ -914,7 +841,7 @@
             </div>
 
             <div class="kwh-box efecto-mascara">
-                <div class="kwh-value display-kwh"></div>
+                <div class="kwh-value" id="display-kwh"></div>
                 <div class="kwh-unit">kWh</div>
                 <span class="kwh-subtitle">Estimated Yearly Electricity Use</span>
             </div>
@@ -931,123 +858,8 @@
                     </div>
                 </div>
                 <div class="energy-star-container">
-                    <img src="Logo_pie.png" alt="Energy Star Logo" class="logo-pie a-logo-energy-star">
-                    <span class="part-number a-display-partno"></span>
-                </div>
-            </div>
-
-            <div class="ftc-link">ftc.gov/energy</div>
-
-        </div>
-    </div>
-
-    <div class="wrap-amarillo">
-        <div class="usa-container">
-
-            <div class="usa-gov-header">
-                <table>
-                    <tr>
-                        <td class="gov-left">U.S. Government</td>
-                        <td class="gov-right">Federal law prohibits removal of this label before consumer purchase.</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="usa-main-title">
-                <img src="Logo_titulo.png" alt="EnergyGuide Logo" class="logo-energyguide">
-            </div>
-
-            <table class="specs-table">
-                <tr>
-                    <td class="specs-left">
-                        <span class="a-display-ref-type"></span><br>
-                        • <span class="a-display-defrost"></span><br>
-                        • <span class="a-display-doertype"></span><br>
-                        • <span class="a-display-ice"></span>
-                    </td>
-                    <td class="specs-right">
-                        <span class="a-display-marca"></span><br>
-                        Model: <span class="a-display-modelo"></span><br>
-                        Capacity: <span class="a-display-capacidad"></span>
-                    </td>
-                </tr>
-            </table>
-
-            <div class="compare-box efecto-mascara">
-                <span class="compare-box-main">Compare ONLY to other labels with yellow numbers.</span>
-                <span class="compare-box-sub">Labels with yellow numbers are based on the same test procedures.</span>
-            </div>
-
-            <div class="cost-box efecto-mascara">
-                <div class="cost-title">Estimated Yearly Energy Cost</div>
-                <div class="cost-scale-align">
-                    <div class="moving-pointer a-indicador-maestro">
-                        <div class="cost-value">
-                            <span class="dollar-sign">$</span>
-                            <span class="display-costo"></span>
-                        </div>
-                        <div class="triangulo-movil"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ranges-container efecto-mascara">
-                <table class="ranges-table">
-                    <tr>
-                        <td class="range-sidebar" rowspan="2">Cost Ranges</td>
-                        <td rowspan="2" style="width: 100%; padding: 5px;">
-                            <div style="border: 1px solid #ffffff; border-radius: 10px; padding: 0px;">
-                                <table style="width:100%; border-collapse:collapse;">
-                                    <tr>
-                                        <td class="range-label">Models with<br>similar features</td>
-                                        <td style="width: 100%; position: relative;">
-                                            <div class="separador-sim"></div>
-                                            <div class="track-outline">
-                                                <div class="track-fill-2 barra-similar">
-                                                    <div class="track-text">$<span class="display-min-sim"></span></div>
-                                                    <div class="track-text">$<span class="display-max-sim"></span></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="range-label">All models</td>
-                                        <td style="width:100%; position:relative;">
-                                            <div class="track-outline">
-                                                <div class="track-fill-2 barra-all">
-                                                    <div class="track-text">$<span class="display-min-all"></span></div>
-                                                    <div class="track-text">$<span class="display-max-all"></span></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="kwh-box efecto-mascara">
-                <div class="kwh-value display-kwh"></div>
-                <div class="kwh-unit">kWh</div>
-                <span class="kwh-subtitle">Estimated Yearly Electricity Use</span>
-            </div>
-
-            <div class="bottom-wrapper">
-                <div class="left-section">
-                    <div class="footer-notes">
-                        <ul>
-                            <li style="font-weight: 900;">Your cost will depend on your utility rates and use.</li>
-                            <li>Both cost ranges based on models of similar size capacity.</li>
-                            <li>Models with similar features have automatic defrost, side-mounted freezer, and through-the-door ice.</li>
-                            <li>Estimated energy cost is based on a national average electricity cost <br> of 14 cents per kWh.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="energy-star-container">
-                    <img src="Logo_pie.png" alt="Energy Star Logo" class="logo-pie a-logo-energy-star">
-                    <span class="part-number a-display-partno"></span>
+                    <img src="~/Assets/Logo_pie.png" alt="Energy Star Logo" class="logo-pie" id="a-logo-energy-star">
+                    <span class="part-number" id="a-display-partno"></span>
                 </div>
             </div>
 
@@ -1057,92 +869,83 @@
     </div>
 
 
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
     <script>
         // ── FORMATO BLANCO ──────────────────────────────────────────
         (function initBlanco() {
             const d = datosBlanco;
-            const contenedores = document.querySelectorAll('.wrap-blanco');
-            
-            contenedores.forEach(container => {
-                container.querySelector('.b-MODEL_KW').textContent = d.MODEL_KW;
-                container.querySelector('.b-LOW_KW').textContent   = d.LOW_KW;
-                container.querySelector('.b-HIGH_KW').textContent  = d.HIGH_KW;
-                container.querySelector('.b-TYPE').textContent     = d.TYPE.toUpperCase();
-                container.querySelector('.b-RANGE').textContent    = d.RANGE.toUpperCase();
-                container.querySelector('.b-MODEL').textContent    = d.MODEL.toUpperCase();
 
-                // Calcular posición de la flecha
-                const inicio = d.LOW_KW;
-                const final  = d.HIGH_KW;
-                let porcentaje = 0;
-                if (final - inicio !== 0) {
-                    porcentaje = (100 * (d.MODEL_KW - inicio)) / (final - inicio);
-                }
-                const arrow = container.querySelector('.b-arrow');
-                if (arrow) arrow.style.marginLeft = porcentaje + '%';
+            document.getElementById('b-MODEL_KW').textContent = d.MODEL_KW;
+            document.getElementById('b-LOW_KW').textContent   = d.LOW_KW;
+            document.getElementById('b-HIGH_KW').textContent  = d.HIGH_KW;
+            document.getElementById('b-TYPE').textContent     = d.TYPE.toUpperCase();
+            document.getElementById('b-RANGE').textContent    = d.RANGE.toUpperCase();
+            document.getElementById('b-MODEL').textContent    = d.MODEL.toUpperCase();
 
-                // Logo Energy Star
-                const bottom = container.querySelector('.b-bottom');
-                if (bottom && d.ENERGY_LOGO === 'N') {
-                    bottom.style.display = 'none';
-                }
-            });
+            // Calcular posición de la flecha
+            const inicio = d.LOW_KW;
+            const final  = d.HIGH_KW;
+            let porcentaje = 0;
+            if (final - inicio !== 0) {
+                porcentaje = (100 * (d.MODEL_KW - inicio)) / (final - inicio);
+            }
+            const arrow = document.getElementById('b-arrow');
+            if (arrow) arrow.style.marginLeft = porcentaje + '%';
+
+            // Logo Energy Star
+            const bottom = document.getElementById('b-bottom');
+            if (bottom && d.ENERGY_LOGO === 'N') {
+                bottom.style.display = 'none';
+            }
         })();
 
 
         // ── FORMATO AMARILLO ────────────────────────────────────────
         (function initAmarillo() {
             const d = datosAmarillo;
-            const contenedores = document.querySelectorAll('.wrap-amarillo');
-            
-            contenedores.forEach(container => {
-                container.querySelector('.a-display-ref-type').innerText  = d.REF_TYPE;
-                container.querySelector('.a-display-defrost').innerText   = d.DEFROST_SYSTEM;
-                container.querySelector('.a-display-doertype').innerText  = d.DOORTYPE;
-                container.querySelector('.a-display-ice').innerText       = d.ICE_SERVICE;
-                container.querySelector('.a-display-marca').innerText     = d.CUST_NAME;
-                container.querySelector('.a-display-modelo').innerText    = d.MODEL;
-                container.querySelector('.a-display-capacidad').innerText = d.CAB_SIZE;
-                container.querySelector('.display-costo').innerText       = d.ENERGY_COST;
-                container.querySelector('.display-min-all').innerText     = d.LOW_AMOUNT;
-                container.querySelector('.display-max-all').innerText     = d.HIGH_AMOUNT;
-                container.querySelector('.display-kwh').innerText         = d.ELECTRICITY_USE;
-                container.querySelector('.display-min-sim').innerText     = d.LOW_SIMILAR_MODEL;
-                container.querySelector('.display-max-sim').innerText     = d.HIGH_SIMILAR_MODEL;
-                container.querySelector('.a-display-partno').innerText    = 'PART NO. ' + d.PART_NUMBER;
 
-                const logo = container.querySelector('.a-logo-energy-star');
-                if (logo) {
-                    logo.style.visibility = (d.ENERGY_LOGO === 'Y' || d.ENERGY_LOGO === 'y') ? 'visible' : 'hidden';
-                }
+            document.getElementById('a-display-ref-type').innerText  = d.REF_TYPE;
+            document.getElementById('a-display-defrost').innerText   = d.DEFROST_SYSTEM;
+            document.getElementById('a-display-doertype').innerText  = d.DOORTYPE;
+            document.getElementById('a-display-ice').innerText       = d.ICE_SERVICE;
+            document.getElementById('a-display-marca').innerText     = d.CUST_NAME;
+            document.getElementById('a-display-modelo').innerText    = d.MODEL;
+            document.getElementById('a-display-capacidad').innerText = d.CAB_SIZE;
+            document.getElementById('display-costo').innerText       = d.ENERGY_COST;
+            document.getElementById('display-min-all').innerText     = d.LOW_AMOUNT;
+            document.getElementById('display-max-all').innerText     = d.HIGH_AMOUNT;
+            document.getElementById('display-kwh').innerText         = d.ELECTRICITY_USE;
+            document.getElementById('display-min-sim').innerText     = d.LOW_SIMILAR_MODEL;
+            document.getElementById('display-max-sim').innerText     = d.HIGH_SIMILAR_MODEL;
+            document.getElementById('a-display-partno').innerText    = 'PART NO. ' + d.PART_NUMBER;
 
-                // Calcular posiciones de barras e indicador
-                const { ENERGY_COST, LOW_SIMILAR_MODEL, HIGH_SIMILAR_MODEL, LOW_AMOUNT, HIGH_AMOUNT } = d;
-                const globalMin = Math.min(LOW_AMOUNT, LOW_SIMILAR_MODEL, ENERGY_COST);
-                const globalMax = Math.max(HIGH_AMOUNT, HIGH_SIMILAR_MODEL, ENERGY_COST);
-                const rango = globalMax - globalMin;
-                const pct = v => rango === 0 ? 0 : ((v - globalMin) / rango) * 100;
+            const logo = document.getElementById('a-logo-energy-star');
+            if (logo) {
+                logo.style.visibility = (d.ENERGY_LOGO === 'Y' || d.ENERGY_LOGO === 'y') ? 'visible' : 'hidden';
+            }
 
-                const barraAll = container.querySelector('.barra-all');
-                if(barraAll) {
-                    barraAll.style.left  = pct(LOW_AMOUNT) + '%';
-                    barraAll.style.width = (pct(HIGH_AMOUNT) - pct(LOW_AMOUNT)) + '%';
-                }
+            // Calcular posiciones de barras e indicador
+            const { ENERGY_COST, LOW_SIMILAR_MODEL, HIGH_SIMILAR_MODEL, LOW_AMOUNT, HIGH_AMOUNT } = d;
+            const globalMin = Math.min(LOW_AMOUNT, LOW_SIMILAR_MODEL, ENERGY_COST);
+            const globalMax = Math.max(HIGH_AMOUNT, HIGH_SIMILAR_MODEL, ENERGY_COST);
+            const rango = globalMax - globalMin;
+            const pct = v => rango === 0 ? 0 : ((v - globalMin) / rango) * 100;
 
-                const barraSim = container.querySelector('.barra-similar');
-                if(barraSim) {
-                    barraSim.style.left  = pct(LOW_SIMILAR_MODEL) + '%';
-                    barraSim.style.width = (pct(HIGH_SIMILAR_MODEL) - pct(LOW_SIMILAR_MODEL)) + '%';
-                }
+            const barraAll = document.getElementById('barra-all');
+            barraAll.style.left  = pct(LOW_AMOUNT) + '%';
+            barraAll.style.width = (pct(HIGH_AMOUNT) - pct(LOW_AMOUNT)) + '%';
 
-                const separador = container.querySelector('.separador-sim');
-                if (separador) separador.style.left = pct(LOW_SIMILAR_MODEL) + '%';
+            const barraSim = document.getElementById('barra-similar');
+            barraSim.style.left  = pct(LOW_SIMILAR_MODEL) + '%';
+            barraSim.style.width = (pct(HIGH_SIMILAR_MODEL) - pct(LOW_SIMILAR_MODEL)) + '%';
 
-                const indicador = container.querySelector('.a-indicador-maestro');
-                if(indicador) {
-                    indicador.style.left = Math.max(0, Math.min(100, pct(ENERGY_COST))) + '%';
-                }
-            });
+            const separador = document.getElementById('separador-sim');
+            if (separador) separador.style.left = pct(LOW_SIMILAR_MODEL) + '%';
+
+            const indicador = document.getElementById('a-indicador-maestro');
+            indicador.style.left = Math.max(0, Math.min(100, pct(ENERGY_COST))) + '%';
         })();
     </script>
 

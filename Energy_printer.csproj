@@ -128,13 +128,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\CanStar2.jpg" />
+    <Content Include="Assets\Energuide2.png" />
+    <Content Include="Assets\Logo_pie.png" />
+    <Content Include="Assets\Logo_titulo.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Formato Amarillo doble 1.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
@@ -154,8 +157,8 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <None Include="Views\Formatos\Amarillo.cshtml" />
     <None Include="Views\Formatos\Blanco.cshtml" />
-    <None Include="Views\Formatos\Formato 2.cshtml" />
-    <None Include="Views\Formatos\Formato 4.cshtml" />
+    <None Include="Views\Formatos\Formato2.cshtml" />
+    <None Include="Views\Formatos\Formato4.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
