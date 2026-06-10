@@ -168,7 +168,7 @@ namespace Energy_printer.Services
             double kwhY = y;
             double kwhNumW = cW * 0.55;
             gfx.DrawString(d.MODEL_KW.ToString(),
-                new XFont("Arial Black", 55, XFontStyle.Bold), XBrushes.Black,
+                new XFont("Arial", 55, XFontStyle.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.1, kwhY, kwhNumW, In(0.85)), FmtBR);
 
             double unitX = x + cW * 0.1 + kwhNumW + In(0.1);
@@ -219,56 +219,91 @@ namespace Energy_printer.Services
             y += In(0.28);
 
             double rowH = In(0.5);
-            gfx.DrawString("Uses least energy",
-    new XFont("Arial", 8, XFontStyle.Bold),
-    XBrushes.Black,
-    new XRect(x, y, cW * 0.25, In(0.18)),
-    FmtMC);
+
+            // 1. Ule (Lado izquierdo)
+            string textoUle = "Uses least energy /\nConsomme le moins d'énergie";
+            XFont fuenteUle = new XFont("Arial", 10, XFontStyle.Bold);
+            XRect rectanguloUle = new XRect(x, y, cW * 0.40, In(0.50));
+
+            XTextFormatter tfUle = new XTextFormatter(gfx);
+            tfUle.Alignment = XParagraphAlignment.Left;
+            tfUle.DrawString(textoUle, fuenteUle, XBrushes.Black, rectanguloUle);
+
+            // 2. TYPE (Centro)
             gfx.DrawString(d.TYPE.ToUpper(),
                 new XFont("Arial", 16, XFontStyle.Bold), XBrushes.Black,
-                new XRect(x + cW * 0.3, y, cW * 0.4, rowH), FmtMC);
-            gfx.DrawString("Consomme le moins d'énergie",
-    new XFont("Arial", 6.5, XFontStyle.Regular),
-    XBrushes.Black,
-    new XRect(x, y + In(0.16), cW * 0.25, In(0.18)),
-    FmtMC);
-            y += rowH + In(0.08);
+                new XRect(x + cW * 0.3, y - In(0.05), cW * 0.4, rowH), FmtMC);
+
+            // 3. Ume (Lado derecho)
+            // (Por cierto, corregí "least" por "most" en el texto en inglés)
+            string textoUme = "Uses most energy /\nConsomme le plus d'énergie";
+            XFont fuenteUme = new XFont("Arial", 10, XFontStyle.Bold);
+
+            // Recorremos la coordenada X para que empiece en el 75% del ancho de tu contenedor
+            XRect rectanguloUme = new XRect(x + (cW * 0.75) - (cW * 0.10), y, cW * 0.35, In(0.50));
+
+            XTextFormatter tfUme = new XTextFormatter(gfx);
+            // Lo alineamos a la derecha para respetar la estética de la etiqueta
+            tfUme.Alignment = XParagraphAlignment.Right;
+            tfUme.DrawString(textoUme, fuenteUme, XBrushes.Black, rectanguloUme);
+
+            // AHORA SÍ, bajamos la coordenada "y" para preparar el siguiente elemento (el volumen)
+            y += rowH + In(0.15);
             double rowSimilarH = In(0.55);
 
             // Laterales en fuente pequeña, solo una palabra clave
-            gfx.DrawString("Similar models compared",
-    new XFont("Arial", 6.5, XFontStyle.Regular), XBrushes.Black,
-    new XRect(x, y, cW * 0.18, rowSimilarH), FmtTL);
+            string textoSimEn = "Similar models \ncompared";
+            XFont fuenteSimEn = new XFont("Arial", 10, XFontStyle.Regular);
+            XRect rectanguloSimEn = new XRect(x, y, cW * 0.25, rowSimilarH);
 
+            XTextFormatter tfSimEn = new XTextFormatter(gfx);
+            tfSimEn.Alignment = XParagraphAlignment.Left;
+            tfSimEn.DrawString(textoSimEn, fuenteSimEn, XBrushes.Black, rectanguloSimEn);
+
+
+            // 2. Textos centrales (Rango y Volumen)
             gfx.DrawString(d.RANGE.ToUpper(),
-                new XFont("Arial", 8, XFontStyle.Bold), XBrushes.Black,
-                new XRect(x + cW * 0.18, y, cW * 0.64, In(0.27)), FmtTC);
+                new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.18, y, cW * 0.64, In(0.20)), FmtTC);
+
             gfx.DrawString("volume in ft.3 / volume en pi3",
-    new XFont("Arial", 7, XFontStyle.Bold), XBrushes.Black,
-    new XRect(x + cW * 0.18, y + In(0.27), cW * 0.64, In(0.25)), FmtTC);
+                new XFont("Arial", 10, XFontStyle.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.18, y + In(0.20), cW * 0.64, In(0.25)), FmtTC);
 
-            gfx.DrawString("Modèles similaires\ncomparés",
-                new XFont("Arial", 6.5, XFontStyle.Regular), XBrushes.Black,
-                new XRect(x + cW * 0.82, y, cW * 0.18, rowSimilarH), FmtTR);
 
+            // 3. Texto derecho (Francés) en multilínea
+            string textoSimFr = "Modèles similaires\ncomparés";
+            XFont fuenteSimFr = new XFont("Arial", 10, XFontStyle.Regular);
+            XRect rectanguloSimFr = new XRect(x + cW * 0.82 - (cW * 0.07), y, cW * 0.25, rowSimilarH);
+
+            XTextFormatter tfSimFr = new XTextFormatter(gfx);
+            tfSimFr.Alignment = XParagraphAlignment.Right; // Alineado a la derecha
+            tfSimFr.DrawString(textoSimFr, fuenteSimFr, XBrushes.Black, rectanguloSimFr);
+
+            // 4. Bajamos la coordenada "y" para la siguiente fila
             y += rowSimilarH;
 
             gfx.DrawString("Model number",
                 new XFont("Arial", 10, XFontStyle.Regular), XBrushes.Black,
-                new XRect(x, y, cW * 0.35, In(0.35)), FmtTL);
+                new XRect(x, y + In(0.1), cW * 0.35, In(0.35)), FmtTL);
             gfx.DrawString(d.MODEL.ToUpper(),
                 new XFont("Arial", 14, XFontStyle.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.2, y, cW * 0.6, In(0.35)), FmtMC);
             gfx.DrawString("Numéro du modèle",
                 new XFont("Arial", 10, XFontStyle.Regular), XBrushes.Black,
-                new XRect(x + cW * 0.65, y, cW * 0.35, In(0.35)), FmtTR);
-            y += In(0.42);
+                new XRect(x + cW * 0.65, y + In(0.1), cW * 0.35, In(0.35)), FmtTR);
 
-            gfx.DrawString(
-                "Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36)\n" +
-                "Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)",
-                new XFont("Arial", 7, XFontStyle.Regular), XBrushes.Black,
-                new XRect(x, y, cW, In(0.35)), FmtTC);
+            y += In(0.50);
+
+            string removalLbel = "Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36)\n" +
+                "Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)";
+            XFont fuenteRl = new XFont("Arial", 7, XFontStyle.Regular);
+            XRect rectanguloRl = new XRect(x, y, cW, In(0.35));
+
+            XTextFormatter tfRl = new XTextFormatter(gfx);
+
+            tfRl.Alignment = XParagraphAlignment.Center;
+            tfRl.DrawString(removalLbel, fuenteRl, XBrushes.Black, rectanguloRl);
 
             if (d.ENERGY_LOGO != null && d.ENERGY_LOGO.ToUpper() == "Y")
             {
@@ -276,7 +311,7 @@ namespace Energy_printer.Services
                 double botH = H - botY - pad;
                 double starW = In(0.75);
 
-                var canStar = LoadImage("CanStar2.png");
+                var canStar = LoadImage("CanStar2.jpg");
                 if (canStar != null)
                 {
                     double imgH = starW * (288.0 / 203.0);
