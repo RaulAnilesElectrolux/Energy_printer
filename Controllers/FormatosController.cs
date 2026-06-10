@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static EnergyGuideUSALabel;
+using static EnerGuideCanadaLabel;
 
 namespace Energy_printer.Controllers
 {
@@ -15,11 +17,6 @@ namespace Energy_printer.Controllers
         }
 
         public ActionResult Blanco()
-        {
-            return View();
-        }
-
-        public ActionResult Formato2()
         {
             return View();
         }
