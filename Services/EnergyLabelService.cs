@@ -136,8 +136,8 @@ namespace Energy_printer.Services
             gfx.DrawRectangle(XBrushes.White, 0, 0, W, H);
             gfx.DrawRectangle(new XPen(XColors.Black, 2), 0, 0, W, H);
 
-            double innerH = In(5.86);
-            gfx.DrawRectangle(new XPen(XColors.Black, 2), pad, pad, W - pad * 2, innerH);
+            double innerH = In(5.80);
+            gfx.DrawRectangle(new XPen(XColors.Black, 2), pad / 2, pad / 2, W - pad, innerH);
 
             double x = pad * 2;
             double cW = W - pad * 4;
@@ -319,22 +319,30 @@ namespace Energy_printer.Services
                 }
 
                 double textX = In(0.23) + starW + In(0.15);
-                double textW = W - textX - pad;
+                double textW = W - textX - pad - In(0.75);
 
-                gfx.DrawString(
-                    "The Energy Star® mark on this EnerGuide label signifies that this is an energy-efficient " +
-                    "appliance. Its energy performance meets or exceeds the Government of Canada's high efficiency " +
-                    "levels. Use the EnerGuide rating to determine how this appliance compares to other similar models.",
-                    new XFont("Arial", 7.5, XFontStyle.Bold), XBrushes.Black,
-                    new XRect(textX, botY, textW, botH * 0.5), FmtTL);
+                // Instanciamos la fuente y el formateador una sola vez para ambos párrafos
+                XFont fuenteFooter = new XFont("Arial", 6.9, XFontStyle.Bold);
+                XTextFormatter tfFooter = new XTextFormatter(gfx);
+                tfFooter.Alignment = XParagraphAlignment.Left; // Equivalente a tu FmtTL
 
-                gfx.DrawString(
-                    "La marque Energy Star® sur cette étiquette Énerguide signifie que l'appareil est éconergétique " +
-                    "et que son rendement énergétique satisfait ou dépasse les niveaux de haute efficacité du " +
-                    "gouvernement du Canada. Utilisez la cote Énerguide afin de comparer le rendement de l'appareil " +
-                    "avec celui d'autres modèles similaires.",
-                    new XFont("Arial", 7.5, XFontStyle.Bold), XBrushes.Black,
-                    new XRect(textX, botY + botH * 0.5, textW, botH * 0.5), FmtTL);
+                // 1. Párrafo en Inglés
+                string textoEnergyEn = "The Energy Star® mark on this EnerGuide label signifies that this is an energy-efficient " +
+                                       "appliance. Its energy performance meets or exceeds the Government of Canada's high efficiency " +
+                                       "levels. Use the EnerGuide rating to determine how this appliance compares to other similar models.";
+
+                XRect rectanguloEn = new XRect(textX, botY, textW, botH * 0.55);
+                tfFooter.DrawString(textoEnergyEn, fuenteFooter, XBrushes.Black, rectanguloEn);
+
+
+                // 2. Párrafo en Francés
+                string textoEnergyFr = "La marque Energy Star® sur cette étiquette Énerguide signifie que l'appareil est éconergétique " +
+                                       "et que son rendement énergétique satisfait ou dépasse les niveaux de haute efficacité du " +
+                                       "gouvernement du Canada. Utilisez la cote Énerguide afin de comparer le rendement de l'appareil " +
+                                       "avec celui d'autres modèles similaires.";
+
+                XRect rectanguloFr = new XRect(textX, botY + botH * 0.50, textW, botH * 0.6);
+                tfFooter.DrawString(textoEnergyFr, fuenteFooter, XBrushes.Black, rectanguloFr);
             }
         }
 
