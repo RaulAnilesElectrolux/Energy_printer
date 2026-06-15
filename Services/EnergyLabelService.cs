@@ -373,7 +373,7 @@ namespace Energy_printer.Services
             // last-child:  padL=0.15cm padR=0.6cm
             double padL = isLeft ? Cm(0.6) : Cm(0.15);
             double padR = isLeft ? Cm(0.15) : Cm(0.6);
-            double padT = Cm(0.8);
+            double padT = In(0.23);
             double padB = Cm(0.6);
             double CW = W - padL - padR;
 
@@ -381,7 +381,7 @@ namespace Energy_printer.Services
             var black = XBrushes.Black;
 
             // ── 1. Gov header ───────────────────────────────────────────────────────
-            double govY = padT + Cm(0.3);
+            double govY = padT;
             gfx.DrawString("U.S. Government",
                 new XFont("Arial", 8, XFontStyle.Bold), black,
                 new XRect(padL, govY, CW * 0.5, Px(12)), FmtTL);
@@ -433,45 +433,54 @@ namespace Energy_printer.Services
             y += cmpH + Px(10);
 
             // ── 5. Cost box ─────────────────────────────────────────────────────────
-            double costTitleH = 14 * 1.2;
-            double gapTitle = Px(25);
-            double numH = Px(20);
-            double costH = Px(12) + costTitleH + gapTitle + numH + Px(6) + Px(12) + Px(8) + Px(10);
-            gfx.DrawRectangle(black, padL, y, CW, costH);
-            gfx.DrawString("Estimated Yearly Energy Cost",
-                new XFont("Arial Black", 18, XFontStyle.Bold), white,
-                new XRect(padL, y + Px(12), CW, costTitleH), FmtTC);
 
-            double scaleLeft = padL + Px(15) + Px(100);
-            double scaleW = CW - Px(15) * 2 - Px(110);
+            // CAMBIO: costH debe incluir espacio para el triángulo DENTRO del rectángulo negro
+            double costTitleH = 14 * 1.2;
+            double gapTitle = Px(10);          // menos gap que antes
+            double numH = Px(44);          // altura real del número (36pt ≈ 48px → 36pt)
+            double triH = Px(14);          // altura del triángulo
+            double costH = Px(10) + costTitleH + gapTitle + numH + Px(4) + triH + Px(10);
+
+            gfx.DrawRectangle(black, padL, y, CW, costH);
+
+            gfx.DrawString("Estimated Yearly Energy Cost",
+                new XFont("Arial Black", 14, XFontStyle.Bold), white,
+                new XRect(padL, y + Px(10), CW, costTitleH), FmtTC);
+
+            // Posición horizontal del $91 (margin-left:100px del HTML)
+            double scaleLeft = padL + Px(100);
+            double scaleW = CW - Px(100) - Px(10);
             double gMin = Math.Min(d.LOW_AMOUNT, Math.Min(d.LOW_SIMILAR_MODEL, d.ENERGY_COST));
             double gMax = Math.Max(d.HIGH_AMOUNT, Math.Max(d.HIGH_SIMILAR_MODEL, d.ENERGY_COST));
             double pct = (gMax == gMin) ? 0.5 : (d.ENERGY_COST - gMin) / (double)(gMax - gMin);
             pct = Math.Max(0, Math.Min(1, pct));
             double cx = scaleLeft + pct * scaleW;
 
-            double valTopCost = y + Px(12) + costTitleH + gapTitle;
-            var fDollar = new XFont("Arial Black", 26, XFontStyle.Bold);
-            var fNum = new XFont("Arial Black", 38, XFontStyle.Bold);
+            double valTopCost = y + Px(10) + costTitleH + gapTitle;
+            var fDollar = new XFont("Arial Black", 24, XFontStyle.Bold);
+            var fNum = new XFont("Arial Black", 36, XFontStyle.Bold);
             string numStr = d.ENERGY_COST.ToString();
             double wNum = gfx.MeasureString(numStr, fNum).Width;
             double wDol = gfx.MeasureString("$", fDollar).Width;
-            double gLeft = cx - (wDol + Px(4) + wNum) / 2;
-            gfx.DrawString(numStr, fNum, white,
-                new XRect(gLeft + wDol + Px(4), valTopCost, wNum + Px(4), numH), FmtML);
+            double gLeft = cx - (wDol + Px(2) + wNum) / 2;
+
+            // $ y número alineados al centro vertical del numH
             gfx.DrawString("$", fDollar, white,
                 new XRect(gLeft, valTopCost, wDol + Px(2), numH), FmtML);
+            gfx.DrawString(numStr, fNum, white,
+                new XRect(gLeft + wDol + Px(2), valTopCost, wNum + Px(4), numH), FmtML);
 
-            double triTopY = valTopCost + numH + Px(6);
-            double triApexY = triTopY + Px(12);
+            // Triángulo — DENTRO del rectángulo negro, justo bajo el número
+            double triTopY = valTopCost + numH + Px(4);   // Px(4) gap mínimo
+            double triApexY = triTopY + triH;
             gfx.DrawPolygon(white, new[]
             {
-        new XPoint(cx - Px(10), triTopY),
-        new XPoint(cx + Px(10), triTopY),
-        new XPoint(cx,          triApexY),
-    }, XFillMode.Winding);
+    new XPoint(cx - Px(10), triTopY),
+    new XPoint(cx + Px(10), triTopY),
+    new XPoint(cx,          triApexY),
+}, XFillMode.Winding);
 
-            y += costH;
+            y += costH;   // SIN margen extra — ranges va pegado
 
             // ── 6. Cost Ranges ──────────────────────────────────────────────────────
             double rngH = Px(88);
@@ -541,7 +550,7 @@ namespace Energy_printer.Services
 
             // ── 8. Footer dinámico (notas desde y, ftc.gov anclado al fondo) ────────
             double ftcH2 = Px(20);
-            double ftcY = H - padB - ftcH2;
+            double ftcY = H - padB - ftcH2 + Cm(.2);
 
             gfx.DrawString("ftc.gov/energy",
                 new XFont("Arial", 12, XFontStyle.Regular), black,
@@ -595,8 +604,8 @@ namespace Energy_printer.Services
 
         // ── Pill blanca con $low / $high adentro  (+ notch negro opcional) ──────
         private void DrawPill(XGraphics gfx, int low, int high,
-                              double tX, double tY, double tW, double tH,
-                              double gMin, double gMax, bool sep)
+                      double tX, double tY, double tW, double tH,
+                      double gMin, double gMax, bool sep)
         {
             double range = gMax - gMin;
             double pL = range == 0 ? 0 : (low - gMin) / range;
@@ -604,19 +613,23 @@ namespace Energy_printer.Services
             double left = tX + pL * tW;
             double w = (pH - pL) * tW;
 
-            double minW = Cm(1.2);                      // mínimo para que quepan los textos
+            double minW = Cm(1.5);
             if (w < minW) w = minW;
             if (left + w > tX + tW) left = tX + tW - w;
 
             gfx.DrawRoundedRectangle(XBrushes.White, left, tY, w, tH, tH, tH);
 
-            var f = new XFont("Arial Black", 10, XFontStyle.Bold);
-            gfx.DrawString("$" + low, f, XBrushes.Black,
-                new XRect(left + Px(6), tY, w * 0.5, tH), FmtML);
-            gfx.DrawString("$" + high, f, XBrushes.Black,
-                new XRect(left + w - Px(6) - Cm(1), tY, Cm(1), tH), FmtMR);
+            var f = new XFont("Arial", 9, XFontStyle.Bold);   // un poco menor para que entre
 
-            if (sep)   // .separador-sim (3px negro en el borde izquierdo)
+            // $low — izquierda de la pill con padding interno
+            gfx.DrawString("$" + low, f, XBrushes.Black,
+                new XRect(left + Px(5), tY, w / 2 - Px(5), tH), FmtML);
+
+            // $high — derecha de la pill con padding interno
+            gfx.DrawString("$" + high, f, XBrushes.Black,
+                new XRect(left + w / 2, tY, w / 2 - Px(5), tH), FmtMR);
+
+            if (sep)
                 gfx.DrawRectangle(XBrushes.Black, left, tY, Px(3), tH);
         }
     }
