@@ -81,13 +81,26 @@
         .page-amarilla .usa-container {
             width: 14cm;
             height: 19cm;
-            padding: 0.6cm;
+            padding: 0.6cm 0.15cm;
             position: relative;
             color: #000000;
             overflow: hidden;
             font-family: 'Arial Black', 'Arial', sans-serif;
             background-color: var(--fondo-pagina);
         }
+            .page-amarilla .usa-container:first-child {
+                padding-top: 0.8cm;
+                padding-bottom: 0.6cm;
+                padding-left: 0.6cm;
+                padding-right: 0.15cm;
+            }
+
+            .page-amarilla .usa-container:last-child {
+                padding-top: 0.8cm;
+                padding-bottom: 0.6cm;
+                padding-left: 0.15cm;
+                padding-right: 0.6cm;
+            }
 
         .usa-gov-header {
             width: 100%;
