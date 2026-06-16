@@ -32,7 +32,7 @@
         // CONFIGURACIÓN PARA LAS ETIQUETAS BLANCAS (Canada EnerGuide)
         const datosBlanco = {
             MODEL: "fghb2868T*",
-            MODEL_KW: 647,
+            MODEL_KW: 700,
             LOW_KW: 640,
             HIGH_KW: 716,
             TYPE: "Type 7",
@@ -44,7 +44,7 @@
 
     <style>
         :root {
-            --fondo-pagina: #ffea0000;
+            --fondo-pagina: #ffffff;
         }
 
         @@page {
@@ -61,7 +61,7 @@
         html, body {
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: #ffffff;
         }
 
         /* Contenedor maestro por cada pliego/hoja de impresión */
@@ -81,26 +81,13 @@
         .page-amarilla .usa-container {
             width: 14cm;
             height: 19cm;
-            padding: 0.6cm 0.15cm;
+            padding: 0.6cm;
             position: relative;
             color: #000000;
             overflow: hidden;
             font-family: 'Arial Black', 'Arial', sans-serif;
             background-color: var(--fondo-pagina);
         }
-            .page-amarilla .usa-container:first-child {
-                padding-top: 0.8cm;
-                padding-bottom: 0.6cm;
-                padding-left: 0.6cm;
-                padding-right: 0.15cm;
-            }
-
-            .page-amarilla .usa-container:last-child {
-                padding-top: 0.8cm;
-                padding-bottom: 0.6cm;
-                padding-left: 0.15cm;
-                padding-right: 0.6cm;
-            }
 
         .usa-gov-header {
             width: 100%;
@@ -451,10 +438,22 @@
             width: 5.2in;
             height: 7.15in;
             background: white;
-            border: 2px solid #000;
-            padding: 2px;
+            border: 1px solid #000;
+            padding: 1px;
             position: relative;
             overflow: hidden;
+        }
+
+        .canada {
+            border: 1px solid black;
+            padding-left: 0.11in;
+            padding-right: 0.11in;
+            padding-top: 0.19in;
+            margin-bottom: 2px;
+            height: 5.86in;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .country {
@@ -496,7 +495,7 @@
             font-size: unset;
             font-weight: bold;
             margin-top: 0.15in;
-            margin-bottom: 0.35in;
+            margin-bottom: 0.30in;
         }
 
         .consumption {
@@ -528,10 +527,12 @@
 
         .model-arrow {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            align-items: flex-end;
+            gap: 8px;
             font-size: 13px;
             font-weight: bold;
+            width: 100%;
+            white-space: nowrap;
         }
 
         .arrow {
@@ -544,21 +545,24 @@
 
         .scale {
             margin-bottom: 0.15in;
-            box-shadow: inset 4px 20px 0 0 black, inset -4px 20px 0 0 black;
-            padding-inline: 4px;
+            box-shadow: inset 2px 20px 0 0 black, inset -2px 20px 0 0 black;
+            padding-inline: 2px;
+            width: 97%;
         }
 
         .bar {
             height: 0.23in;
             background: linear-gradient(to right,#f3f3f3,#111);
-            border: 3px solid #000;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
             position: relative;
+            width: 100%;
         }
 
         .scale-values {
             display: flex;
             justify-content: space-between;
-            font-size: small;
+            font-size: 12px;
             font-weight: 600;
             margin-top: 5px;
             margin-left: 3px;
@@ -595,11 +599,12 @@
 
         .model {
             text-align: center;
-            margin-bottom: 0.15in;
+            margin-bottom: 0.12in;
             display: flex;
             justify-content: space-between;
             font-size: 15px;
             align-items: center;
+            width: 100%;
         }
 
             .model .label-title {
@@ -638,7 +643,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 4.68in;
+            width: 100%;
         }
 
         /* =========================================================================
@@ -880,9 +885,9 @@
 
         <div class="usa-container">
             <div class="label">
-                <div style="border: 2px solid black; padding-left: 0.11in; padding-right: 0.11in; padding-top:0.19in; margin-bottom:2px; height: 5.86in;">
+                <div class="canada">
                     <div class="imagen">
-                        <img src="~/Assets/Energuide2.png" width="95%" />
+                        <img src="~/Assets/Energuide2.png" width="97%" />
                     </div>
                     <div class="sub-title">Energy consumption / Consommation énergétique</div>
                     <div class="consumption">
@@ -944,9 +949,9 @@
 
         <div class="usa-container">
             <div class="label">
-                <div style="border: 2px solid black; padding-left: 0.11in; padding-right: 0.11in; padding-top:0.19in; margin-bottom:2px; height: 5.86in;">
+                <div class="canada">
                     <div class="imagen">
-                        <img src="~/Assets/Energuide2.png" width="95%" />
+                        <img src="~/Assets/Energuide2.png" width="97%" />
                     </div>
                     <div class="sub-title">Energy consumption / Consommation énergétique</div>
                     <div class="consumption">
@@ -1098,14 +1103,55 @@
         const elModel = contenedor.querySelector('.val-model');
         if (elModel) elModel.textContent = d.MODEL.toUpperCase();
 
+        const rango = d.HIGH_KW - d.LOW_KW;
         let porcentaje = 0;
-        if (d.HIGH_KW - d.LOW_KW !== 0) {
-            porcentaje = (100 * (d.MODEL_KW - d.LOW_KW)) / (d.HIGH_KW - d.LOW_KW);
+        if (rango !== 0) {
+            porcentaje = (100 * (d.MODEL_KW - d.LOW_KW)) / rango;
         }
 
+        const menorAlMinimo = d.MODEL_KW < d.LOW_KW;
+
         const arrow = contenedor.querySelector('.arrow');
-        if (arrow) {
-            arrow.style.marginLeft = Math.max(0, Math.min(100, porcentaje)) + '%';
+        const modelArrow = contenedor.querySelector('.model-arrow');
+        const scaleEl = contenedor.querySelector('.scale');
+
+        if (arrow && modelArrow && scaleEl) {
+            if (menorAlMinimo) {
+                // La flecha va 2px antes del inicio de la barra de escala.
+                // .scale tiene padding-inline: 2px, así que el borde izquierdo visible de la barra
+                // está alineado con el padding izquierdo del contenedor .canada.
+                // Calculamos el desplazamiento relativo entre .model-arrow y .scale
+                // usando getBoundingClientRect para obtener posiciones reales del DOM.
+                const scaleRect = scaleEl.getBoundingClientRect();
+                const arrowContainerRect = modelArrow.getBoundingClientRect();
+
+                // Distancia horizontal desde el inicio de model-arrow hasta el inicio de .scale
+                const distanciaHastaEscala = scaleRect.left - arrowContainerRect.left;
+
+                // La flecha debe quedar 2px a la izquierda del inicio de la barra
+                // (scaleRect ya incluye el padding-inline de 2px, así que borde de barra = scaleRect.left + 2px)
+                const margenFlecha = distanciaHastaEscala + 2 - 2; // +2 por padding-inline, -2px antes de la barra
+
+                arrow.style.marginLeft = Math.max(0, margenFlecha) + 'px';
+
+                // Texto al lado derecho (normal), flecha a la izquierda del todo
+                modelArrow.style.flexDirection = 'row';
+                modelArrow.style.justifyContent = 'flex-start';
+
+            } else {
+                const pctClamped = Math.max(0, Math.min(100, porcentaje));
+                arrow.style.marginLeft = pctClamped + '%';
+
+                // Si supera el 70% de la escala, el texto "This Model / Ce Modèle"
+                // se mueve al lado izquierdo de la flecha para no salirse de la etiqueta
+                if (porcentaje > 90) {
+                    modelArrow.style.flexDirection = 'row-reverse';
+                    modelArrow.style.justifyContent = 'flex-end';
+                } else {
+                    modelArrow.style.flexDirection = 'row';
+                    modelArrow.style.justifyContent = 'flex-start';
+                }
+            }
         }
 
         const energyLogo = contenedor.querySelector('.bottom');
