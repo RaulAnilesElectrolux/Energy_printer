@@ -1,0 +1,234 @@
+/* =========================================================================
+   ESTILOS: ETIQUETA BLANCA (CANADA ENERGUIDE)
+   ========================================================================= */
+.page-blanca .usa-container {
+    width: 14cm;
+    height: 19cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+.page-blanca .label {
+    width: 5.2in;
+    height: 7.15in;
+    background: white;
+    border: 1px solid #000;
+    padding: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.canada {
+    border: 1px solid black;
+    padding-left: 0.11in;
+    padding-right: 0.11in;
+    padding-top: 0.19in;
+    margin-bottom: 2px;
+    height: 5.86in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.country {
+    text-align: center;
+    font-size: 42px;
+    margin-top: 10px;
+    font-family: "Times New Roman", serif;
+}
+
+.energuide-box {
+    background: #000;
+    color: white;
+    margin: 10px auto 20px;
+    padding: 18px 25px;
+    text-align: center;
+}
+
+.energuide {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+    .energuide .g {
+        display: inline-block;
+        border: 8px solid #fff;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        line-height: 54px;
+        text-align: center;
+        margin: 0 5px;
+        position: relative;
+        top: 8px;
+    }
+
+.sub-title {
+    text-align: center;
+    font-size: unset;
+    font-weight: bold;
+    margin-top: 0.15in;
+    margin-bottom: 0.30in;
+}
+
+.consumption {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 25px;
+    margin-bottom: 15px;
+    padding-left: 16%;
+}
+
+    .consumption .value {
+        font-size: 65px;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .consumption .unit {
+        font-size: 35px;
+        font-weight: bold;
+        line-height: 1.1;
+    }
+
+        .consumption .unit small {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+.model-arrow {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.arrow {
+    width: 0.19in;
+    height: 0.19in;
+    border-left: 0.11in solid transparent;
+    border-right: 0.11in solid transparent;
+    border-top: 0.22in solid #000;
+}
+
+.scale {
+    margin-bottom: 0.15in;
+    box-shadow: inset 2px 20px 0 0 black, inset -2px 20px 0 0 black;
+    padding-inline: 2px;
+    width: 97%;
+}
+
+.bar {
+    height: 0.23in;
+    background: linear-gradient(to right,#f3f3f3,#111);
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    position: relative;
+    width: 100%;
+}
+
+.scale-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.energy-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.15in;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.type-section {
+    text-align: center;
+    margin-bottom: 0.15in;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    align-items: center;
+}
+
+    .type-section .type {
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+    .type-section .volume {
+        width: 80%;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+.model {
+    text-align: center;
+    margin-bottom: 0.12in;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+    .model .label-title {
+        font-size: 14px;
+    }
+
+    .model .number {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 8px;
+    }
+
+.warning {
+    text-align: center;
+    font-size: 10px;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+}
+
+.bottom-text {
+    flex: 1;
+    font-size: 9.7px;
+    line-height: 1.1;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.bottom-section {
+    margin-right: 10%;
+}
+
+.imagen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* =========================================================================
+   CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - CANADÁ
+   ========================================================================= */
+@media print {
+    .page-blanca .usa-container {
+        width: 14cm !important;
+        height: 19cm !important;
+    }
+}

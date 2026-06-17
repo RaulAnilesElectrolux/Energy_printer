@@ -1,0 +1,401 @@
+/* =========================================================================
+   ESTILOS COMUNES DE PÁGINA (compartidos por USA y Canadá)
+   ========================================================================= */
+:root {
+    --fondo-pagina: #ffffff;
+}
+
+@page {
+    size: 28cm 19cm landscape;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+/* Contenedor maestro por cada pliego/hoja de impresión */
+.print-page {
+    width: 28cm;
+    height: 19cm;
+    display: flex;
+    flex-direction: row;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+/* =========================================================================
+   ESTILOS: ETIQUETA AMARILLA (U.S. ENERGYGUIDE)
+   ========================================================================= */
+.page-amarilla .usa-container {
+    width: 14cm;
+    height: 19cm;
+    padding: 0.6cm;
+    position: relative;
+    color: #000000;
+    overflow: hidden;
+    font-family: 'Arial Black', 'Arial', sans-serif;
+    background-color: var(--fondo-pagina);
+}
+
+.usa-gov-header {
+    width: 100%;
+    font-size: 8pt;
+    font-family: 'Arial', sans-serif;
+    margin-top: 0.3cm;
+}
+
+    .usa-gov-header table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .usa-gov-header td {
+        vertical-align: top;
+    }
+
+.gov-left {
+    text-align: left;
+    font-weight: bold;
+}
+
+.gov-right {
+    text-align: right;
+}
+
+.usa-main-title {
+    text-align: center;
+    margin-bottom: -45px;
+    position: relative;
+    z-index: 10;
+}
+
+.logo-energyguide {
+    width: 100%;
+    mix-blend-mode: multiply;
+    filter: contrast(200%) grayscale(100%);
+    display: block;
+}
+
+.specs-table {
+    width: 100%;
+    font-size: 8.5pt;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 15px;
+    border-collapse: collapse;
+    padding-top: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+    .specs-table td {
+        vertical-align: top;
+        line-height: 1.2;
+        font-weight: bold;
+    }
+
+.specs-left {
+    width: 50%;
+}
+
+.specs-right {
+    width: 50%;
+    text-align: right;
+}
+
+.efecto-mascara {
+    background-color: #000000;
+    color: #ffffff;
+    mix-blend-mode: multiply;
+}
+
+.compare-box {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.compare-box-main {
+    font-size: 12pt;
+    font-weight: 900;
+    display: block;
+}
+
+.compare-box-sub {
+    font-size: 9pt;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    display: block;
+    margin-top: 3px;
+}
+
+.cost-box {
+    text-align: center;
+    padding: 10px 15px 0px 15px;
+    position: relative;
+}
+
+.cost-title {
+    font-size: 14pt;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.cost-scale-align {
+    margin-left: 100px;
+    width: calc(100% - 110px);
+    position: relative;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.moving-pointer {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    transition: left 0.3s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.cost-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.dollar-sign {
+    font-size: 24pt;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.display-costo {
+    font-size: 36pt;
+    vertical-align: super;
+    margin-left: 2px;
+}
+
+.triangulo-movil {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid #ffffff;
+    margin: 0px auto 0 auto;
+    display: block;
+}
+
+.ranges-container {
+    border: 1px solid #000000;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding: 8px 5px;
+}
+
+.ranges-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-weight: bold;
+}
+
+    .ranges-table td {
+        padding: 6px 8px;
+        vertical-align: middle;
+        position: relative;
+    }
+
+.range-sidebar {
+    width: 25px;
+    text-align: center;
+    font-size: 7.5pt;
+    font-family: 'Arial', sans-serif;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+}
+
+.range-label {
+    width: 105px;
+    font-size: 8pt;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.track-outline {
+    background-color: #000000;
+    height: 18px;
+    border-radius: 10px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.track-fill-2 {
+    background-color: #ffffff;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.track-text {
+    color: #000000;
+    font-weight: 900;
+    font-size: 10pt;
+    padding: 0 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.separador-sim {
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: #000000;
+    z-index: 10;
+}
+
+.kwh-box {
+    text-align: center;
+    padding: 10px;
+    width: 50%;
+    margin: 0 auto 15px auto;
+}
+
+.kwh-value {
+    font-size: 34pt;
+    font-weight: 900;
+    line-height: 1;
+    margin: 0;
+    display: inline-block;
+}
+
+.kwh-unit {
+    font-size: 14pt;
+    font-weight: 900;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.kwh-subtitle {
+    font-size: 9pt;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+}
+
+.bottom-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.left-section {
+    width: 78%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.footer-notes {
+    font-size: 8pt;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.3;
+    width: 100%;
+}
+
+    .footer-notes ul {
+        margin: 0;
+        padding-left: 15px;
+        list-style-type: none;
+    }
+
+    .footer-notes li {
+        position: relative;
+        margin-bottom: 2px;
+    }
+
+        .footer-notes li:before {
+            content: "•";
+            position: absolute;
+            left: -10px;
+            font-weight: bold;
+        }
+
+.ftc-link {
+    font-family: 'Arial', sans-serif;
+    font-size: 12pt;
+    font-weight: normal;
+    text-align: center;
+    width: 100%;
+    margin-top: 0px;
+}
+
+.energy-star-container {
+    width: 28%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-pie {
+    width: 85px;
+    mix-blend-mode: multiply;
+    filter: contrast(200%) grayscale(100%);
+    display: block;
+}
+
+.part-number {
+    font-size: 7pt;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    margin-top: 4px;
+    display: block;
+    text-align: left;
+}
+
+/* =========================================================================
+   CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - USA
+   ========================================================================= */
+@media print {
+    body {
+        background-color: white;
+    }
+
+    .print-page {
+        width: 28cm !important;
+        height: 19cm !important;
+        page-break-after: always !important;
+        break-after: page !important;
+    }
+
+    .page-amarilla .usa-container {
+        width: 14cm !important;
+        height: 19cm !important;
+    }
+}

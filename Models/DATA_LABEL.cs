@@ -28,7 +28,6 @@ namespace Energy_printer.Models
         public Nullable<int> HIGH_SIMILAR_MODEL { get; set; }
         public Nullable<int> LOW_AMOUNT { get; set; }
         public Nullable<int> HIGH_AMOUNT { get; set; }
-        public Nullable<int> ELECTRICITY_USE { get; set; }
         public string ENERGY_LOGO { get; set; }
         public string PART_NUMBER { get; set; }
         public Nullable<int> MODEL_KW { get; set; }

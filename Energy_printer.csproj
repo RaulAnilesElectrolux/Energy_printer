@@ -210,6 +210,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\CanStar2.jpg" />
+    <Content Include="Content\_LabelCanada.css" />
+    <Content Include="Content\_LabelUSA.css" />
     <Content Include="Assets\Energuide2.png" />
     <Content Include="Assets\Logo_pie.png" />
     <Content Include="Assets\Logo_titulo.png" />
@@ -270,6 +272,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Formatos\_LabelUSA.cshtml" />
+    <Content Include="Views\Formatos\_LabelCanada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

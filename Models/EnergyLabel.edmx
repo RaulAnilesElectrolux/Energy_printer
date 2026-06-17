@@ -58,7 +58,6 @@
           <Property Name="HIGH_SIMILAR_MODEL" Type="Int32" />
           <Property Name="LOW_AMOUNT" Type="Int32" />
           <Property Name="HIGH_AMOUNT" Type="Int32" />
-          <Property Name="ELECTRICITY_USE" Type="Int32" />
           <Property Name="ENERGY_LOGO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PART_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MODEL_KW" Type="Int32" />
@@ -93,7 +92,6 @@
                 <ScalarProperty Name="HIGH_SIMILAR_MODEL" ColumnName="HIGH_SIMILAR_MODEL" />
                 <ScalarProperty Name="LOW_AMOUNT" ColumnName="LOW_AMOUNT" />
                 <ScalarProperty Name="HIGH_AMOUNT" ColumnName="HIGH_AMOUNT" />
-                <ScalarProperty Name="ELECTRICITY_USE" ColumnName="ELECTRICITY_USE" />
                 <ScalarProperty Name="ENERGY_LOGO" ColumnName="ENERGY_LOGO" />
                 <ScalarProperty Name="PART_NUMBER" ColumnName="PART_NUMBER" />
                 <ScalarProperty Name="MODEL_KW" ColumnName="MODEL_KW" />
