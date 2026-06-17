@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="JZAPPROVALModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DATA_LABEL">
+          <Key>
+            <PropertyRef Name="ID_LABEL" />
+          </Key>
+          <Property Name="ID_LABEL" Type="int" Nullable="false" />
+          <Property Name="LABEL_NAME" Type="nchar" MaxLength="10" />
+          <Property Name="REF_TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="DEFROST_SYSTEM" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOORTYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ICE_SERVICE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CUST_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="MODEL" Type="nvarchar" MaxLength="50" />
+          <Property Name="CAB_SIZE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ENERGY_COST" Type="int" />
+          <Property Name="LOW_SIMILAR_MODEL" Type="int" />
+          <Property Name="HIGH_SIMILAR_MODEL" Type="int" />
+          <Property Name="LOW_AMOUNT" Type="int" />
+          <Property Name="HIGH_AMOUNT" Type="int" />
+          <Property Name="ELECTRICITY_USE" Type="int" />
+          <Property Name="ENERGY_LOGO" Type="char" MaxLength="1" />
+          <Property Name="PART_NUMBER" Type="nvarchar" MaxLength="50" />
+          <Property Name="MODEL_KW" Type="int" />
+          <Property Name="LOW_KW" Type="int" />
+          <Property Name="HIGH_KW" Type="int" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="RANGE" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="JZAPPROVALModelStoreContainer">
+          <EntitySet Name="DATA_LABEL" EntityType="Self.DATA_LABEL" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JZAPPROVALModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DATA_LABEL">
+          <Key>
+            <PropertyRef Name="ID_LABEL" />
+          </Key>
+          <Property Name="ID_LABEL" Type="Int32" Nullable="false" />
+          <Property Name="LABEL_NAME" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="REF_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DEFROST_SYSTEM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOORTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ICE_SERVICE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CUST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MODEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CAB_SIZE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ENERGY_COST" Type="Int32" />
+          <Property Name="LOW_SIMILAR_MODEL" Type="Int32" />
+          <Property Name="HIGH_SIMILAR_MODEL" Type="Int32" />
+          <Property Name="LOW_AMOUNT" Type="Int32" />
+          <Property Name="HIGH_AMOUNT" Type="Int32" />
+          <Property Name="ELECTRICITY_USE" Type="Int32" />
+          <Property Name="ENERGY_LOGO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PART_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MODEL_KW" Type="Int32" />
+          <Property Name="LOW_KW" Type="Int32" />
+          <Property Name="HIGH_KW" Type="Int32" />
+          <Property Name="TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RANGE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="JZAPPROVALEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DATA_LABEL" EntityType="Self.DATA_LABEL" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JZAPPROVALModelStoreContainer" CdmEntityContainer="JZAPPROVALEntities">
+          <EntitySetMapping Name="DATA_LABEL">
+            <EntityTypeMapping TypeName="JZAPPROVALModel.DATA_LABEL">
+              <MappingFragment StoreEntitySet="DATA_LABEL">
+                <ScalarProperty Name="ID_LABEL" ColumnName="ID_LABEL" />
+                <ScalarProperty Name="LABEL_NAME" ColumnName="LABEL_NAME" />
+                <ScalarProperty Name="REF_TYPE" ColumnName="REF_TYPE" />
+                <ScalarProperty Name="DEFROST_SYSTEM" ColumnName="DEFROST_SYSTEM" />
+                <ScalarProperty Name="DOORTYPE" ColumnName="DOORTYPE" />
+                <ScalarProperty Name="ICE_SERVICE" ColumnName="ICE_SERVICE" />
+                <ScalarProperty Name="CUST_NAME" ColumnName="CUST_NAME" />
+                <ScalarProperty Name="MODEL" ColumnName="MODEL" />
+                <ScalarProperty Name="CAB_SIZE" ColumnName="CAB_SIZE" />
+                <ScalarProperty Name="ENERGY_COST" ColumnName="ENERGY_COST" />
+                <ScalarProperty Name="LOW_SIMILAR_MODEL" ColumnName="LOW_SIMILAR_MODEL" />
+                <ScalarProperty Name="HIGH_SIMILAR_MODEL" ColumnName="HIGH_SIMILAR_MODEL" />
+                <ScalarProperty Name="LOW_AMOUNT" ColumnName="LOW_AMOUNT" />
+                <ScalarProperty Name="HIGH_AMOUNT" ColumnName="HIGH_AMOUNT" />
+                <ScalarProperty Name="ELECTRICITY_USE" ColumnName="ELECTRICITY_USE" />
+                <ScalarProperty Name="ENERGY_LOGO" ColumnName="ENERGY_LOGO" />
+                <ScalarProperty Name="PART_NUMBER" ColumnName="PART_NUMBER" />
+                <ScalarProperty Name="MODEL_KW" ColumnName="MODEL_KW" />
+                <ScalarProperty Name="LOW_KW" ColumnName="LOW_KW" />
+                <ScalarProperty Name="HIGH_KW" ColumnName="HIGH_KW" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="RANGE" ColumnName="RANGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

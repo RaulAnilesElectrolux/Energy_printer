@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model Energy_printer.Models.DATA_LABEL
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
@@ -11,34 +12,36 @@
         // =========================================================================
 
         // CONFIGURACIÓN PARA LAS ETIQUETAS AMARILLAS (U.S. EnergyGuide)
-        const datosAmarillo = {
-            REF_TYPE: "Refrigerator-Freezer",
-            DEFROST_SYSTEM: "Automatic Defrost",
-            DOORTYPE: "Side-Mounted Freezer",
-            ICE_SERVICE: "Through-the-Door Ice Service",
-            CUST_NAME: "Electrolux",
-            MODEL: "FRSS2623A*",
-            CAB_SIZE: "25.6 Cubic Feet",
-            ENERGY_COST: 91,
-            LOW_SIMILAR_MODEL: 81,
-            HIGH_SIMILAR_MODEL: 116,
-            LOW_AMOUNT: 66,
-            HIGH_AMOUNT: 116,
-            ELECTRICITY_USE: 647,
-            ENERGY_LOGO: 'Y',
-            PART_NUMBER: "A24876741"
-        };
+        const datosAmarillo = @Html.Raw(Json.Encode(new
+    {
+        REF_TYPE = Model.REF_TYPE,
+        DEFROST_SYSTEM = Model.DEFROST_SYSTEM,
+        DOORTYPE = Model.DOORTYPE,
+        ICE_SERVICE = Model.ICE_SERVICE,
+        CUST_NAME = Model.CUST_NAME,
+        MODEL = Model.MODEL,
+        CAB_SIZE = Model.CAB_SIZE,
+        ENERGY_COST = Model.ENERGY_COST,
+        LOW_SIMILAR_MODEL = Model.LOW_SIMILAR_MODEL,
+        HIGH_SIMILAR_MODEL = Model.HIGH_SIMILAR_MODEL,
+        LOW_AMOUNT = Model.LOW_AMOUNT,
+        HIGH_AMOUNT = Model.HIGH_AMOUNT,
+        ELECTRICITY_USE = Model.ELECTRICITY_USE,
+        ENERGY_LOGO = Model.ENERGY_LOGO,
+        PART_NUMBER = Model.PART_NUMBER
+    }));
 
-        // CONFIGURACIÓN PARA LAS ETIQUETAS BLANCAS (Canada EnerGuide)
-        const datosBlanco = {
-            MODEL: "fghb2868T*",
-            MODEL_KW: 700,
-            LOW_KW: 640,
-            HIGH_KW: 716,
-            TYPE: "Type 7",
-            RANGE: "24.5 TO 26.4 CU. FT.",
-            ENERGY_LOGO: "Y"
-        };
+    // CONFIGURACIÓN PARA LAS ETIQUETAS BLANCAS (Canada EnerGuide)
+    const datosBlanco = @Html.Raw(Json.Encode(new
+    {
+        MODEL = Model.MODEL,
+        MODEL_KW = Model.MODEL_KW,
+        LOW_KW = Model.LOW_KW,
+        HIGH_KW = Model.HIGH_KW,
+        TYPE = Model.TYPE,
+        RANGE = Model.RANGE,
+        ENERGY_LOGO = Model.ENERGY_LOGO
+    }));
         // =========================================================================
     </script>
 

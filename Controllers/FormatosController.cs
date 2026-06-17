@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Energy_printer.Models;
 
 namespace Energy_printer.Controllers
 {
@@ -21,7 +22,11 @@ namespace Energy_printer.Controllers
 
         public ActionResult Formato4()
         {
-            return View();
+            using (var db = new JZAPPROVALEntities())
+            {
+                var datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == 1);
+                return View(datosLabel);
+            }
         }
     }
 }
