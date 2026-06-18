@@ -261,8 +261,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <None Include="Views\Formatos\Amarillo.cshtml" />
-    <None Include="Views\Formatos\Blanco.cshtml" />
     <None Include="Views\Formatos\Formato4.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
