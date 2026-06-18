@@ -1,0 +1,101 @@
+@{
+    Layout = null;
+    var usa    = (Energy_printer.Models.EnergyLabelDataUSA)ViewBag.USA;
+    var canada = (Energy_printer.Models.EnergyLabelDataCanada)ViewBag.Canada;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Energy Labels — @usa.CUST_NAME</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin:0; font-family:'Segoe UI',Arial,sans-serif; background:#f4f6f9; color:#1a1a2e; }
+        .page-wrapper { max-width:960px; margin:0 auto; padding:32px 24px; }
+        .tool-header { margin-bottom:24px; border-bottom:3px solid #FFEA00; padding-bottom:12px; }
+        .tool-header h1 { margin:0; font-size:1.8rem; }
+        .tool-subtitle { margin:4px 0 0; font-size:.9rem; color:#666; }
+        .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+        .card { background:#fff; border:1px solid #ddd; border-radius:8px; padding:16px 20px; }
+        .card h3 { margin:0 0 10px; font-size:.85rem; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.05em; }
+        .card table { width:100%; border-collapse:collapse; }
+        .card th, .card td { padding:4px 8px; font-size:.85rem; text-align:left; }
+        .card th { color:#777; font-weight:600; white-space:nowrap; }
+        .card td { font-weight:700; }
+        .actions { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px; }
+        .btn { display:inline-block; padding:10px 20px; border-radius:6px; font-size:.9rem; font-weight:700; text-decoration:none; transition:opacity .15s; }
+        .btn:hover { opacity:.82; }
+        .btn-primary   { background:#FFEA00; color:#1a1a2e; border:2px solid #ccbb00; }
+        .btn-secondary { background:#1a1a2e; color:#fff;    border:2px solid #1a1a2e; }
+        .pdf-preview { background:#fff; border:1px solid #ddd; border-radius:8px; padding:20px; }
+        .pdf-preview h2 { margin:0 0 12px; font-size:.85rem; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:.05em; }
+        .preview-note { margin:8px 0 0; font-size:.78rem; color:#999; }
+        .badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.75rem; font-weight:700; margin-left:8px; vertical-align:middle; }
+        .badge-usa { background:#FFEA00; color:#1a1a2e; }
+        .badge-can { background:#d00; color:#fff; }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <header class="tool-header">
+        <h1>Energy Label Generator
+            <span class="badge badge-usa">EnergyGuide USA</span>
+            <span class="badge badge-can">EnerGuide Canada</span>
+        </h1>
+        <p class="tool-subtitle">Electrolux — Internal Tool · PDF de 4 páginas</p>
+    </header>
+
+    <div class="grid">
+        <!-- USA -->
+        <div class="card">
+            <h3>🇺🇸 EnergyGuide USA</h3>
+            <table>
+                <tr><th>Customer</th><td>@usa.CUST_NAME</td></tr>
+                <tr><th>Model</th>   <td>@usa.MODEL</td></tr>
+                <tr><th>Part No.</th><td>@usa.PART_NUMBER</td></tr>
+                <tr><th>Cost/yr</th> <td>$@usa.ENERGY_COST</td></tr>
+                <tr><th>kWh/yr</th>  <td>@usa.ELECTRICITY_USE kWh</td></tr>
+                <tr><th>Capacity</th><td>@usa.CAB_SIZE</td></tr>
+            </table>
+        </div>
+        <!-- Canada -->
+        <div class="card">
+            <h3>🇨🇦 EnerGuide Canada</h3>
+            <table>
+                <tr><th>Model</th>    <td>@canada.MODEL</td></tr>
+                <tr><th>kWh/yr</th>   <td>@canada.MODEL_KW kWh</td></tr>
+                <tr><th>Range</th>    <td>@canada.LOW_KW – @canada.HIGH_KW kWh</td></tr>
+                <tr><th>Type</th>     <td>@canada.TYPE</td></tr>
+                <tr><th>Volume</th>   <td>@canada.RANGE</td></tr>
+                <tr><th>EnergyStar</th><td>@canada.ENERGY_LOGO</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <section class="actions">
+        <a class="btn btn-primary"
+           href="@Url.Action("PreviewPdf", "Label")" target="_blank">
+            🖨 Vista previa / Imprimir (4 páginas)
+        </a>
+        <a class="btn btn-secondary"
+           href="@Url.Action("DownloadPdf", "Label")">
+            ⬇ Descargar PDF (4 páginas)
+        </a>
+    </section>
+
+    <section class="pdf-preview">
+        <h2>Preview</h2>
+        <iframe src="@Url.Action("PreviewPdf", "Label")"
+                width="100%" height="640"
+                style="border:1px solid #ccc; border-radius:4px;">
+        </iframe>
+        <p class="preview-note">
+            Si el PDF no carga, usa el botón "Vista previa" o descárgalo.
+        </p>
+    </section>
+
+</div>
+</body>
+</html>
