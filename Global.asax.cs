@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Optimization;
+using Energy_printer.Services;
 
 namespace Energy_printer
 {
@@ -17,6 +18,7 @@ namespace Energy_printer
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            GlobalFontSettings.FontResolver = new CustomFontResolver();
         }
     }
 
