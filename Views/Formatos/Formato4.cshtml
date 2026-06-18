@@ -1,0 +1,218 @@
+﻿@model Energy_printer.Models.DATA_LABEL
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etiquetas Unidas - EnergyGuide & EnerGuide</title>
+
+    <script>
+        // =========================================================================
+        //  VARIABLES DE CONFIGURACIÓN GENERAL (MODIFICA AQUÍ TUS DATOS)
+        // =========================================================================
+
+        // CONFIGURACIÓN PARA LAS ETIQUETAS AMARILLAS (U.S. EnergyGuide)
+        const datosAmarillo = @Html.Raw(Json.Encode(new
+    {
+        REF_TYPE = Model.REF_TYPE,
+        DEFROST_SYSTEM = Model.DEFROST_SYSTEM,
+        DOORTYPE = Model.DOORTYPE,
+        ICE_SERVICE = Model.ICE_SERVICE,
+        CUST_NAME = Model.CUST_NAME,
+        MODEL = Model.MODEL,
+        CAB_SIZE = Model.CAB_SIZE,
+        ENERGY_COST = Model.ENERGY_COST,
+        LOW_SIMILAR_MODEL = Model.LOW_SIMILAR_MODEL,
+        HIGH_SIMILAR_MODEL = Model.HIGH_SIMILAR_MODEL,
+        LOW_AMOUNT = Model.LOW_AMOUNT,
+        HIGH_AMOUNT = Model.HIGH_AMOUNT,
+        ELECTRICITY_USE = Model.MODEL_KW,
+        ENERGY_LOGO = Model.ENERGY_LOGO,
+        PART_NUMBER = Model.PART_NUMBER
+    }));
+
+    // CONFIGURACIÓN PARA LAS ETIQUETAS BLANCAS (Canada EnerGuide)
+    const datosBlanco = @Html.Raw(Json.Encode(new
+    {
+        MODEL = Model.MODEL,
+        MODEL_KW = Model.MODEL_KW,
+        LOW_KW = Model.LOW_KW,
+        HIGH_KW = Model.HIGH_KW,
+        TYPE = Model.TYPE,
+        RANGE = Model.RANGE,
+        ENERGY_LOGO = Model.ENERGY_LOGO
+    }));
+        // =========================================================================
+    </script>
+
+    <link rel="stylesheet" href="~/Content/_LabelUSA.css" />
+    <link rel="stylesheet" href="~/Content/_LabelCanada.css" />
+</head>
+<body>
+    <div class="print-page page-amarilla">
+        @Html.Partial("_LabelUSA")
+        @Html.Partial("_LabelUSA")
+    </div>
+    <div class="print-page page-blanca">
+        @Html.Partial("_LabelCanada")
+        @Html.Partial("_LabelCanada")
+     </div>
+</body>
+
+<script>
+    // LÓGICA DE RENDERIZADO Y CÁLCULOS AUTOMÁTICOS
+    function renderEtiquetasAmarillas(pagina) {
+        const d = datosAmarillo;
+
+        const refType = pagina.querySelector('.display-ref-type');
+        const defrost = pagina.querySelector('.display-defrost');
+        const doorType = pagina.querySelector('.display-doertype');
+        const ice = pagina.querySelector('.display-ice');
+        const marca = pagina.querySelector('.display-marca');
+        const modelo = pagina.querySelector('.display-modelo');
+        const capacidad = pagina.querySelector('.display-capacidad');
+        const costo = pagina.querySelector('.display-costo');
+        const minAll = pagina.querySelector('.display-min-all');
+        const maxAll = pagina.querySelector('.display-max-all');
+        const minSim = pagina.querySelector('.display-min-sim');
+        const maxSim = pagina.querySelector('.display-max-sim');
+        const kwh = pagina.querySelector('.display-kwh');
+        const partno = pagina.querySelector('.display-partno');
+
+        if (refType) refType.innerText = d.REF_TYPE;
+        if (defrost) defrost.innerText = d.DEFROST_SYSTEM;
+        if (doorType) doorType.innerText = d.DOORTYPE;
+        if (ice) ice.innerText = d.ICE_SERVICE;
+        if (marca) marca.innerText = d.CUST_NAME;
+        if (modelo) modelo.innerText = d.MODEL;
+        if (capacidad) capacidad.innerText = d.CAB_SIZE;
+        if (costo) costo.innerText = d.ENERGY_COST;
+        if (minAll) minAll.innerText = d.LOW_AMOUNT;
+        if (maxAll) maxAll.innerText = d.HIGH_AMOUNT;
+        if (minSim) minSim.innerText = d.LOW_SIMILAR_MODEL;
+        if (maxSim) maxSim.innerText = d.HIGH_SIMILAR_MODEL;
+        if (kwh) kwh.innerText = d.ELECTRICITY_USE;
+        if (partno) partno.innerText = 'PART NO. ' + d.PART_NUMBER;
+
+        const logo = pagina.querySelector('.logo-energy-star');
+        if (logo) {
+            logo.style.visibility = (d.ENERGY_LOGO === 'Y' || d.ENERGY_LOGO === 'y') ? 'visible' : 'hidden';
+        }
+
+        const globalMin = Math.min(d.LOW_AMOUNT, d.LOW_SIMILAR_MODEL, d.ENERGY_COST);
+        const globalMax = Math.max(d.HIGH_AMOUNT, d.HIGH_SIMILAR_MODEL, d.ENERGY_COST);
+        const rango = globalMax - globalMin;
+        const pct = v => rango === 0 ? 0 : ((v - globalMin) / rango) * 100;
+
+        const barraAll = pagina.querySelector('.barra-all');
+        if (barraAll) {
+            barraAll.style.left = pct(d.LOW_AMOUNT) + '%';
+            barraAll.style.width = (pct(d.HIGH_AMOUNT) - pct(d.LOW_AMOUNT)) + '%';
+        }
+
+        const barraSim = pagina.querySelector('.barra-similar');
+        if (barraSim) {
+            barraSim.style.left = pct(d.LOW_SIMILAR_MODEL) + '%';
+            barraSim.style.width = (pct(d.HIGH_SIMILAR_MODEL) - pct(d.LOW_SIMILAR_MODEL)) + '%';
+        }
+
+        const separador = pagina.querySelector('.separador-sim');
+        if (separador) {
+            separador.style.left = pct(d.LOW_SIMILAR_MODEL) + '%';
+        }
+
+        const indicador = pagina.querySelector('.indicador-maestro');
+        if (indicador) {
+            indicador.style.left = Math.max(0, Math.min(100, pct(d.ENERGY_COST))) + '%';
+        }
+    }
+
+    function renderEtiquetasBlancas(contenedor) {
+        const d = datosBlanco;
+
+        const elModelKw = contenedor.querySelector('.val-model-kw');
+        if (elModelKw) elModelKw.textContent = d.MODEL_KW;
+
+        const elLowKw = contenedor.querySelector('.val-low-kw');
+        if (elLowKw) elLowKw.textContent = d.LOW_KW;
+
+        const elHighKw = contenedor.querySelector('.val-high-kw');
+        if (elHighKw) elHighKw.textContent = d.HIGH_KW;
+
+        const elType = contenedor.querySelector('.val-type');
+        if (elType) elType.textContent = d.TYPE.toUpperCase();
+
+        const elRange = contenedor.querySelector('.val-range');
+        if (elRange) elRange.textContent = d.RANGE.toUpperCase();
+
+        const elModel = contenedor.querySelector('.val-model');
+        if (elModel) elModel.textContent = d.MODEL.toUpperCase();
+
+        const rango = d.HIGH_KW - d.LOW_KW;
+        let porcentaje = 0;
+        if (rango !== 0) {
+            porcentaje = (100 * (d.MODEL_KW - d.LOW_KW)) / rango;
+        }
+
+        const menorAlMinimo = d.MODEL_KW < d.LOW_KW;
+
+        const arrow = contenedor.querySelector('.arrow');
+        const modelArrow = contenedor.querySelector('.model-arrow');
+        const scaleEl = contenedor.querySelector('.scale');
+
+        if (arrow && modelArrow && scaleEl) {
+            if (menorAlMinimo) {
+                // La flecha va 2px antes del inicio de la barra de escala.
+                // .scale tiene padding-inline: 2px, así que el borde izquierdo visible de la barra
+                // está alineado con el padding izquierdo del contenedor .canada.
+                // Calculamos el desplazamiento relativo entre .model-arrow y .scale
+                // usando getBoundingClientRect para obtener posiciones reales del DOM.
+                const scaleRect = scaleEl.getBoundingClientRect();
+                const arrowContainerRect = modelArrow.getBoundingClientRect();
+
+                // Distancia horizontal desde el inicio de model-arrow hasta el inicio de .scale
+                const distanciaHastaEscala = scaleRect.left - arrowContainerRect.left;
+
+                // La flecha debe quedar 2px a la izquierda del inicio de la barra
+                // (scaleRect ya incluye el padding-inline de 2px, así que borde de barra = scaleRect.left + 2px)
+                const margenFlecha = distanciaHastaEscala + 2 - 2; // +2 por padding-inline, -2px antes de la barra
+
+                arrow.style.marginLeft = Math.max(0, margenFlecha) + 'px';
+
+                // Texto al lado derecho (normal), flecha a la izquierda del todo
+                modelArrow.style.flexDirection = 'row';
+                modelArrow.style.justifyContent = 'flex-start';
+
+            } else {
+                const pctClamped = Math.max(0, Math.min(100, porcentaje));
+                arrow.style.marginLeft = pctClamped + '%';
+
+                // Si supera el 70% de la escala, el texto "This Model / Ce Modèle"
+                // se mueve al lado izquierdo de la flecha para no salirse de la etiqueta
+                if (porcentaje > 90) {
+                    modelArrow.style.flexDirection = 'row-reverse';
+                    modelArrow.style.justifyContent = 'flex-end';
+                } else {
+                    modelArrow.style.flexDirection = 'row';
+                    modelArrow.style.justifyContent = 'flex-start';
+                }
+            }
+        }
+
+        const energyLogo = contenedor.querySelector('.bottom');
+        if (energyLogo && d.ENERGY_LOGO === "N") {
+            energyLogo.style.display = "none";
+        }
+    }
+
+    window.onload = function () {
+        // Inicializar sección Amarilla
+        const contenedoresAmarillos = document.querySelectorAll('.page-amarilla .usa-container');
+        contenedoresAmarillos.forEach(renderEtiquetasAmarillas);
+
+        // Inicializar sección Blanca
+        const contenedoresBlancos = document.querySelectorAll('.page-blanca .usa-container');
+        contenedoresBlancos.forEach(renderEtiquetasBlancas);
+    };
+</script>
+</html>
