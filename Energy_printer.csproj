@@ -207,6 +207,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EnergyLabel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\EnergyLabelData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EnergyLabelService.cs" />
   </ItemGroup>
