@@ -99,14 +99,21 @@ namespace Energy_printer.Services
             var fSpec = new XFont("Arial", 8.5, XFontStyleEx.Bold);
             string[] left = { d.REF_TYPE, "• " + d.DEFROST_SYSTEM, "• " + d.DOORTYPE, "• " + d.ICE_SERVICE };
             string[] right = { d.CUST_NAME, "Model: " + d.MODEL, "Capacity: " + d.CAB_SIZE };
-            for (int i = 0; i < left.Length; i++)
-                gfx.DrawString(left[i], fSpec, black,
-                    new XRect(pad, y + i * specLineH, CW * 0.5, specLineH), FmtTL);
-            for (int i = 0; i < right.Length; i++)
-                gfx.DrawString(right[i], fSpec, black,
-                    new XRect(pad + CW * 0.5, y + i * specLineH, CW * 0.5, specLineH), FmtTR);
-            y += 4 * specLineH + Px(15);   // margin-bottom 15px
+            double centerGap = Cm(0.05);
+            double colW = (CW - centerGap) / 2;
 
+            for (int i = 0; i < left.Length; i++)
+            {
+                gfx.DrawString(left[i], fSpec, black,
+                    new XRect(pad, y + i * specLineH, colW, specLineH), FmtTL);
+            }
+
+            for (int i = 0; i < right.Length; i++)
+            {
+                gfx.DrawString(right[i], fSpec, black,
+                    new XRect(pad + colW + centerGap, y + i * specLineH, colW, specLineH), FmtTR);
+            }
+            y += 4 * specLineH + Px(15);
             // ── 4. Compare box  (negro, texto blanco, padding 10px) ──────────────
             double cmpMain = 12 * 1.2, cmpSub = 9 * 1.2;
             double cmpH = Px(10) + cmpMain + Px(3) + cmpSub + Px(10);
