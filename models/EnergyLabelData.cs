@@ -14,12 +14,12 @@ namespace Energy_printer.Models
         public string MODEL               { get; set; }
         public string CAB_SIZE            { get; set; }
         public string PART_NUMBER         { get; set; }
-        public int    ENERGY_COST         { get; set; }
-        public int    LOW_SIMILAR_MODEL   { get; set; }
-        public int    HIGH_SIMILAR_MODEL  { get; set; }
-        public int    LOW_AMOUNT          { get; set; }
-        public int    HIGH_AMOUNT         { get; set; }
-        public int    ELECTRICITY_USE     { get; set; }
+        public int?    ENERGY_COST         { get; set; }
+        public int?    LOW_SIMILAR_MODEL   { get; set; }
+        public int?    HIGH_SIMILAR_MODEL  { get; set; }
+        public int?    LOW_AMOUNT          { get; set; }
+        public int?    HIGH_AMOUNT         { get; set; }
+        public int?    ELECTRICITY_USE     { get; set; }
         /// <summary>"Y" = mostrar logo Energy Star</summary>
         public string ENERGY_LOGO         { get; set; }
     }
