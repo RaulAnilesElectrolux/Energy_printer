@@ -31,8 +31,8 @@ namespace Energy_printer.Controllers
                 canadaService.AddCanadaPage(doc, canadaData);
                 canadaService.AddCanadaPage(doc, canadaData);
 
-                usaService.AddUSAPage(doc, usaData);
-                usaService.AddUSAPage(doc, usaData);
+                usaService.AddUSAPage(doc, usaData, true);
+                usaService.AddUSAPage(doc, usaData,false);
 
                 using (var stream = new MemoryStream())
                 {
