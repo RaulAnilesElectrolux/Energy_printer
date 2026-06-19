@@ -76,7 +76,6 @@ html, body {
 
 .gov-left {
     text-align: left;
-    font-weight: bold;
 }
 
 .gov-right {
@@ -136,13 +135,14 @@ html, body {
 }
 
 .compare-box-main {
-    font-size: 12pt;
-    font-weight: 900;
-    display: block;
+  font-size: 14pt;
+  font-weight: 700;
+  font-family: 'Arial', sans-serif; 
+  display: block;
 }
 
 .compare-box-sub {
-    font-size: 9pt;
+    font-size: 10pt;
     font-family: 'Arial', sans-serif;
     font-weight: bold;
     display: block;
@@ -158,7 +158,7 @@ html, body {
 .cost-title {
     font-size: 14pt;
     font-weight: 900;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .cost-scale-align {
@@ -182,6 +182,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top:100px;
     gap: 2px;
     font-weight: 900;
     line-height: 1;
@@ -195,7 +196,7 @@ html, body {
 }
 
 .display-costo {
-    font-size: 36pt;
+    font-size: 40pt;
     vertical-align: super;
     margin-left: 2px;
 }
@@ -296,7 +297,7 @@ html, body {
 }
 
 .kwh-value {
-    font-size: 34pt;
+    font-size: 30pt;
     font-weight: 900;
     line-height: 1;
     margin: 0;
