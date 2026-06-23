@@ -31,8 +31,8 @@ namespace Energy_printer.Controllers
                 canadaService.AddCanadaPage(doc, canadaData);
                 canadaService.AddCanadaPage(doc, canadaData);
 
-                usaService.AddUSAPage(doc, usaData, true);
-                usaService.AddUSAPage(doc, usaData,false);
+                usaService.AddUSAPage(doc, usaData);
+                usaService.AddUSAPage(doc, usaData);
 
                 using (var stream = new MemoryStream())
                 {
@@ -40,36 +40,6 @@ namespace Energy_printer.Controllers
                     return File(stream.ToArray(), "application/pdf");
                 }
             }
-
-            /*
-            var canada = claseCan.AddCanadaPage() ;
-            var usa = svc.GetLabelDataUSA(model);
-
-            // Genera el PDF con PDFSharp
-            byte[] bytes = svc.GeneratePdf(usa, canada);
-
-            // Muestra el PDF directamente usando el visor nativo del navegador
-            Response.AddHeader("Content-Disposition", "inline; filename=EnergyLabels.pdf");
-            return File(bytes, "application/pdf");
-            */
         }
-
-        // ── GET /Label/Download ───────────────────────────────────────────────
-        // Fuerza la descarga directa del archivo a la computadora
-        /*
-        public ActionResult Download(string model = null)
-        {
-            var svc = new EnergyLabelService(Server.MapPath("~/Content/"));
-            var usa = svc.GetLabelDataUSA(model);
-            var canada = svc.GetLabelDataCanada(model);
-
-            byte[] bytes = svc.GeneratePdf(usa, canada);
-
-            string fileName = string.Format("EnergyLabels_{0}.pdf",
-                (usa.MODEL ?? "label").Replace("*", "X").Replace("/", "-"));
-
-            return File(bytes, "application/pdf", fileName);
-        }
-        */
     }
 }
