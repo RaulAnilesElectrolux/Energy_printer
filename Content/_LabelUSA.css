@@ -37,8 +37,8 @@ html, body {
    ESTILOS: ETIQUETA AMARILLA (U.S. ENERGYGUIDE)
    ========================================================================= */
 .page-amarilla .usa-container {
-    width: 14cm;
-    height: 19cm;
+    width: 13.7cm;
+    height: 19.2cm;
     position: relative;
     color: #000000;
     overflow: hidden;
@@ -46,23 +46,21 @@ html, body {
     background-color: var(--fondo-pagina);
 }
     .page-amarilla .usa-container:first-child {
-        padding-top: 0.8cm;
+        padding-top: 0.88cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.6cm;
+        padding-left: 0.3cm;
         padding-right: 0.15cm;
     }
 
     .page-amarilla .usa-container:last-child {
-        padding-top: 0.8cm;
+        padding-top: 0.88cm;
         padding-bottom: 0.6cm;
         padding-left: 0.15cm;
-        padding-right: 0.6cm;
+        padding-right: 0.3cm;
     }
 .usa-gov-header {
     width: 100%;
-    font-size: 8pt;
-    font-family: 'Arial', sans-serif;
-    margin-top: 0.5cm;
+    font-family: 'Arial Narrow', sans-serif;
 }
 
     .usa-gov-header table {
@@ -75,10 +73,13 @@ html, body {
     }
 
 .gov-left {
+    font-size: 10pt;
+    padding-left: 0.2cm;
     text-align: left;
 }
-
 .gov-right {
+    font-size: 9pt;
+    padding-right: 0.6cm;
     text-align: right;
 }
 
@@ -86,23 +87,26 @@ html, body {
     text-align: center;
     margin-bottom: -45px;
     position: relative;
+    padding-left:0.1cm;
+    padding-right:.35cm;
     z-index: 10;
 }
 
 .logo-energyguide {
-    width: 100%;
+    width: 100.5%;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
 }
 
 .specs-table {
-    width: 100%;
+    width: 13cm;
     font-size: 8.5pt;
-    font-family: 'Arial', sans-serif;
-    margin-bottom: 15px;
-    border-collapse: collapse;
-    padding-top: 15px;
+    font-family: 'Arial Narrow';
+    position: relative;
+    padding-left: 0.1cm;
+    padding-right: .1cm;
+    padding-bottom: .1cm;
     position: relative;
     z-index: 1;
 }
@@ -110,15 +114,30 @@ html, body {
     .specs-table td {
         vertical-align: top;
         line-height: 1.2;
-        font-weight: bold;
+        font-weight:bold;
     }
 
 .specs-left {
     width: 50%;
 }
+.specs-block {
+    width: 50%;
+    vertical-align: top;
+}
+
+.specs-title {
+    font-weight: bold;
+    margin-bottom: 0.03cm;
+}
+
+.specs-bullets {
+    padding-left: 0.2cm; 
+    font-weight: bold;
+    line-height: 1.05;
+}
 
 .specs-right {
-    width: 50%;
+    width: 60%;
     text-align: right;
 }
 
@@ -130,48 +149,59 @@ html, body {
 
 .compare-box {
     text-align: center;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding-top: 0.35cm;
+    height: 1.8cm;
 }
 
 .compare-box-main {
-  font-size: 14pt;
-  font-weight: 700;
-  font-family: 'Arial', sans-serif; 
-  display: block;
+    font-size: 13.9pt;
+    font-weight: inherit;
+    padding-left: 0.9cm;
+    padding-right: 0.9cm;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    letter-spacing: 0.32px;
 }
 
 .compare-box-sub {
-    font-size: 10pt;
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
+    font-size: 11pt;
+    padding-left: 0.6cm;
+    padding-right: 0.6cm;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: inherit;
+    letter-spacing: 0.32px;
     display: block;
-    margin-top: 3px;
+    margin-top: 0.1cm;
 }
 
 .cost-box {
     text-align: center;
-    padding: 10px 15px 0px 15px;
+    padding-top: 0.1cm;
+    margin-top:0.4cm;
     position: relative;
+    height:2.8cm;
+    width:13.3cm;
 }
 
 .cost-title {
-    font-size: 14pt;
-    font-weight: 900;
-    margin-bottom: 20px;
+    font-size: 15pt;
+    padding-left: 3.15cm;
+    padding-right: 3.15cm;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: inherit;
+    letter-spacing: 0.32px;
 }
 
 .cost-scale-align {
     margin-left: 100px;
     width: calc(100% - 110px);
     position: relative;
-    height: 50px;
-    margin-top: 5px;
+    height: 1.8cm;
 }
 
 .moving-pointer {
     position: absolute;
-    bottom: 0;
+    height:1.8cm;
     transform: translateX(-50%);
     transition: left 0.3s ease;
     text-align: center;
@@ -182,21 +212,22 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top:100px;
-    gap: 2px;
+    height: auto;
+    padding-bottom: 0cm;
     font-weight: 900;
     line-height: 1;
 }
 
 .dollar-sign {
-    font-size: 24pt;
+    font-size: 32pt;
+    padding-right:0.25cm;
     line-height: 1;
     display: flex;
     align-items: center;
 }
 
 .display-costo {
-    font-size: 40pt;
+    font-size: 47pt;
     vertical-align: super;
     margin-left: 2px;
 }
@@ -206,18 +237,18 @@ html, body {
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 12px solid #ffffff;
-    margin: 0px auto 0 auto;
-    display: block;
+    border-top: 15px solid #ffffff;
+    margin: 0.08cm auto 0 auto;
 }
 
 .ranges-container {
-    border: 1px solid #000000;
     border-top: none;
-    border-radius: 0 0 5px 5px;
     margin-top: 0;
-    margin-bottom: 20px;
-    padding: 8px 5px;
+    margin-bottom: 0.5cm;
+    padding-left: 0.3cm;
+    padding-bottom: 0.3cm;
+    width: 13.3cm;
+    height: 2.1cm;
 }
 
 .ranges-table {
@@ -227,26 +258,65 @@ html, body {
 }
 
     .ranges-table td {
-        padding: 6px 8px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         vertical-align: middle;
         position: relative;
     }
 
+.ranges-outer-cell {
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.ranges-inner-box {
+    width: 12.5cm;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    padding-top: 0.06cm;
+    padding-bottom: 0.06cm;
+    box-sizing: border-box;
+}
+
+.ranges-inner-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
 .range-sidebar {
-    width: 25px;
+    width: 1.15cm;
     text-align: center;
-    font-size: 7.5pt;
-    font-family: 'Arial', sans-serif;
+    font-weight: normal;
+    letter-spacing: 0.32px;
+    font-size: 8.5pt;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-left: 0;
+    padding-right: 0;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
 }
 
 .range-label {
-    width: 105px;
-    font-size: 8pt;
-    font-family: 'Arial', sans-serif;
+    width: 2.7cm;
     line-height: 1.1;
     white-space: nowrap;
+}
+
+.range-label-inner {
+    display: block;
+    padding-left: 0.3cm;
+    padding-right: 0.2cm;
+    font-weight: normal;
+    letter-spacing: 0.32px;
+    font-size: 8.5pt;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.range-bar-cell {
+    width: auto;
+    position: relative;
+    padding-right: 0.3cm;
 }
 
 .track-outline {
@@ -255,8 +325,9 @@ html, body {
     border-radius: 10px;
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow: hidden
 }
+
 
 .track-fill-2 {
     background-color: #ffffff;
@@ -272,72 +343,88 @@ html, body {
 
 .track-text {
     color: #000000;
-    font-weight: 900;
-    font-size: 10pt;
+    font-family:Arial;
+    font-weight:bold;
+    font-size: 12pt;
     padding: 0 6px;
-    height: 100%;
     display: flex;
     align-items: center;
 }
 
-.separador-sim {
-    position: absolute;
-    top: 0;
-    width: 3px;
-    height: 100%;
-    background: #000000;
-    z-index: 10;
+.kwh-box {
+    width: 6.3cm;
+    height: 2.2cm;
+    background-color: #000000;
+    color: #ffffff;
+    box-sizing: border-box;
+    margin-bottom:0.5cm;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.kwh-box {
-    text-align: center;
-    padding: 10px;
-    width: 50%;
-    margin: 0 auto 15px auto;
+.kwh-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.18cm;
+    margin-top: -0.05cm;
 }
 
 .kwh-value {
-    font-size: 30pt;
+    font-size: 34pt;
     font-weight: 900;
     line-height: 1;
-    margin: 0;
     display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
 .kwh-unit {
-    font-size: 14pt;
-    font-weight: 900;
+    font-size: 11.5pt;
+    letter-spacing: 0.32px;
+    font-family: 'Arial Narrow';
+    font-weight:700;
+    line-height: 1;
     display: inline-block;
-    margin-left: 5px;
 }
 
 .kwh-subtitle {
-    font-size: 9pt;
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
-    margin-top: 5px;
+    font-size: 10pt;
+    letter-spacing: 0.32px;
+    font-family: 'Arial Narrow';
+    font-weight: 600;
+    line-height: 1.05;
+    margin-top: 0.10cm;
     display: block;
+    text-align: center;
 }
-
 .bottom-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 0.5cm;
 }
 
 .left-section {
-    width: 78%;
+    width: 11cm;
+    padding-top:0.1cm;
+    padding-left:0.3cm;
+    padding-right:0.1cm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .footer-notes {
-    font-size: 8pt;
-    font-family: 'Arial', sans-serif;
-    line-height: 1.3;
+    font-size: 9pt;
+    font-family:'Arial Narrow', Arial, sans-serif;
     width: 100%;
 }
 
@@ -362,6 +449,7 @@ html, body {
 .ftc-link {
     font-family: 'Arial', sans-serif;
     font-size: 12pt;
+    padding-left:3cm;
     font-weight: normal;
     text-align: center;
     width: 100%;
@@ -369,24 +457,26 @@ html, body {
 }
 
 .energy-star-container {
-    width: 28%;
+    width: 4.3cm;
     display: flex;
+    padding-right:0.5cm;
+    padding-left:1cm;
     flex-direction: column;
     align-items: center;
 }
 
 .logo-pie {
-    width: 85px;
+    width: 2.3cm;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
 }
 
 .part-number {
-    font-size: 7pt;
-    font-family: 'Arial', sans-serif;
+    font-size: 8pt;
+    font-family: 'Arial Narrow';
     font-weight: bold;
-    margin-top: 4px;
+    margin-top: 0.1cm;
     display: block;
     text-align: left;
 }
@@ -400,15 +490,15 @@ html, body {
     }
 
     .print-page {
-        width: 28cm !important;
-        height: 19cm !important;
+        width: 27.4cm !important;
+        height: 19.2cm !important;
         page-break-after: always !important;
         break-after: page !important;
     }
 
     .page-amarilla .usa-container {
-        width: 14cm !important;
-        height: 19cm !important;
+        width: 13.7cm !important;
+        height: 19.2cm !important;
     }
 
 }

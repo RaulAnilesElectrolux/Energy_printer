@@ -19,15 +19,21 @@
         </div>
         <table class="specs-table">
             <tr>
-                <td class="specs-left">
-                    <span class="display-ref-type"></span><br>
-                    • <span class="display-defrost"></span><br>
-                    • <span class="display-doertype"></span><br>
-                    • <span class="display-ice"></span>
+                <td class="specs-block">
+                    <div class="specs-title">
+                        <span class="display-ref-type"></span>
+                    </div>
+
+                    <div class="specs-bullets">
+                        <div>• <span class="display-defrost"></span></div>
+                        <div>• <span class="display-doertype"></span></div>
+                        <div>• <span class="display-ice"></span></div>
+                    </div>
                 </td>
+
                 <td class="specs-right">
                     <span class="display-marca"></span><br>
-                    Model: <span class="display-modelo"></span><br>
+                    <span class="display-modelo"></span><br>
                     Capacity: <span class="display-capacidad"></span>
                 </td>
             </tr>
@@ -52,13 +58,17 @@
             <table class="ranges-table">
                 <tr>
                     <td class="range-sidebar" rowspan="2">Cost Ranges</td>
-                    <td rowspan="2" style="width: 100%; padding: 5px;">
-                        <div style="border: 1px solid #ffffff; border-radius: 10px; padding: 0px;">
-                            <table style="width:100%; border-collapse:collapse;">
+
+                    <td rowspan="2" class="ranges-outer-cell">
+                        <div class="ranges-inner-box">
+                            <table class="ranges-inner-table">
                                 <tr>
-                                    <td class="range-label">Models with<br>similar features</td>
-                                    <td style="width: 100%; position: relative;">
-                                        <div class="separador-sim"></div>
+
+                                    <td class="range-label">
+                                        <div class="range-label-inner">Models with<br>similar features</div>
+                                    </td>
+
+                                    <td class="range-bar-cell">
                                         <div class="track-outline">
                                             <div class="track-fill-2 barra-similar">
                                                 <div class="track-text">$<span class="display-min-sim"></span></div>
@@ -68,8 +78,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="range-label">All models</td>
-                                    <td style="width:100%; position:relative;">
+
+                                    <td class="range-label">
+                                        <div class="range-label-inner">All models</div>
+                                    </td>
+
+                                    <td class="range-bar-cell">
                                         <div class="track-outline">
                                             <div class="track-fill-2 barra-all">
                                                 <div class="track-text">$<span class="display-min-all"></span></div>
@@ -85,8 +99,10 @@
             </table>
         </div>
         <div class="kwh-box efecto-mascara">
-            <div class="kwh-value display-kwh"></div>
-            <div class="kwh-unit">kWh</div>
+            <div class="kwh-line">
+                <span class="kwh-value display-kwh"></span>
+                <span class="kwh-unit">kWh</span>
+            </div>
             <span class="kwh-subtitle">Estimated Yearly Electricity Use</span>
         </div>
         <div class="bottom-wrapper">
@@ -99,11 +115,11 @@
                         <li>Estimated energy cost is based on a national average electricity cost <br> of 14 cents per kWh.</li>
                     </ul>
                 </div>
+                <div class="ftc-link">ftc.gov/energy</div>
             </div>
             <div class="energy-star-container">
                 <img src="~/Assets/Logo_pie.png" alt="Energy Star Logo" class="logo-pie logo-energy-star">
                 <span class="part-number display-partno"></span>
             </div>
         </div>
-        <div class="ftc-link">ftc.gov/energy</div>
     </div>
