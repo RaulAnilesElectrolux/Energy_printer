@@ -77,6 +77,30 @@ public class CustomFontResolver : IFontResolver
                 return new FontResolverInfo("arial");
             }
 
+            if (familyName.Equals("Arial Narrow", StringComparison.OrdinalIgnoreCase))
+            {
+                if (isBold && isItalic)
+                    return new FontResolverInfo("ARIALNBI");
+                if (isBold)
+                    return new FontResolverInfo("ARIALNB");
+                if (isItalic)
+                    return new FontResolverInfo("ARIALN");
+
+                return new FontResolverInfo("ARIALN");
+            }
+
+            if (familyName.Equals("ElmsSans", StringComparison.OrdinalIgnoreCase))
+            {
+                if (isBold && isItalic)
+                    return new FontResolverInfo("ElmsSans-Regular");
+                if (isBold)
+                    return new FontResolverInfo("ElmsSans-SemiBold");
+                if (isItalic)
+                    return new FontResolverInfo("ElmsSans-SemiBold");
+
+                return new FontResolverInfo("ElmsSans-Regular");
+            }
+
             // fallback
             return new FontResolverInfo("arial");
         }

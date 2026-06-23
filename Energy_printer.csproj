@@ -257,6 +257,11 @@
     <Content Include="fonts\arialbd.ttf" />
     <Content Include="fonts\arialbi.ttf" />
     <Content Include="fonts\ariali.ttf" />
+    <Content Include="fonts\ARIALN.TTF" />
+    <Content Include="fonts\ARIALNB.TTF" />
+    <Content Include="fonts\ARIALNBI.TTF" />
+    <Content Include="fonts\ElmsSans-Regular.ttf" />
+    <Content Include="fonts\ElmsSans-SemiBold.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
