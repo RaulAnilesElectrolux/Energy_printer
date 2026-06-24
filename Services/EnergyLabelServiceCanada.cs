@@ -121,7 +121,7 @@ namespace Energy_printer.Services
             }, XFillMode.Winding);
 
             gfx.DrawString("This Model / Ce Modèle",
-                new XFont("Arial", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(arrowX + In(0.2), y * 0.95, cW * 0.5, In(0.22)), FmtML);
             y += In(0.30);
 
@@ -147,7 +147,7 @@ namespace Energy_printer.Services
                 new XRect((pad * 3 + (cW - posX) / 2), y + In(0.04), cW / 2, In(0.2)), FmtTL);
             gfx.DrawString(d.HIGH_KW + " kWh",
                 new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(x + cW / 2 - In(0.26), y + In(0.04), cW / 2, In(0.2)), FmtTR);
+                new XRect(x + cW / 2 - In(0.15), y + In(0.04), cW / 2, In(0.2)), FmtTR);
             y += In(0.28);
 
             double rowH = In(0.5);
