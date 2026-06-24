@@ -45,7 +45,7 @@ namespace Energy_printer.Services
         public void AddCanadaPage(PdfDocument doc, EnergyLabelDataCanada d)
         {
             var page = doc.AddPage();
-            page.Width = XUnit.FromInch(5.1);
+            page.Width = XUnit.FromInch(5);
             page.Height = XUnit.FromInch(6.96);
 
             using (var gfx = XGraphics.FromPdfPage(page))
