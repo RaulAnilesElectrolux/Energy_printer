@@ -46,7 +46,7 @@ namespace Energy_printer.Services
         {
             var page = doc.AddPage();
             page.Width = XUnit.FromInch(5);
-            page.Height = XUnit.FromInch(6.96);
+            page.Height = XUnit.FromInch(6.90);
 
             using (var gfx = XGraphics.FromPdfPage(page))
             {
@@ -63,7 +63,7 @@ namespace Energy_printer.Services
             gfx.DrawRectangle(XBrushes.White, 0, 0, W, H);
             gfx.DrawRectangle(new XPen(XColors.Black, 1.5), 0, 0, W, H);
 
-            double innerH = In(5.80) + pad;
+            double innerH = In(5.74) + pad;
             gfx.DrawRectangle(new XPen(XColors.Black, 1), pad / 2, pad / 2, W - pad, innerH);
 
             double x = pad * 2;
@@ -194,10 +194,10 @@ namespace Energy_printer.Services
 
             // 2. Textos centrales (Rango y Volumen)
             gfx.DrawString(d.RANGE.ToUpper(),
-                new XFont("Arial", 10, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(x + cW * 0.18, y, cW * 0.64, In(0.20)), FmtTC);
+                new XFont("Arial Narrow", 11.5, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.15, y, cW * 0.64, In(0.20)), FmtTC);
 
-            gfx.DrawString("volume in ft.3 / volume en pi3",
+            gfx.DrawString("volume in ft.3 / volume en pi³",
                 new XFont("Arial", 11, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.18, y + In(0.20), cW * 0.64, In(0.25)), FmtTC);
 
@@ -218,7 +218,7 @@ namespace Energy_printer.Services
                 new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
                 new XRect(x, y + In(0.1), cW * 0.35, In(0.35)), FmtTL);
             gfx.DrawString(d.MODEL.ToUpper(),
-                new XFont("Arial Narrow", 15, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial Narrow", 16, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.2, y, cW * 0.6, In(0.35)), FmtMC);
             gfx.DrawString("Numéro du modèle",
                 new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
