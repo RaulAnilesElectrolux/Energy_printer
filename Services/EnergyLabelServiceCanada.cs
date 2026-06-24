@@ -45,7 +45,7 @@ namespace Energy_printer.Services
         public void AddCanadaPage(PdfDocument doc, EnergyLabelDataCanada d)
         {
             var page = doc.AddPage();
-            page.Width = XUnit.FromInch(5.2);
+            page.Width = XUnit.FromInch(5.1);
             page.Height = XUnit.FromInch(6.96);
 
             using (var gfx = XGraphics.FromPdfPage(page))
@@ -63,7 +63,7 @@ namespace Energy_printer.Services
             gfx.DrawRectangle(XBrushes.White, 0, 0, W, H);
             gfx.DrawRectangle(new XPen(XColors.Black, 1.5), 0, 0, W, H);
 
-            double innerH = In(5.70) + pad;
+            double innerH = In(5.80) + pad;
             gfx.DrawRectangle(new XPen(XColors.Black, 1), pad / 2, pad / 2, W - pad, innerH);
 
             double x = pad * 2;
@@ -73,7 +73,7 @@ namespace Energy_printer.Services
             var logoEner = LoadImage("Energuide2.png");
             if (logoEner != null)
             {
-                logoW = cW * 0.92;
+                logoW = cW * 0.93;
                 double logoH = logoW * (208.0 / 656.0);
                 double logoX = pad + (cW - logoW) / 2 + pad;
                 gfx.DrawImage(logoEner, logoX, y, logoW, logoH);
@@ -127,35 +127,36 @@ namespace Energy_printer.Services
 
             double barH = In(0.23);
             int steps = 120;
-            double stepW = logoW / steps;
+            double posX = cW * 0.965;
+            double stepW = posX / steps;
             double tam = 0;
             for (int i = 0; i < steps; i++)
             {
                 int gray = (int)(255.0 * i / (steps - 1));
                 var brush = new XSolidBrush(XColor.FromArgb(255 - gray, 255 - gray, 255 - gray));
-                tam = (pad + (cW - logoW) / 2 + pad) + i * stepW;
+                tam = (pad + (cW - posX) / 2 + pad) + i * stepW;
                 gfx.DrawRectangle(brush, tam, y, stepW + 0.5, barH);
             }
-            gfx.DrawRectangle(new XPen(XColors.Black, 1), pad + (cW - logoW) / 2 + pad, y, logoW, barH);
-            gfx.DrawRectangle(new XPen(XColors.Black, 1.25), pad + (cW - logoW) / 2 + pad, y, In(0.01), barH + (barH / 2));
+            gfx.DrawRectangle(new XPen(XColors.Black, 1), pad + (cW - posX) / 2 + pad, y, posX, barH);
+            gfx.DrawRectangle(new XPen(XColors.Black, 1.25), pad + (cW - posX) / 2 + pad, y, In(0.01), barH + (barH / 2));
             gfx.DrawRectangle(new XPen(XColors.Black, 1.25), tam + In(0.03), y, In(0.01), barH + (barH / 2));
             y += barH;
 
             gfx.DrawString(d.LOW_KW + " kWh",
-                new XFont("Arial", 7, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect((pad * 3 + (cW - logoW) / 2), y + In(0.04), cW / 2, In(0.2)), FmtTL);
+                new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect((pad * 3 + (cW - posX) / 2), y + In(0.04), cW / 2, In(0.2)), FmtTL);
             gfx.DrawString(d.HIGH_KW + " kWh",
-                new XFont("Arial", 7, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(x + cW / 2 - In(0.25), y + In(0.04), cW / 2, In(0.2)), FmtTR);
+                new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW / 2 - In(0.26), y + In(0.04), cW / 2, In(0.2)), FmtTR);
             y += In(0.28);
 
             double rowH = In(0.5);
-            x = (pad + (cW - logoW) / 2 );
+            x = (pad + (cW - posX) / 2 ) + pad;
 
             // 1. Ule (Lado izquierdo)
             string textoUle = "Uses least energy /\nConsomme le moins d'énergie";
-            XFont fuenteUle = new XFont("Arial", 10, XFontStyleEx.Bold);
-            XRect rectanguloUle = new XRect(x, y, cW * 0.40, In(0.50));
+            XFont fuenteUle = new XFont("Arial", 11.5, XFontStyleEx.Bold);
+            XRect rectanguloUle = new XRect(x, y, cW * 0.40, In(0.60));
 
             XTextFormatter tfUle = new XTextFormatter(gfx);
             tfUle.Alignment = XParagraphAlignment.Left;
@@ -167,10 +168,10 @@ namespace Energy_printer.Services
                 new XRect(x + cW * 0.3, y - In(0.05), cW * 0.4, rowH), FmtMC);
 
             string textoUme = "Uses most energy /\nConsomme le plus d'énergie";
-            XFont fuenteUme = new XFont("Arial", 10, XFontStyleEx.Bold);
+            XFont fuenteUme = new XFont("Arial", 11.5, XFontStyleEx.Bold);
 
             // Recorremos la coordenada X para que empiece en el 75% del ancho de tu contenedor
-            XRect rectanguloUme = new XRect(x + (cW * 0.73) - (cW * 0.10), y, cW * 0.35, In(0.50));
+            XRect rectanguloUme = new XRect(x + (cW * 0.73) - (cW * 0.10), y, cW * 0.35, In(0.60));
 
             XTextFormatter tfUme = new XTextFormatter(gfx);
             // Lo alineamos a la derecha para respetar la estética de la etiqueta
@@ -183,7 +184,7 @@ namespace Energy_printer.Services
 
             // Laterales en fuente pequeña, solo una palabra clave
             string textoSimEn = "Similar models \ncompared";
-            XFont fuenteSimEn = new XFont("ElmsSans", 10, XFontStyleEx.Regular);
+            XFont fuenteSimEn = new XFont("ElmsSans", 9, XFontStyleEx.Regular);
             XRect rectanguloSimEn = new XRect(x, y, cW * 0.25, rowSimilarH);
 
             XTextFormatter tfSimEn = new XTextFormatter(gfx);
@@ -197,13 +198,13 @@ namespace Energy_printer.Services
                 new XRect(x + cW * 0.18, y, cW * 0.64, In(0.20)), FmtTC);
 
             gfx.DrawString("volume in ft.3 / volume en pi3",
-                new XFont("Arial", 10, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial", 11, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.18, y + In(0.20), cW * 0.64, In(0.25)), FmtTC);
 
 
             // 3. Texto derecho (Francés) en multilínea
             string textoSimFr = "Modèles similaires\ncomparés";
-            XFont fuenteSimFr = new XFont("ElmsSans", 10, XFontStyleEx.Regular);
+            XFont fuenteSimFr = new XFont("ElmsSans", 9, XFontStyleEx.Regular);
             XRect rectanguloSimFr = new XRect(x + cW * 0.80 - (cW * 0.07), y, cW * 0.25, rowSimilarH);
 
             XTextFormatter tfSimFr = new XTextFormatter(gfx);
@@ -211,16 +212,16 @@ namespace Energy_printer.Services
             tfSimFr.DrawString(textoSimFr, fuenteSimFr, XBrushes.Black, rectanguloSimFr);
 
             // 4. Bajamos la coordenada "y" para la siguiente fila
-            y += rowSimilarH;
+            y += (rowSimilarH - In(0.05));
 
             gfx.DrawString("Model number",
-                new XFont("ElmsSans", 10, XFontStyleEx.Regular), XBrushes.Black,
+                new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
                 new XRect(x, y + In(0.1), cW * 0.35, In(0.35)), FmtTL);
             gfx.DrawString(d.MODEL.ToUpper(),
-                new XFont("Arial Narrow", 14, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial Narrow", 15, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.2, y, cW * 0.6, In(0.35)), FmtMC);
             gfx.DrawString("Numéro du modèle",
-                new XFont("ElmsSans", 10, XFontStyleEx.Regular), XBrushes.Black,
+                new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
                 new XRect(x + cW * 0.63, y + In(0.1), cW * 0.35, In(0.35)), FmtTR);
 
             y += In(0.50);
@@ -237,22 +238,22 @@ namespace Energy_printer.Services
 
             if (d.ENERGY_LOGO != null && d.ENERGY_LOGO.ToUpper() == "Y")
             {
-                double botY = pad + innerH + In(0.01);
+                double botY = pad + innerH + In(0.02);
                 double botH = H - botY - pad;
                 double starW = In(0.75);
 
                 var canStar = LoadImage("CanStar2.jpg");
                 if (canStar != null)
                 {
-                    double imgH = starW + In(0.25);
+                    double imgH = starW + In(0.22);
                     gfx.DrawImage(canStar, In(0.35), botY + (botH - imgH) / 2, starW, imgH);
                 }
 
-                double textX = In(0.30) + starW + In(0.40);
-                double textW = W - textX - pad - In(0.75);
+                double textX = In(0.30) + starW + In(0.45);
+                double textW = W - textX - pad - In(0.60);
 
                 // Instanciamos la fuente y el formateador una sola vez para ambos párrafos
-                XFont fuenteFooter = new XFont("Arial", 6.4, XFontStyleEx.Bold);
+                XFont fuenteFooter = new XFont("Arial", 6, XFontStyleEx.Bold);
                 XTextFormatter tfFooter = new XTextFormatter(gfx);
                 tfFooter.Alignment = XParagraphAlignment.Left; // Equivalente a tu FmtTL
 
@@ -261,7 +262,7 @@ namespace Energy_printer.Services
                                        "appliance. Its energy performance meets or \nexceeds the Government of Canada's high efficiency " +
                                        "levels. Use the \nEnerGuide rating to determine how this appliance compares to other \nsimilar models.";
 
-                XRect rectanguloEn = new XRect(textX, botY, textW, botH * 0.55);
+                XRect rectanguloEn = new XRect(textX, botY - In(0.02), textW, botH * 0.55);
                 tfFooter.DrawString(textoEnergyEn, fuenteFooter, XBrushes.Black, rectanguloEn);
 
 
