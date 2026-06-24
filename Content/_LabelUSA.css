@@ -31,24 +31,13 @@ html, body {
     page-break-after: always;
     break-after: page;
     overflow: visible;
-    margin-left: 0.3cm;
 }
-
-    .print-page::after {
-        content: "";
-        position: absolute;
-        left: 13.9cm;
-        top: 0;
-        width: 0.02cm;
-        height: 100%;
-        background: red;
-    }
 
 /* =========================================================================
    ESTILOS: ETIQUETA AMARILLA (U.S. ENERGYGUIDE)
    ========================================================================= */
 .page-amarilla .usa-container {
-    width: 13.9cm;
+    width: 14cm;
     height: 19cm;
     position: relative;
     color: #000000;
@@ -57,22 +46,24 @@ html, body {
     background-color: var(--fondo-pagina);
 }
     .page-amarilla .usa-container:first-child {
-        padding-top: 0.67cm;
+        padding-top: 0.9cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.3cm;
-        padding-right: 0.15cm;
+        padding-left: 0.4cm;
+        padding-right: 0.2cm;
     }
-    
+ 
     .page-amarilla .usa-container:last-child {
-        padding-top: 0.67cm;
+        padding-top: 0.9cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.15cm;
-        padding-right: 0.3cm;
-    }
+        padding-left: 0.2cm;
+        padding-right: 0.4cm;
+        margin-left:0.1cm;
+        }
    
 .usa-gov-header {
     width: 100%;
     font-family: 'Arial Narrow', sans-serif;
+    margin-bottom: .1cm;
 }
 
     .usa-gov-header table {
@@ -86,18 +77,20 @@ html, body {
 
 .gov-left {
     font-size: 10pt;
-    padding-left: 0.2cm;
+    padding-top:0.05cm;
+    padding-left: 0.3cm;
     text-align: left;
 }
 .gov-right {
     font-size: 9.5pt;
-    padding-right: 0.6cm;
+    padding-top: 0.05cm;
+    padding-right: 0.11cm;
     text-align: right;
 }
 
 .usa-main-title {
     text-align: center;
-    margin-bottom: -45px;
+    margin-bottom: -46px;
     position: relative;
     padding-left:0.1cm;
     padding-right:.35cm;
@@ -105,7 +98,7 @@ html, body {
 }
 
 .logo-energyguide {
-    width: 100.5%;
+    width: 100.8%;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
@@ -117,7 +110,7 @@ html, body {
     font-family: 'Arial Narrow';
     position: relative;
     padding-left: 0.1cm;
-    padding-right: .1cm;
+    padding-right: -.3cm;
     position: relative;
     z-index: 1;
 }
@@ -140,13 +133,15 @@ html, body {
 }
 
 .specs-bullets {
-    padding-left: 0.2cm; 
+    padding-left: 0.3cm;
     font-weight: bold;
     line-height: 1.05;
+    margin-bottom: 2px;
 }
 
 .specs-right {
-    width: 60%;
+    width: 80%;
+    margin-left:3cm;
     text-align: right;
 }
 
@@ -188,7 +183,7 @@ html, body {
     padding-top: 0.1cm;
     margin-top:0.4cm;
     position: relative;
-    height:3cm;
+    height:2.9cm;
     width:13.4cm;
 }
 
@@ -255,11 +250,11 @@ html, body {
 .ranges-container {
     border-top: none;
     margin-top: 0;
-    margin-bottom: 0.4cm;
+    margin-bottom: 0.5cm;
     padding-left: 0.3cm;
     padding-bottom: 0.3cm;
     width: 13.4cm;
-    height: 2cm;
+    height: 2.1cm;
 }
 
 .ranges-table {
@@ -335,7 +330,7 @@ html, body {
 .track-outline {
     background-color: #000000;
     height: 0.5cm;
-    border-radius:10px;
+    border-radius:4px;
     position: relative;
     width: 100%;
     overflow: hidden
@@ -351,7 +346,7 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 3px;
 }
 
 .track-text {
@@ -366,12 +361,12 @@ html, body {
 
 .kwh-box {
     width: 6.38cm;
-    height: 2.2cm;
-    padding-left:0.7cm;
+    height: 2.22cm;
+    padding-left: 0.7cm;
     background-color: #000000;
     color: #ffffff;
     box-sizing: border-box;
-    margin-bottom:0.5cm;
+    margin-bottom: 0.5cm;
     margin: 0 auto;
     padding: 0;
     display: flex;
@@ -379,6 +374,7 @@ html, body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin-left: 3.7cm;
 }
 
 .kwh-line {
@@ -425,7 +421,7 @@ html, body {
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-    margin-top: 0.4cm;
+    margin-top: 0.6cm;
 }
 
 .left-section {
@@ -440,7 +436,7 @@ html, body {
 
 .footer-notes {
     font-size: 9.3pt;
-    height:2.4cm;
+    height:2.3cm;
     font-family:'Arial Narrow', Arial, sans-serif;
     width: 100%;
 }
@@ -453,7 +449,6 @@ html, body {
 
     .footer-notes li {
         position: relative;
-        margin-bottom: 2px;
     }
 
         .footer-notes li:before {
@@ -475,21 +470,23 @@ html, body {
 .energy-star-container {
     width: 4.3cm;
     display: flex;
-    padding-right:0.3cm;
+    padding-right: 0.3cm;
+    padding-left: 0.3cm;
+    margin-left:0.3cm;
     flex-direction: column;
     align-items: center;
 }
 
 .logo-pie {
-    width: 2.5cm;
-    height:2.5cm;
+    width: 2.3cm;
+    height:2.4cm;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
 }
 
 .part-number {
-    font-size: 9pt;
+    font-size: 8.5pt;
     font-family: 'Arial Narrow';
     font-weight: bold;
     margin-top: 0.1cm;
@@ -501,7 +498,7 @@ html, body {
 /* =========================================================================
    CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - USA
    ========================================================================= */
-@media print {
+/*@media print {
     body {
         background-color:transparent;
     }
@@ -525,4 +522,4 @@ html, body {
         height: 18.8cm !important;
     }
 
-}
+}*/
