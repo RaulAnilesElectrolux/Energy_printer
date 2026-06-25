@@ -25,7 +25,7 @@ html, body {
 /* Contenedor maestro por cada pliego/hoja de impresión */
 .print-page {
     width: 27.8cm;
-    height: 19cm;
+    height: 21.5cm;
     display: flex;
     flex-direction: row;
     page-break-after: always;
@@ -38,7 +38,7 @@ html, body {
    ========================================================================= */
 .page-amarilla .usa-container {
     width: 14cm;
-    height: 19cm;
+    height: 21.5cm;
     position: relative;
     color: #000000;
     overflow: visible;
@@ -47,15 +47,13 @@ html, body {
 }
 
     .page-amarilla .usa-container:first-child {
-        padding-top: 3.2cm;
-        padding-bottom: 0.6cm;
+        padding-top: 3.9cm;
         padding-left: 0.4cm;
         padding-right: 0.2cm;
     }
 
     .page-amarilla .usa-container:last-child {
-        padding-top: 3.2cm;
-        padding-bottom: 0.6cm;
+        padding-top: 3.9cm;
         padding-left: 0.2cm;
         padding-right: 0.4cm;
         margin-left: 0.3cm;
@@ -64,7 +62,6 @@ html, body {
 .usa-gov-header {
     width: 100%;
     font-family: 'Arial Narrow', sans-serif;
-    margin-bottom: .1cm;
 }
 
     .usa-gov-header table {
@@ -144,7 +141,7 @@ html, body {
 
 .specs-right {
     width: 80%;
-    
+    margin-bottom: 2px;
     text-align: right;
 }
 
@@ -156,9 +153,9 @@ html, body {
 
 .compare-box {
     text-align: center;
-    width: 13.3cm;
+    width: 13.35cm;
     padding-top: 0.3cm;
-    height: 1.9cm;
+    height: 1.95cm;
 }
 
 .compare-box-main {
@@ -186,7 +183,7 @@ html, body {
     padding-top: 0.1cm;
     margin-top: 0.4cm;
     position: relative;
-    height: 2.9cm;
+    height: 3.05cm;
     width: 13.3cm;
 }
 
@@ -253,7 +250,7 @@ html, body {
 .ranges-container {
     border-top: none;
     margin-top: 0;
-    margin-bottom: 0.5cm;
+    margin-bottom: 0.39cm;
     padding-left: 0.2cm;
     padding-bottom: 0.3cm;
     width: 13.3cm;
@@ -304,8 +301,6 @@ html, body {
     padding-right: 0;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
-    position: relative;
-    left: 3px;
 }
 
 .range-label {
@@ -364,7 +359,7 @@ html, body {
 }
 
 .kwh-box {
-    width: 6.38cm;
+    width: 6.4cm;
     height: 2.22cm;
     padding-left: 0.7cm;
     background-color: #000000;
@@ -448,7 +443,7 @@ html, body {
 
     .footer-notes ul {
         margin: 0;
-        padding-left: 16px;
+        padding-left: 14px;
         list-style-type: none;
     }
 
