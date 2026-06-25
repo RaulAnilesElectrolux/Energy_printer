@@ -6,7 +6,7 @@
 }
 
 @page {
-    size: 28cm 19cm landscape;
+    size: 27.8cm 19cm landscape;
     margin: 0;
 }
 
@@ -24,43 +24,47 @@ html, body {
 
 /* Contenedor maestro por cada pliego/hoja de impresión */
 .print-page {
-    width: 28cm;
+    width: 27.8cm;
     height: 19cm;
     display: flex;
     flex-direction: row;
     page-break-after: always;
     break-after: page;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* =========================================================================
    ESTILOS: ETIQUETA AMARILLA (U.S. ENERGYGUIDE)
    ========================================================================= */
 .page-amarilla .usa-container {
-    width: 13.7cm;
-    height: 19.2cm;
+    width: 14cm;
+    height: 19cm;
     position: relative;
     color: #000000;
-    overflow: hidden;
+    overflow: visible;
     font-family: 'Arial Black', 'Arial', sans-serif;
     background-color: var(--fondo-pagina);
 }
+
     .page-amarilla .usa-container:first-child {
-        padding-top: 0.88cm;
+        padding-top: 3.2cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.3cm;
-        padding-right: 0.15cm;
+        padding-left: 0.4cm;
+        padding-right: 0.2cm;
     }
 
     .page-amarilla .usa-container:last-child {
-        padding-top: 0.88cm;
+        padding-top: 3.2cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.15cm;
-        padding-right: 0.3cm;
+        padding-left: 0.2cm;
+        padding-right: 0.4cm;
+        margin-left: 0.3cm;
     }
+
 .usa-gov-header {
     width: 100%;
     font-family: 'Arial Narrow', sans-serif;
+    margin-bottom: .1cm;
 }
 
     .usa-gov-header table {
@@ -74,52 +78,54 @@ html, body {
 
 .gov-left {
     font-size: 10pt;
-    padding-left: 0.2cm;
+    padding-top: 0.05cm;
+    padding-left: 0.3cm;
     text-align: left;
 }
+
 .gov-right {
     font-size: 9pt;
-    padding-right: 0.6cm;
+    padding-top: 0.05cm;
+    padding-right: .5cm;
     text-align: right;
 }
 
 .usa-main-title {
     text-align: center;
-    margin-bottom: -45px;
+    margin-bottom: -46px;
     position: relative;
-    padding-left:0.1cm;
-    padding-right:.35cm;
+    padding-left: 0.1cm;
+    padding-right: .35cm;
     z-index: 10;
 }
 
 .logo-energyguide {
-    width: 100.5%;
+    width: 13.2cm;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
 }
 
 .specs-table {
-    width: 13cm;
-    font-size: 8.5pt;
+    width: 13.3cm;
+    font-size: 9.5pt;
     font-family: 'Arial Narrow';
     position: relative;
     padding-left: 0.1cm;
-    padding-right: .1cm;
-    padding-bottom: .1cm;
+    padding-right: 0.1cm;
     position: relative;
     z-index: 1;
 }
 
     .specs-table td {
         vertical-align: top;
-        line-height: 1.2;
-        font-weight:bold;
+        font-weight: bold;
     }
 
 .specs-left {
     width: 50%;
 }
+
 .specs-block {
     width: 50%;
     vertical-align: top;
@@ -127,17 +133,18 @@ html, body {
 
 .specs-title {
     font-weight: bold;
-    margin-bottom: 0.03cm;
 }
 
 .specs-bullets {
-    padding-left: 0.2cm; 
+    padding-left: 0.3cm;
     font-weight: bold;
     line-height: 1.05;
+    margin-bottom: 2px;
 }
 
 .specs-right {
-    width: 60%;
+    width: 80%;
+    
     text-align: right;
 }
 
@@ -149,27 +156,27 @@ html, body {
 
 .compare-box {
     text-align: center;
-    padding-top: 0.35cm;
-    height: 1.8cm;
+    width: 13.3cm;
+    padding-top: 0.3cm;
+    height: 1.9cm;
 }
 
 .compare-box-main {
-    font-size: 13.9pt;
-    font-weight: inherit;
-    padding-left: 0.9cm;
-    padding-right: 0.9cm;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15.6pt;
+    padding-left: 0.6cm;
+    padding-right: 0.7cm;
+    font-weight: bold;
+    font-family: 'Arial Narrow', Arial, sans-serif;
     display: block;
     letter-spacing: 0.32px;
 }
 
 .compare-box-sub {
-    font-size: 11pt;
-    padding-left: 0.6cm;
-    padding-right: 0.6cm;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: inherit;
-    letter-spacing: 0.32px;
+    font-size: 13.1pt;
+    padding-left: 0.4cm;
+    padding-right: 0.3cm;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
     display: block;
     margin-top: 0.1cm;
 }
@@ -177,18 +184,18 @@ html, body {
 .cost-box {
     text-align: center;
     padding-top: 0.1cm;
-    margin-top:0.4cm;
+    margin-top: 0.4cm;
     position: relative;
-    height:2.8cm;
-    width:13.3cm;
+    height: 2.9cm;
+    width: 13.3cm;
 }
 
 .cost-title {
-    font-size: 15pt;
+    font-size: 16pt;
     padding-left: 3.15cm;
     padding-right: 3.15cm;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: inherit;
+    font-family: 'Arial Narrow';
+    font-weight: bold;
     letter-spacing: 0.32px;
 }
 
@@ -201,7 +208,8 @@ html, body {
 
 .moving-pointer {
     position: absolute;
-    height:1.8cm;
+    height: 1.8cm;
+    width: 0;
     transform: translateX(-50%);
     transition: left 0.3s ease;
     text-align: center;
@@ -219,16 +227,17 @@ html, body {
 }
 
 .dollar-sign {
-    font-size: 32pt;
-    padding-right:0.25cm;
+    font-size: 38pt;
+    padding-right: 0.25cm;
     line-height: 1;
     display: flex;
     align-items: center;
 }
 
 .display-costo {
-    font-size: 47pt;
+    font-size: 50pt;
     vertical-align: super;
+    height: 1.7cm;
     margin-left: 2px;
 }
 
@@ -245,7 +254,7 @@ html, body {
     border-top: none;
     margin-top: 0;
     margin-bottom: 0.5cm;
-    padding-left: 0.3cm;
+    padding-left: 0.2cm;
     padding-bottom: 0.3cm;
     width: 13.3cm;
     height: 2.1cm;
@@ -258,14 +267,14 @@ html, body {
 }
 
     .ranges-table td {
-        padding-top: 4px;
-        padding-bottom: 4px;
+        padding-top: 2px;
+        padding-bottom: 2px;
         vertical-align: middle;
         position: relative;
     }
 
 .ranges-outer-cell {
-    width: 100%;
+    width: 100.1%;
     padding-bottom: 5px;
 }
 
@@ -287,42 +296,45 @@ html, body {
 .range-sidebar {
     width: 1.15cm;
     text-align: center;
-    font-weight: normal;
+    font-weight: bold;
     letter-spacing: 0.32px;
-    font-size: 8.5pt;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    padding-left: 0;
+    font-size: 9pt;
+    font-family: 'Arial Narrow';
+    padding-left: -2cm;
     padding-right: 0;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
+    position: relative;
+    left: 3px;
 }
 
 .range-label {
     width: 2.7cm;
-    line-height: 1.1;
-    white-space: nowrap;
+    height: 0cm;
+    padding: 0cm;
 }
 
 .range-label-inner {
     display: block;
     padding-left: 0.3cm;
     padding-right: 0.2cm;
-    font-weight: normal;
+    font-weight: bold;
     letter-spacing: 0.32px;
-    font-size: 8.5pt;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 9.5pt;
+    font-family: 'Arial Narrow';
 }
 
 .range-bar-cell {
     width: auto;
+    height: 0.5cm;
     position: relative;
     padding-right: 0.3cm;
 }
 
 .track-outline {
     background-color: #000000;
-    height: 18px;
-    border-radius: 10px;
+    height: 0.6cm;
+    border-radius: 6px;
     position: relative;
     width: 100%;
     overflow: hidden
@@ -338,26 +350,27 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 4px;
 }
 
 .track-text {
     color: #000000;
-    font-family:Arial;
-    font-weight:bold;
-    font-size: 12pt;
+    font-family: 'Arial Narrow';
+    font-weight: bold;
+    font-size: 14.5pt;
     padding: 0 6px;
     display: flex;
     align-items: center;
 }
 
 .kwh-box {
-    width: 6.3cm;
-    height: 2.2cm;
+    width: 6.38cm;
+    height: 2.22cm;
+    padding-left: 0.7cm;
     background-color: #000000;
     color: #ffffff;
     box-sizing: border-box;
-    margin-bottom:0.5cm;
+    margin-bottom: 0.5cm;
     margin: 0 auto;
     padding: 0;
     display: flex;
@@ -365,37 +378,40 @@ html, body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin-left: 3.7cm;
 }
 
 .kwh-line {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 0.18cm;
-    margin-top: -0.05cm;
+    gap: 0cm;
+    margin-top: -0.07cm;
 }
 
 .kwh-value {
-    font-size: 34pt;
+    font-size: 36pt;
     font-weight: 900;
     line-height: 1;
     display: inline-block;
-    margin: 0;
+    margin-left: 1.2cm;
     padding: 0;
     font-family: Arial, sans-serif;
 }
 
 .kwh-unit {
-    font-size: 11.5pt;
+    font-size: 13pt;
     letter-spacing: 0.32px;
     font-family: 'Arial Narrow';
-    font-weight:700;
+    font-weight: 700;
     line-height: 1;
+    margin-right: 1.1cm;
+    margin-left: .5cm;
     display: inline-block;
 }
 
 .kwh-subtitle {
-    font-size: 10pt;
+    font-size: 11pt;
     letter-spacing: 0.32px;
     font-family: 'Arial Narrow';
     font-weight: 600;
@@ -404,101 +420,79 @@ html, body {
     display: block;
     text-align: center;
 }
+
 .bottom-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-    margin-top: 0.5cm;
+    margin-top: 0.6cm;
 }
 
 .left-section {
-    width: 11cm;
-    padding-top:0.1cm;
-    padding-left:0.3cm;
-    padding-right:0.1cm;
+    width: 13cm;
+    padding-top: 0.1cm;
+    padding-left: 0.1cm;
+    padding-right: 0.1cm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .footer-notes {
-    font-size: 9pt;
-    font-family:'Arial Narrow', Arial, sans-serif;
-    width: 100%;
+    font-size: 8.99pt;
+    height: 2.3cm;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    width: 9.1cm;
 }
 
     .footer-notes ul {
         margin: 0;
-        padding-left: 15px;
+        padding-left: 16px;
         list-style-type: none;
     }
 
     .footer-notes li {
         position: relative;
-        margin-bottom: 2px;
     }
 
         .footer-notes li:before {
             content: "•";
             position: absolute;
-            left: -10px;
+            left: -6px;
             font-weight: bold;
         }
 
 .ftc-link {
-    font-family: 'Arial', sans-serif;
-    font-size: 12pt;
-    padding-left:3cm;
+    font-family: 'Arial Narrow';
+    font-size: 15pt;
+    padding-left: 3.2cm;
     font-weight: normal;
     text-align: center;
     width: 100%;
-    margin-top: 0px;
 }
 
 .energy-star-container {
     width: 4.3cm;
-    display: flex;
-    padding-right:0.5cm;
-    padding-left:1cm;
+    padding-right: 0.5cm;
     flex-direction: column;
     align-items: center;
 }
 
 .logo-pie {
     width: 2.3cm;
+    height: 2.4cm;
+    margin-left: 1.2cm;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
 }
 
 .part-number {
-    font-size: 8pt;
+    font-size: 8.5pt;
     font-family: 'Arial Narrow';
     font-weight: bold;
     margin-top: 0.1cm;
     display: block;
-    text-align: left;
-}
-
-/* =========================================================================
-   CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - USA
-   ========================================================================= */
-@media print {
-    body {
-        background-color: white;
-    }
-
-    .print-page {
-        width: 27.4cm !important;
-        height: 19.2cm !important;
-        page-break-after: always !important;
-        break-after: page !important;
-    }
-
-    .page-amarilla .usa-container {
-        width: 13.7cm !important;
-        height: 19.2cm !important;
-    }
-
+    text-align: right;
 }
