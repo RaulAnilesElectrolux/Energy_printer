@@ -1,9 +1,17 @@
 /* =========================================================================
    ESTILOS: ETIQUETA BLANCA (CANADA ENERGUIDE)
    ========================================================================= */
-.page-blanca .usa-container {
-    width: 14cm;
-    height: 19cm;
+.printP {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+}
+
+.canada-container {
+    width: 5.25in;
+    height: 7.125in;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,8 +20,8 @@
 }
 
 .page-blanca .label {
-    width: 5.2in;
-    height: 7.15in;
+    width: 5.25in;
+    height: 7.125in;
     background: white;
     border: 1px solid #000;
     padding: 1px;
@@ -23,11 +31,11 @@
 
 .canada {
     border: 1px solid black;
-    padding-left: 0.11in;
-    padding-right: 0.11in;
+    padding-left: 0.12in;
+    padding-right: 0.12in;
     padding-top: 0.19in;
     margin-bottom: 2px;
-    height: 5.86in;
+    height: 6.05in;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,7 +80,8 @@
     font-size: unset;
     font-weight: bold;
     margin-top: 0.15in;
-    margin-bottom: 0.30in;
+    margin-bottom: 0.22in;
+    margin-left: 0.1in;
 }
 
 .consumption {
@@ -80,27 +89,38 @@
     justify-content: center;
     align-items: flex-end;
     gap: 25px;
-    margin-bottom: 15px;
+    margin-bottom: 2px;
     padding-left: 16%;
 }
 
-    .consumption .value {
-        font-size: 65px;
-        font-weight: bold;
-        line-height: 1;
-    }
+.consumption .value {
+    font-size: 65px;
+    font-weight: 700;
+    line-height: 1;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 0.03in;
+    height: stretch;
+}
 
-    .consumption .unit {
-        font-size: 35px;
-        font-weight: bold;
-        line-height: 1.1;
-    }
+.consumption .unit {
+    font-size: 35px;
+    font-weight: bold;
+    line-height: 1.1;
+    margin-top: 0.24in;
+}
 
-        .consumption .unit small {
-            display: block;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.consumption .unit small {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.this-model {
+    margin-bottom: 0.2in;
+    margin-left: 0.05in;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 0.01in;
+}
 
 .model-arrow {
     display: flex;
@@ -115,16 +135,16 @@
 .arrow {
     width: 0.19in;
     height: 0.19in;
-    border-left: 0.11in solid transparent;
-    border-right: 0.11in solid transparent;
-    border-top: 0.22in solid #000;
+    border-left: 0.12in solid transparent;
+    border-right: 0.12in solid transparent;
+    border-top: 0.18in solid #000;
 }
 
 .scale {
     margin-bottom: 0.15in;
-    box-shadow: inset 2px 20px 0 0 black, inset -2px 20px 0 0 black;
-    padding-inline: 2px;
-    width: 97%;
+    box-shadow: inset 3px 20px 0 0 black, inset -3px 20px 0 0 black;
+    padding-inline: 3px;
+    width: 100%;
 }
 
 .bar {
@@ -189,9 +209,9 @@
     }
 
     .model .number {
-        font-size: 20px;
+        font-size: 23px;
         font-weight: bold;
-        margin-top: 8px;
+        margin-top: 7px;
     }
 
 .warning {
@@ -201,7 +221,6 @@
 
 .bottom {
     display: flex;
-    align-items: center;
 }
 
 .bottom-text {
@@ -227,8 +246,15 @@
    CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - CANADÁ
    ========================================================================= */
 @media print {
-    .page-blanca .usa-container {
-        width: 14cm !important;
-        height: 19cm !important;
+    .printP {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 100vh;
+    }
+    .canada-container {
+        width: 5.25in !important;
+        height: 7.125in !important;
     }
 }

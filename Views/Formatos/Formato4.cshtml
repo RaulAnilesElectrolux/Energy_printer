@@ -54,7 +54,7 @@
         @Html.Partial("_LabelUSA")
         @Html.Partial("_LabelUSA")
     </div>
-    <div class="print-page page-blanca">
+    <div class="printP page-blanca">
         @Html.Partial("_LabelCanada")
         @Html.Partial("_LabelCanada")
      </div>
@@ -100,66 +100,32 @@
             logo.style.visibility = (d.ENERGY_LOGO === 'Y' || d.ENERGY_LOGO === 'y') ? 'visible' : 'hidden';
         }
 
-        const lowAll = Number(d.LOW_AMOUNT);
-        const highAll = Number(d.HIGH_AMOUNT);
-        const lowSim = Number(d.LOW_SIMILAR_MODEL);
-        const highSim = Number(d.HIGH_SIMILAR_MODEL);
-        const cost = Number(d.ENERGY_COST);
-
-        const globalMin = Math.min(lowAll, lowSim, cost);
-        const globalMax = Math.max(highAll, highSim, cost);
+        const globalMin = Math.min(d.LOW_AMOUNT, d.LOW_SIMILAR_MODEL, d.ENERGY_COST);
+        const globalMax = Math.max(d.HIGH_AMOUNT, d.HIGH_SIMILAR_MODEL, d.ENERGY_COST);
         const rango = globalMax - globalMin;
+        const pct = v => rango === 0 ? 0 : ((v - globalMin) / rango) * 100;
 
-        // p(v) = (v - minGlobal) / (maxGlobal - minGlobal)
-        function posNormalizada(valor) {
-            if (rango === 0) return 0;
-            return (valor - globalMin) / rango;
-        }
-
-        // ===== BARRA ALL =====
         const barraAll = pagina.querySelector('.barra-all');
         if (barraAll) {
-            const leftAll = posNormalizada(lowAll) * 100;
-            const widthAll = (posNormalizada(highAll) - posNormalizada(lowAll)) * 100;
-
-            barraAll.style.left = leftAll + '%';
-            barraAll.style.width = widthAll + '%';
+            barraAll.style.left = pct(d.LOW_AMOUNT) + '%';
+            barraAll.style.width = (pct(d.HIGH_AMOUNT) - pct(d.LOW_AMOUNT)) + '%';
         }
 
-        // ===== BARRA SIMILAR =====
         const barraSim = pagina.querySelector('.barra-similar');
         if (barraSim) {
-            const leftSim = posNormalizada(lowSim) * 100;
-            const widthSim = (posNormalizada(highSim) - posNormalizada(lowSim)) * 100;
-
-            barraSim.style.left = leftSim + '%';
-            barraSim.style.width = widthSim + '%';
+            barraSim.style.left = pct(d.LOW_SIMILAR_MODEL) + '%';
+            barraSim.style.width = (pct(d.HIGH_SIMILAR_MODEL) - pct(d.LOW_SIMILAR_MODEL)) + '%';
         }
 
-        // ===== SEPARADOR =====
         const separador = pagina.querySelector('.separador-sim');
         if (separador) {
-            separador.style.left = (posNormalizada(lowSim) * 100) + '%';
+            separador.style.left = pct(d.LOW_SIMILAR_MODEL) + '%';
         }
 
-        // ===== TRIÁNGULO / INDICADOR =====
-        // Fórmula:
-        // x = xInicioBarra + posNormalizada(cost) * anchoBarra
         const indicador = pagina.querySelector('.indicador-maestro');
-        const escalaSuperior = pagina.querySelector('.cost-scale-align');
-        const barraReferencia = pagina.querySelector('.ranges-container .track-outline'); // primera barra visible
-
-        if (indicador && escalaSuperior && barraReferencia) {
-            const rectEscala = escalaSuperior.getBoundingClientRect();
-            const rectBarra = barraReferencia.getBoundingClientRect();
-
-            const xInicioBarra = rectBarra.left - rectEscala.left;
-            const anchoBarra = rectBarra.width;
-            const xIndicador = xInicioBarra + (posNormalizada(cost) * anchoBarra);
-
-            indicador.style.left = xIndicador + 'px';
+        if (indicador) {
+            indicador.style.left = Math.max(0, Math.min(100, pct(d.ENERGY_COST))) + '%';
         }
-       
     }
 
     function renderEtiquetasBlancas(contenedor) {
@@ -175,13 +141,13 @@
         if (elHighKw) elHighKw.textContent = d.HIGH_KW;
 
         const elType = contenedor.querySelector('.val-type');
-        if (elType) elType.textContent = d.TYPE.toUpperCase();
+        if (elType) elType.textContent = d.TYPE;
 
         const elRange = contenedor.querySelector('.val-range');
-        if (elRange) elRange.textContent = d.RANGE.toUpperCase();
+        if (elRange) elRange.textContent = d.RANGE;
 
         const elModel = contenedor.querySelector('.val-model');
-        if (elModel) elModel.textContent = d.MODEL.toUpperCase();
+        if (elModel) elModel.textContent = d.MODEL;
 
         const rango = d.HIGH_KW - d.LOW_KW;
         let porcentaje = 0;
@@ -246,7 +212,7 @@
         contenedoresAmarillos.forEach(renderEtiquetasAmarillas);
 
         // Inicializar sección Blanca
-        const contenedoresBlancos = document.querySelectorAll('.page-blanca .usa-container');
+        const contenedoresBlancos = document.querySelectorAll('.page-blanca .canada-container');
         contenedoresBlancos.forEach(renderEtiquetasBlancas);
     };
 </script>

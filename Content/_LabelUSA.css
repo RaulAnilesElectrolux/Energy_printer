@@ -6,7 +6,7 @@
 }
 
 @page {
-    size: 27.8cm 19cm landscape;
+    size: 28cm 19cm landscape;
     margin: 0;
 }
 
@@ -24,46 +24,43 @@ html, body {
 
 /* Contenedor maestro por cada pliego/hoja de impresión */
 .print-page {
-    width: 27.8cm;
+    width: 28cm;
     height: 19cm;
     display: flex;
     flex-direction: row;
     page-break-after: always;
     break-after: page;
-    overflow: visible;
+    overflow: hidden;
 }
 
 /* =========================================================================
    ESTILOS: ETIQUETA AMARILLA (U.S. ENERGYGUIDE)
    ========================================================================= */
 .page-amarilla .usa-container {
-    width: 14cm;
-    height: 19cm;
+    width: 13.7cm;
+    height: 19.2cm;
     position: relative;
     color: #000000;
-    overflow: visible;
+    overflow: hidden;
     font-family: 'Arial Black', 'Arial', sans-serif;
     background-color: var(--fondo-pagina);
 }
     .page-amarilla .usa-container:first-child {
-        padding-top: 0.9cm;
+        padding-top: 0.88cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.4cm;
-        padding-right: 0.2cm;
+        padding-left: 0.3cm;
+        padding-right: 0.15cm;
     }
- 
+
     .page-amarilla .usa-container:last-child {
-        padding-top: 0.9cm;
+        padding-top: 0.88cm;
         padding-bottom: 0.6cm;
-        padding-left: 0.2cm;
-        padding-right: 0.4cm;
-        margin-left:0.1cm;
-        }
-   
+        padding-left: 0.15cm;
+        padding-right: 0.3cm;
+    }
 .usa-gov-header {
     width: 100%;
     font-family: 'Arial Narrow', sans-serif;
-    margin-bottom: .1cm;
 }
 
     .usa-gov-header table {
@@ -77,20 +74,18 @@ html, body {
 
 .gov-left {
     font-size: 10pt;
-    padding-top:0.05cm;
-    padding-left: 0.3cm;
+    padding-left: 0.2cm;
     text-align: left;
 }
 .gov-right {
-    font-size: 9.5pt;
-    padding-top: 0.05cm;
-    padding-right: 0.11cm;
+    font-size: 9pt;
+    padding-right: 0.6cm;
     text-align: right;
 }
 
 .usa-main-title {
     text-align: center;
-    margin-bottom: -46px;
+    margin-bottom: -45px;
     position: relative;
     padding-left:0.1cm;
     padding-right:.35cm;
@@ -98,7 +93,7 @@ html, body {
 }
 
 .logo-energyguide {
-    width: 100.8%;
+    width: 100.5%;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
@@ -106,17 +101,19 @@ html, body {
 
 .specs-table {
     width: 13cm;
-    font-size: 9.5pt;
+    font-size: 8.5pt;
     font-family: 'Arial Narrow';
     position: relative;
     padding-left: 0.1cm;
-    padding-right: -.3cm;
+    padding-right: .1cm;
+    padding-bottom: .1cm;
     position: relative;
     z-index: 1;
 }
 
     .specs-table td {
         vertical-align: top;
+        line-height: 1.2;
         font-weight:bold;
     }
 
@@ -130,18 +127,17 @@ html, body {
 
 .specs-title {
     font-weight: bold;
+    margin-bottom: 0.03cm;
 }
 
 .specs-bullets {
-    padding-left: 0.3cm;
+    padding-left: 0.2cm; 
     font-weight: bold;
     line-height: 1.05;
-    margin-bottom: 2px;
 }
 
 .specs-right {
-    width: 80%;
-    margin-left:3cm;
+    width: 60%;
     text-align: right;
 }
 
@@ -153,27 +149,27 @@ html, body {
 
 .compare-box {
     text-align: center;
-    width:13.36cm;
     padding-top: 0.35cm;
-    height: 1.9cm;
+    height: 1.8cm;
 }
 
 .compare-box-main {
-    font-size: 15.5pt;
-    font-weight: bold;
+    font-size: 13.9pt;
+    font-weight: inherit;
     padding-left: 0.9cm;
     padding-right: 0.9cm;
-    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     display: block;
     letter-spacing: 0.32px;
 }
 
 .compare-box-sub {
-    font-size: 13pt;
-    padding-left: 0.3cm;
-    padding-right: 0.3cm;
-    font-family: 'Arial Narrow', Arial, sans-serif;
-    font-weight: bold;
+    font-size: 11pt;
+    padding-left: 0.6cm;
+    padding-right: 0.6cm;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: inherit;
+    letter-spacing: 0.32px;
     display: block;
     margin-top: 0.1cm;
 }
@@ -183,16 +179,16 @@ html, body {
     padding-top: 0.1cm;
     margin-top:0.4cm;
     position: relative;
-    height:2.9cm;
-    width:13.4cm;
+    height:2.8cm;
+    width:13.3cm;
 }
 
 .cost-title {
-    font-size: 16pt;
+    font-size: 15pt;
     padding-left: 3.15cm;
     padding-right: 3.15cm;
-    font-family: 'Arial Narrow';
-    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: inherit;
     letter-spacing: 0.32px;
 }
 
@@ -206,7 +202,6 @@ html, body {
 .moving-pointer {
     position: absolute;
     height:1.8cm;
-    width:0;
     transform: translateX(-50%);
     transition: left 0.3s ease;
     text-align: center;
@@ -224,7 +219,7 @@ html, body {
 }
 
 .dollar-sign {
-    font-size: 38pt;
+    font-size: 32pt;
     padding-right:0.25cm;
     line-height: 1;
     display: flex;
@@ -232,9 +227,8 @@ html, body {
 }
 
 .display-costo {
-    font-size: 50pt;
+    font-size: 47pt;
     vertical-align: super;
-    height:1.7cm;
     margin-left: 2px;
 }
 
@@ -253,7 +247,7 @@ html, body {
     margin-bottom: 0.5cm;
     padding-left: 0.3cm;
     padding-bottom: 0.3cm;
-    width: 13.4cm;
+    width: 13.3cm;
     height: 2.1cm;
 }
 
@@ -264,8 +258,8 @@ html, body {
 }
 
     .ranges-table td {
-        padding-top: 2px;
-        padding-bottom: 2px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         vertical-align: middle;
         position: relative;
     }
@@ -293,10 +287,10 @@ html, body {
 .range-sidebar {
     width: 1.15cm;
     text-align: center;
-    font-weight: bold;
+    font-weight: normal;
     letter-spacing: 0.32px;
-    font-size: 9pt;
-    font-family: 'Arial Narrow';
+    font-size: 8.5pt;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding-left: 0;
     padding-right: 0;
     writing-mode: vertical-lr;
@@ -305,32 +299,30 @@ html, body {
 
 .range-label {
     width: 2.7cm;
-    height:0cm;
-    padding:0cm;
-
+    line-height: 1.1;
+    white-space: nowrap;
 }
 
 .range-label-inner {
     display: block;
     padding-left: 0.3cm;
     padding-right: 0.2cm;
-    font-weight: bold;
+    font-weight: normal;
     letter-spacing: 0.32px;
-    font-size: 9.5pt;
-    font-family: 'Arial Narrow';
+    font-size: 8.5pt;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .range-bar-cell {
     width: auto;
-    height:0.5cm;
     position: relative;
     padding-right: 0.3cm;
 }
 
 .track-outline {
     background-color: #000000;
-    height: 0.5cm;
-    border-radius:4px;
+    height: 18px;
+    border-radius: 10px;
     position: relative;
     width: 100%;
     overflow: hidden
@@ -346,27 +338,26 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 .track-text {
     color: #000000;
-    font-family: 'Arial Narrow';
-    font-weight: bold;
-    font-size: 14.5pt;
+    font-family:Arial;
+    font-weight:bold;
+    font-size: 12pt;
     padding: 0 6px;
     display: flex;
     align-items: center;
 }
 
 .kwh-box {
-    width: 6.38cm;
-    height: 2.22cm;
-    padding-left: 0.7cm;
+    width: 6.3cm;
+    height: 2.2cm;
     background-color: #000000;
     color: #ffffff;
     box-sizing: border-box;
-    margin-bottom: 0.5cm;
+    margin-bottom:0.5cm;
     margin: 0 auto;
     padding: 0;
     display: flex;
@@ -374,40 +365,37 @@ html, body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    margin-left: 3.7cm;
 }
 
 .kwh-line {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 0cm;
-    margin-top: -0.07cm;
+    gap: 0.18cm;
+    margin-top: -0.05cm;
 }
 
 .kwh-value {
-    font-size: 36pt;
+    font-size: 34pt;
     font-weight: 900;
     line-height: 1;
     display: inline-block;
-    margin-left: 1.3cm;
+    margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
 }
 
 .kwh-unit {
-    font-size: 12.8pt;
+    font-size: 11.5pt;
     letter-spacing: 0.32px;
     font-family: 'Arial Narrow';
-    font-weight: 700;
+    font-weight:700;
     line-height: 1;
-    margin-right: 1.1cm;
-    margin-left: .5cm;
     display: inline-block;
 }
 
 .kwh-subtitle {
-    font-size: 11pt;
+    font-size: 10pt;
     letter-spacing: 0.32px;
     font-family: 'Arial Narrow';
     font-weight: 600;
@@ -421,13 +409,13 @@ html, body {
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-    margin-top: 0.6cm;
+    margin-top: 0.5cm;
 }
 
 .left-section {
-    width: 13cm;
+    width: 11cm;
     padding-top:0.1cm;
-    padding-left:0.1cm;
+    padding-left:0.3cm;
     padding-right:0.1cm;
     display: flex;
     flex-direction: column;
@@ -435,8 +423,7 @@ html, body {
 }
 
 .footer-notes {
-    font-size: 9.3pt;
-    height:2.3cm;
+    font-size: 9pt;
     font-family:'Arial Narrow', Arial, sans-serif;
     width: 100%;
 }
@@ -449,49 +436,69 @@ html, body {
 
     .footer-notes li {
         position: relative;
+        margin-bottom: 2px;
     }
 
         .footer-notes li:before {
             content: "•";
             position: absolute;
-            left: -8px;
+            left: -10px;
             font-weight: bold;
         }
 
 .ftc-link {
-    font-family: 'Arial Narrow';
-    font-size: 15pt;
+    font-family: 'Arial', sans-serif;
+    font-size: 12pt;
     padding-left:3cm;
     font-weight: normal;
     text-align: center;
     width: 100%;
+    margin-top: 0px;
 }
 
 .energy-star-container {
     width: 4.3cm;
     display: flex;
-    padding-right: 0.3cm;
-    padding-left: 0.3cm;
-    margin-left:0.3cm;
+    padding-right:0.5cm;
+    padding-left:1cm;
     flex-direction: column;
     align-items: center;
 }
 
 .logo-pie {
     width: 2.3cm;
-    height:2.4cm;
     mix-blend-mode: multiply;
     filter: contrast(200%) grayscale(100%);
     display: block;
 }
 
 .part-number {
-    font-size: 8.5pt;
+    font-size: 8pt;
     font-family: 'Arial Narrow';
     font-weight: bold;
     margin-top: 0.1cm;
-    margin-right: 0.1cm;
     display: block;
     text-align: left;
 }
 
+/* =========================================================================
+   CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - USA
+   ========================================================================= */
+@media print {
+    body {
+        background-color: white;
+    }
+
+    .print-page {
+        width: 27.4cm !important;
+        height: 19.2cm !important;
+        page-break-after: always !important;
+        break-after: page !important;
+    }
+
+    .page-amarilla .usa-container {
+        width: 13.7cm !important;
+        height: 19.2cm !important;
+    }
+
+}
