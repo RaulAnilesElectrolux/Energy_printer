@@ -495,31 +495,3 @@ html, body {
     text-align: left;
 }
 
-/* =========================================================================
-   CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - USA
-   ========================================================================= */
-/*@media print {
-    body {
-        background-color:transparent;
-    }
-    .print-page {
-        margin-left: 0.3cm;
-        width: 27.8cm;
-        height: 18.8cm;
-        display: flex;
-        flex-direction: row;
-        page-break-after: always;
-        break-after: page;
-        page-break-after: always;
-        page-break-inside: avoid;
-        break-inside: avoid;
-        overflow: visible;
-        transform: translateX(0.6cm);
-    }
-
-    .page-amarilla .usa-container {
-        width: 13.9cm !important;
-        height: 18.8cm !important;
-    }
-
-}*/
