@@ -1,70 +1,69 @@
 ﻿@* =========================================================================
-   PARTIAL VIEW: _LabelCanada.cshtml
-   Contiene las DOS copias de la etiqueta blanca (Canada EnerGuide)
-   dentro de su .print-page, tal como aparecían en el archivo original.
-   Requiere que datosBlanco ya esté definido en el script global
-   (ver Formato4.cshtml) antes de que se ejecute renderEtiquetasBlancas.
-   ========================================================================= *@
+    PARTIAL VIEW: _LabelCanada.cshtml
+    Contiene las DOS copias de la etiqueta blanca (Canada EnerGuide)
+    dentro de su .print-page, tal como aparecían en el archivo original.
+    Requiere que datosBlanco ya esté definido en el script global
+    (ver Formato4.cshtml) antes de que se ejecute renderEtiquetasBlancas.
+    ========================================================================= *@
 
-    <div class="canada-container">
-        <div class="label">
-            <div class="canada">
-                <div class="imagen">
-                    <img src="~/Assets/Energuide2.png" width="97%" />
-                </div>
-                <div class="sub-title">Energy consumption / Consommation énergétique</div>
-                <div class="consumption">
-                    <div class="value val-model-kw"></div>
-                    <div class="unit">
-                        kWh
-                        <small>per year / par année</small>
-                    </div>
-                </div>
-                <div class="model-arrow">
-                    <div class="arrow"></div>
-                    <div class="this-model">This Model / Ce Modèle</div>
-                </div>
-                <div class="scale">
-                    <div class="bar"></div>
-                    <div class="scale-values">
-                        <span class="inicio"><span class="val-low-kw"></span> kWh</span>
-                        <span class="final"><span class="val-high-kw"></span> kWh</span>
-                    </div>
-                </div>
-                <div class="energy-info">
-                    <div style="font-size: 17px; font-weight:600">Uses least energy /<br>Consomme le moins d'énergie</div>
-                    <div class="type">
-                        <h2 style="width: max-content; margin: 0; font-family: 'Arial Narrow', Arial, sans-serif; font-weight: 800" class="val-type">Type</h2>
-                    </div>
-                    <div style="text-align:right; font-size: 17px; font-weight:600">Uses most energy /<br>Consomme le plus d'énergie</div>
-                </div>
-                <div class="type-section">
-                    <div style="text-align: left; font-size: 14px; font-family: 'Elms Sans'">Similar models compared</div>
-                    <div class="volume">
-                        <span class="val-range" style="font-family: 'Arial Narrow', Arial, sans-serif; font-size: 16px"></span><br>
-                        volume in ft.³ / volume en pi³
-                    </div>
-                    <div style="text-align: right; font-size: 14px; font-family: 'Elms Sans'">Modèles similaires comparés</div>
-                </div>
-                <div class="model">
-                    <div class="label-title" style="font-family: 'Elms Sans'">Model number</div>
-                    <div class="number val-model" style="font-family: 'Arial Narrow', Arial, sans-serif "></div>
-                    <div class="label-title" style="text-align: right; font-family: 'Elms Sans'">Numéro du modèle</div>
-                </div>
-                <div class="warning">
-                    Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36) <br />
-                    Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)
+
+    <div class="label">
+        <div class="canada">
+            <div class="imagen">
+                <img src="~/Assets/Energuide2.png" width="96%" />
+            </div>
+            <div class="sub-title">Energy consumption / Consommation énergétique</div>
+            <div class="consumption">
+                <div class="value val-model-kw"></div>
+                <div class="unit">
+                    kWh
+                    <p>per year / par année</p>
                 </div>
             </div>
-            <div class="bottom">
-                <img src="~/Assets/CanStar2.jpg" style="margin-left:0.23in; margin-right:0.23in; width: 0.875in; height: 1in; object-fit: fill" />
-                <div class="bottom-section">
-                    <div class="bottom-text">
-                        The Energy Star® mark on this EnerGuide label signifies that this is an energy-efficient appliance. Its energy performance meets or exceeds the Government of Canada’s high efficiency levels. Use the EnerGuide rating to determine how this appliance compares to other similar models.
-                    </div>
-                    <div class="bottom-text">
-                        La marque Energy Star® sur cette étiquette Énerguide signifie que l’appareil es éconergétique et que son rendement énergétique satisfait ou dépasse les niveaux de haute efficacité du gouvernement du Canada. Utilisez la cote Énerguide afin de comparer le rendement De l’appareil avec celui d’autres modèles similaires.
-                    </div>
+            <div class="model-arrow">
+                <div class="arrow"></div>
+                <div class="this-model">This Model / Ce Modèle</div>
+            </div>
+            <div class="scale">
+                <div class="bar"></div>
+                <div class="scale-values">
+                    <span class="inicio"><span class="val-low-kw"></span> kWh</span>
+                    <span class="final"><span class="val-high-kw"></span> kWh</span>
+                </div>
+            </div>
+            <div class="energy-info">
+                <div style="font-size: 17px; font-weight:600">Uses least energy /<br>Consomme le moins d'énergie</div>
+                <div class="type">
+                    <h2 style="width: max-content; margin: 0; font-family: 'Arial Narrow', Arial, sans-serif; font-weight: 800; font-size: 24px" class="val-type">Type</h2>
+                </div>
+                <div style="text-align:right; font-size: 17px; font-weight:600">Uses most energy /<br>Consomme le plus d'énergie</div>
+            </div>
+            <div class="type-section">
+                <div style="text-align: left; font-size: 12px; font-family: 'Elms Sans'">Similar models compared</div>
+                <div class="volume">
+                    <span class="val-range" style="font-family: 'Arial Narrow', Arial, sans-serif; font-size: 16px"></span><br>
+                    volume in ft.³ / volume en pi³
+                </div>
+                <div style="text-align: right; font-size: 12px; font-family: 'Elms Sans'">Modèles similaires comparés</div>
+            </div>
+            <div class="model">
+                <div class="label-title" style="font-family: 'Elms Sans'; font-size: 12px">Model number</div>
+                <div class="number val-model" style="font-family: 'Arial Narrow', Arial, sans-serif "></div>
+                <div class="label-title" style="text-align: right; font-family: 'Elms Sans'; font-size: 12px">Numéro du modèle</div>
+            </div>
+            <div class="warning">
+                Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36) <br />
+                Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)
+            </div>
+        </div>
+        <div class="bottom">
+            <img src="~/Assets/CanStar2.jpg" style="margin-left:0.3in; margin-right:0.4in; width: 0.78in; height: 0.95in; object-fit: fill" />
+            <div class="bottom-section">
+                <div class="bottom-text">
+                    The Energy Star® mark on this EnerGuide label signifies that this is <br />an energy-efficient appliance. Its energy performance meets or <br />exceeds the Government of Canada’s high efficiency levels. Use the <br />EnerGuide rating to determine how this appliance compares to other <br />similar models.
+                </div>
+                <div class="bottom-text">
+                    La marque Energy Star® sur cette étiquette Énerguide signifie <br />que l’appareil es éconergétique et que son rendement énergétique <br />satisfait ou dépasse les niveaux de haute efficacité du gouvernement <br />du Canada. Utilisez la cote Énerguide afin de comparer le rendement <br />De l’appareil avec celui d’autres modèles similaires.
                 </div>
             </div>
         </div>
