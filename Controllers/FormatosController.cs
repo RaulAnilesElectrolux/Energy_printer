@@ -26,9 +26,9 @@ namespace Energy_printer.Controllers
             {
                 var datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == 1);
 
-                var configMargin = db.CONFIG_DATA_LABEL.ToList();
+                var configDataLabel = db.CONFIG_DATA_LABEL.ToList();
 
-                ViewBag.ConfigMargin = configMargin;
+                ViewBag.ConfigDataLabel = configDataLabel;
 
                 return View(datosLabel);
             }

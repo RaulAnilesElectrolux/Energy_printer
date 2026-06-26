@@ -252,6 +252,7 @@
     <Content Include="Assets\HelveticaNeue-Medium.otf" />
     <Content Include="Assets\HelveticaNeueBold.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Formato4.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
