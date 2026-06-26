@@ -1,43 +1,78 @@
-using System.Web.Mvc;
 using Energy_printer.Models;
 using Energy_printer.Services;
 using PdfSharp.Pdf;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Energy_printer.Controllers
 {
     public class LabelController : Controller
     {
-        // ── GET /Label/Index ──────────────────────────────────────────────────
-        // Muestra el PDF nativamente en el navegador (sin visor propio)
-        public ActionResult Index(string model = null)
+        public ActionResult Index(int id = 1)
         {
-            var canadaService = new EnergyLabelServiceCanada(Server.MapPath("~/Content/"));
-            var usaService = new EnergyLabelServiceUSA(Server.MapPath("~/Content/"));
-
-            var doc = new PdfDocument();
-
             using (var db = new JZAPPROVALEntities())
             {
-                var datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == 1);
+                DATA_LABEL datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == id);
 
-                var canadaData = canadaService.FromDataLabel(datosLabel);
-                var usaData = usaService.FromDataLabel(datosLabel);
+                if (datosLabel == null)
+                    return HttpNotFound();
+
+                EnergyLabelServiceUSA usaService = new EnergyLabelServiceUSA(Server.MapPath("~/Content/"));
+                EnergyLabelServiceCanada canadaService = new EnergyLabelServiceCanada(Server.MapPath("~/Content/"));
+
+                EnergyLabelDataUSA usaData = usaService.FromDataLabel(datosLabel);
+                EnergyLabelDataCanada canadaData = canadaService.FromDataLabel(datosLabel);
+
+                ViewBag.USA = usaData;
+                ViewBag.Canada = canadaData;
+
+                return View();
+            }
+        }
+
+        public ActionResult PreviewPdf(int id = 1)
+        {
+            byte[] pdf = BuildPdf(id);
+            return File(pdf, "application/pdf");
+        }
+
+        public ActionResult DownloadPdf(int id = 1)
+        {
+            byte[] pdf = BuildPdf(id);
+            return File(pdf, "application/pdf", "EnergyLabels.pdf");
+        }
+
+        private byte[] BuildPdf(int id)
+        {
+            using (var db = new JZAPPROVALEntities())
+            {
+                DATA_LABEL datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == id);
+
+                if (datosLabel == null)
+                    return new byte[0];
+
+                List<CONFIG_DATA_LABEL> config = db.CONFIG_DATA_LABEL.ToList();
+
+                EnergyLabelServiceUSA usaService = new EnergyLabelServiceUSA(Server.MapPath("~/Content/"));
+                EnergyLabelServiceCanada canadaService = new EnergyLabelServiceCanada(Server.MapPath("~/Content/"));
+
+                EnergyLabelDataUSA usaData = usaService.FromDataLabel(datosLabel);
+                EnergyLabelDataCanada canadaData = canadaService.FromDataLabel(datosLabel);
+
+                PdfDocument doc = new PdfDocument();
+                doc.Info.Title = "Energy Labels";
+
+                usaService.AddUSASheet(doc, usaData, config);
 
                 canadaService.AddCanadaPage(doc, canadaData);
                 canadaService.AddCanadaPage(doc, canadaData);
 
-                usaService.AddUSAPage(doc, usaData);
-                usaService.AddUSAPage(doc, usaData);
-
-                using (var stream = new MemoryStream())
+                using (MemoryStream stream = new MemoryStream())
                 {
                     doc.Save(stream, false);
-                    return File(stream.ToArray(), "application/pdf");
+                    return stream.ToArray();
                 }
             }
         }
