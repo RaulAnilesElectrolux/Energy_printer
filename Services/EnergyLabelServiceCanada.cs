@@ -79,31 +79,24 @@ namespace Energy_printer.Services
                 gfx.DrawImage(logoEner, logoX, y, logoW, logoH);
                 y += logoH + In(0.10);
             }
-            else
-            {
-                gfx.DrawRectangle(XBrushes.Black, x, y, cW, In(0.7));
-                gfx.DrawString("ENERGUIDE", new XFont("Arial", 28, XFontStyleEx.Bold),
-                    XBrushes.White, new XRect(x, y, cW, In(0.7)), FmtMC);
-                y += In(0.8);
-            }
 
             gfx.DrawString("Energy consumption / Consommation énergétique",
-                new XFont("Arial", 12, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(x + (x/3), y, cW, In(0.25)), FmtMC);
+                new XFont("HelveticaNeue", 11.5, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + (x/2.98), y, cW, In(0.25)), FmtMC);
             y += In(0.30);
 
             double kwhY = y;
             double kwhNumW = cW * 0.55;
             gfx.DrawString(d.MODEL_KW.ToString(),
-                new XFont("Arial Narrow", 55, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(x - In(0.4), kwhY, kwhNumW, In(0.85)), FmtBR);
+                new XFont("HelveticaNeue", 45, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x - In(0.35), kwhY, kwhNumW, In(0.85)), FmtBR);
 
-            double unitX = x * 0.70 + kwhNumW + In(0.1);
+            double unitX = x * 0.70 + kwhNumW;
             gfx.DrawString("kWh",
-                new XFont("Arial", 30, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("HelveticaNeue", 30, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(unitX, kwhY + In(0.26), cW * 0.3, In(0.45)), FmtTL);
             gfx.DrawString("per year / par année",
-                new XFont("Arial", 12, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial", 11.8, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(unitX, kwhY + In(0.68), cW * 0.3, In(0.3)), FmtTL);
             y += In(1.1);
 
@@ -121,7 +114,7 @@ namespace Energy_printer.Services
             }, XFillMode.Winding);
 
             gfx.DrawString("This Model / Ce Modèle",
-                new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial", 9, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(arrowX + In(0.2), y * 0.95, cW * 0.5, In(0.22)), FmtML);
             y += In(0.30);
 
@@ -163,7 +156,7 @@ namespace Energy_printer.Services
             tfUle.DrawString(textoUle, fuenteUle, XBrushes.Black, rectanguloUle);
 
             // 2. TYPE (Centro)
-            gfx.DrawString(d.TYPE.ToUpper(),
+            gfx.DrawString(d.TYPE,
                 new XFont("Arial Narrow", 16, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.3, y - In(0.05), cW * 0.4, rowH), FmtMC);
 
@@ -184,7 +177,7 @@ namespace Energy_printer.Services
 
             // Laterales en fuente pequeña, solo una palabra clave
             string textoSimEn = "Similar models \ncompared";
-            XFont fuenteSimEn = new XFont("ElmsSans", 9, XFontStyleEx.Regular);
+            XFont fuenteSimEn = new XFont("Arial Narrow", 10, XFontStyleEx.Regular);
             XRect rectanguloSimEn = new XRect(x, y, cW * 0.25, rowSimilarH);
 
             XTextFormatter tfSimEn = new XTextFormatter(gfx);
@@ -193,7 +186,7 @@ namespace Energy_printer.Services
 
 
             // 2. Textos centrales (Rango y Volumen)
-            gfx.DrawString(d.RANGE.ToUpper(),
+            gfx.DrawString(d.RANGE,
                 new XFont("Arial Narrow", 11.5, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.15, y, cW * 0.64, In(0.20)), FmtTC);
 
@@ -204,7 +197,7 @@ namespace Energy_printer.Services
 
             // 3. Texto derecho (Francés) en multilínea
             string textoSimFr = "Modèles similaires\ncomparés";
-            XFont fuenteSimFr = new XFont("ElmsSans", 9, XFontStyleEx.Regular);
+            XFont fuenteSimFr = new XFont("Arial Narrow", 10, XFontStyleEx.Regular);
             XRect rectanguloSimFr = new XRect(x + cW * 0.80 - (cW * 0.07), y, cW * 0.25, rowSimilarH);
 
             XTextFormatter tfSimFr = new XTextFormatter(gfx);
@@ -217,7 +210,7 @@ namespace Energy_printer.Services
             gfx.DrawString("Model number",
                 new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
                 new XRect(x, y + In(0.1), cW * 0.35, In(0.35)), FmtTL);
-            gfx.DrawString(d.MODEL.ToUpper(),
+            gfx.DrawString(d.MODEL,
                 new XFont("Arial Narrow", 16, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.2, y, cW * 0.6, In(0.35)), FmtMC);
             gfx.DrawString("Numéro du modèle",

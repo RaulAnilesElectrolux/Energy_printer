@@ -101,6 +101,18 @@ public class CustomFontResolver : IFontResolver
                 return new FontResolverInfo("ElmsSans-Regular");
             }
 
+            if (familyName.Equals("HelveticaNeue", StringComparison.OrdinalIgnoreCase))
+            {
+                if (isBold && isItalic)
+                    return new FontResolverInfo("HelveticaNeueBold");
+                if (isBold)
+                    return new FontResolverInfo("HelveticaNeueBold");
+                if (isItalic)
+                    return new FontResolverInfo("HelveticaNeueMedium");
+
+                return new FontResolverInfo("HelveticaNeueMedium");
+            }
+
             // fallback
             return new FontResolverInfo("arial");
         }

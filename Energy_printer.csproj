@@ -262,6 +262,9 @@
     <Content Include="fonts\ARIALNBI.TTF" />
     <Content Include="fonts\ElmsSans-Regular.ttf" />
     <Content Include="fonts\ElmsSans-SemiBold.ttf" />
+    <Content Include="fonts\HelveticaNeue-Medium.otf" />
+    <Content Include="fonts\HelveticaNeueBold.ttf" />
+    <Content Include="fonts\HelveticaNeueMedium.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
