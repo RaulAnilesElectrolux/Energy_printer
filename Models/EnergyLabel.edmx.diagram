@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bc3293d45c9d4823bc7dcc4240328be4" Name="Diagram1">
+      <Diagram DiagramId="bc3293d45c9d4823bc7dcc4240328be4" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="JZAPPROVALModel.DATA_LABEL" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JZAPPROVALModel.CONFIG_DATA_LABEL" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

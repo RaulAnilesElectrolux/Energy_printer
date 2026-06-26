@@ -4,39 +4,54 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="JZAPPROVALModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="JZAPPROVALModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CONFIG_DATA_LABEL">
+          <Key>
+            <PropertyRef Name="ID_LABEL" />
+          </Key>
+          <Property Name="ID_LABEL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LABEL_TYPE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MARG_LEFT_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_RIGHT_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_TOP_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_BOTTOM_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_LEFT_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_RIGHT_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_TOP_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_BOTTOM_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="UNIT" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="DATA_LABEL">
           <Key>
             <PropertyRef Name="ID_LABEL" />
           </Key>
           <Property Name="ID_LABEL" Type="int" Nullable="false" />
-          <Property Name="LABEL_NAME" Type="nchar" MaxLength="10" />
-          <Property Name="REF_TYPE" Type="nvarchar" MaxLength="50" />
-          <Property Name="DEFROST_SYSTEM" Type="nvarchar" MaxLength="50" />
-          <Property Name="DOORTYPE" Type="nvarchar" MaxLength="50" />
-          <Property Name="ICE_SERVICE" Type="nvarchar" MaxLength="50" />
-          <Property Name="CUST_NAME" Type="nvarchar" MaxLength="50" />
-          <Property Name="MODEL" Type="nvarchar" MaxLength="50" />
-          <Property Name="CAB_SIZE" Type="nvarchar" MaxLength="50" />
-          <Property Name="ENERGY_COST" Type="int" />
-          <Property Name="LOW_SIMILAR_MODEL" Type="int" />
-          <Property Name="HIGH_SIMILAR_MODEL" Type="int" />
-          <Property Name="LOW_AMOUNT" Type="int" />
-          <Property Name="HIGH_AMOUNT" Type="int" />
-          <Property Name="ELECTRICITY_USE" Type="int" />
-          <Property Name="ENERGY_LOGO" Type="char" MaxLength="1" />
-          <Property Name="PART_NUMBER" Type="nvarchar" MaxLength="50" />
-          <Property Name="MODEL_KW" Type="int" />
-          <Property Name="LOW_KW" Type="int" />
-          <Property Name="HIGH_KW" Type="int" />
-          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
-          <Property Name="RANGE" Type="nvarchar" MaxLength="50" />
+          <Property Name="LABEL_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="REF_TYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DEFROST_SYSTEM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DOORTYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ICE_SERVICE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CUST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MODEL" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CAB_SIZE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ENERGY_COST" Type="int" Nullable="false" />
+          <Property Name="LOW_SIMILAR_MODEL" Type="int" Nullable="false" />
+          <Property Name="HIGH_SIMILAR_MODEL" Type="int" Nullable="false" />
+          <Property Name="LOW_AMOUNT" Type="int" Nullable="false" />
+          <Property Name="HIGH_AMOUNT" Type="int" Nullable="false" />
+          <Property Name="ENERGY_LOGO" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PART_NUMBER" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MODEL_KW" Type="int" Nullable="false" />
+          <Property Name="LOW_KW" Type="int" Nullable="false" />
+          <Property Name="HIGH_KW" Type="int" Nullable="false" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RANGE" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityContainer Name="JZAPPROVALModelStoreContainer">
+          <EntitySet Name="CONFIG_DATA_LABEL" EntityType="Self.CONFIG_DATA_LABEL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DATA_LABEL" EntityType="Self.DATA_LABEL" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="JZAPPROVALModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -45,30 +60,47 @@
             <PropertyRef Name="ID_LABEL" />
           </Key>
           <Property Name="ID_LABEL" Type="Int32" Nullable="false" />
-          <Property Name="LABEL_NAME" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="REF_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DEFROST_SYSTEM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DOORTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ICE_SERVICE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CUST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MODEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CAB_SIZE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ENERGY_COST" Type="Int32" />
-          <Property Name="LOW_SIMILAR_MODEL" Type="Int32" />
-          <Property Name="HIGH_SIMILAR_MODEL" Type="Int32" />
-          <Property Name="LOW_AMOUNT" Type="Int32" />
-          <Property Name="HIGH_AMOUNT" Type="Int32" />
-          <Property Name="ENERGY_LOGO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="PART_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MODEL_KW" Type="Int32" />
-          <Property Name="LOW_KW" Type="Int32" />
-          <Property Name="HIGH_KW" Type="Int32" />
-          <Property Name="TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RANGE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LABEL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="REF_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DEFROST_SYSTEM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DOORTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ICE_SERVICE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CUST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MODEL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CAB_SIZE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ENERGY_COST" Type="Int32" Nullable="false" />
+          <Property Name="LOW_SIMILAR_MODEL" Type="Int32" Nullable="false" />
+          <Property Name="HIGH_SIMILAR_MODEL" Type="Int32" Nullable="false" />
+          <Property Name="LOW_AMOUNT" Type="Int32" Nullable="false" />
+          <Property Name="HIGH_AMOUNT" Type="Int32" Nullable="false" />
+          <Property Name="ENERGY_LOGO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PART_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MODEL_KW" Type="Int32" Nullable="false" />
+          <Property Name="LOW_KW" Type="Int32" Nullable="false" />
+          <Property Name="HIGH_KW" Type="Int32" Nullable="false" />
+          <Property Name="TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RANGE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityContainer Name="JZAPPROVALEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DATA_LABEL" EntityType="Self.DATA_LABEL" />
+          <EntitySet Name="CONFIG_DATA_LABEL" EntityType="JZAPPROVALModel.CONFIG_DATA_LABEL" />
         </EntityContainer>
+        <EntityType Name="CONFIG_DATA_LABEL">
+          <Key>
+            <PropertyRef Name="ID_LABEL" />
+          </Key>
+          <Property Name="ID_LABEL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LABEL_TYPE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MARG_LEFT_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_RIGHT_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_TOP_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_BOTTOM_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_LEFT_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_RIGHT_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_TOP_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_BOTTOM_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="UNIT" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -99,6 +131,23 @@
                 <ScalarProperty Name="HIGH_KW" ColumnName="HIGH_KW" />
                 <ScalarProperty Name="TYPE" ColumnName="TYPE" />
                 <ScalarProperty Name="RANGE" ColumnName="RANGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONFIG_DATA_LABEL">
+            <EntityTypeMapping TypeName="JZAPPROVALModel.CONFIG_DATA_LABEL">
+              <MappingFragment StoreEntitySet="CONFIG_DATA_LABEL">
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="MARG_BOTTOM_2" ColumnName="MARG_BOTTOM_2" />
+                <ScalarProperty Name="MARG_TOP_2" ColumnName="MARG_TOP_2" />
+                <ScalarProperty Name="MARG_RIGHT_2" ColumnName="MARG_RIGHT_2" />
+                <ScalarProperty Name="MARG_LEFT_2" ColumnName="MARG_LEFT_2" />
+                <ScalarProperty Name="MARG_BOTTOM_1" ColumnName="MARG_BOTTOM_1" />
+                <ScalarProperty Name="MARG_TOP_1" ColumnName="MARG_TOP_1" />
+                <ScalarProperty Name="MARG_RIGHT_1" ColumnName="MARG_RIGHT_1" />
+                <ScalarProperty Name="MARG_LEFT_1" ColumnName="MARG_LEFT_1" />
+                <ScalarProperty Name="LABEL_TYPE" ColumnName="LABEL_TYPE" />
+                <ScalarProperty Name="ID_LABEL" ColumnName="ID_LABEL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

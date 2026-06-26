@@ -26,5 +26,6 @@ namespace Energy_printer.Models
         }
     
         public virtual DbSet<DATA_LABEL> DATA_LABEL { get; set; }
+        public virtual DbSet<CONFIG_DATA_LABEL> CONFIG_DATA_LABEL { get; set; }
     }
 }

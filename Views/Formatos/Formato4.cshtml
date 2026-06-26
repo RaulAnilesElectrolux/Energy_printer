@@ -44,6 +44,21 @@
         ENERGY_LOGO = Model.ENERGY_LOGO
     }));
         // =========================================================================
+        // CONFIGURACIÓN DE MÁRGENES DESDE BASE DE DATOS
+        const configMargenes = @Html.Raw(Json.Encode(new
+        {
+            MARG_LEFT_1 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_LEFT_1 : 0.400,
+            MARG_RIGHT_1 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_RIGHT_1 : 0.200,
+            MARG_TOP_1 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_TOP_1 : 3.900,
+            MARG_BOTTOM_1 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_BOTTOM_1 : 0.400,
+
+            MARG_LEFT_2 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_LEFT_2 : 0.200,
+            MARG_RIGHT_2 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_RIGHT_2 : 0.400,
+            MARG_TOP_2 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_TOP_2 : 3.900,
+            MARG_BOTTOM_2 = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.MARG_BOTTOM_2 : 0.400,
+
+            UNIT = ViewBag.ConfigDataLabel != null ? ViewBag.ConfigDataLabel.UNIT : "cm"
+        }));
     </script>
 
     <link rel="stylesheet" href="~/Content/_LabelUSA.css" />
@@ -65,6 +80,27 @@
 </body>
 
 <script>
+    function aplicarMargenesDesdeBD() {
+        const unidad = configMargenes.UNIT || 'cm';
+
+        const primeraEtiqueta = document.querySelector('.page-amarilla .usa-container:first-child');
+        const segundaEtiqueta = document.querySelector('.page-amarilla .usa-container:last-child');
+
+        if (primeraEtiqueta) {
+            primeraEtiqueta.style.paddingTop = configMargenes.MARG_TOP_1 + unidad;
+            primeraEtiqueta.style.paddingBottom = configMargenes.MARG_BOTTOM_1 + unidad;
+            primeraEtiqueta.style.paddingLeft = configMargenes.MARG_LEFT_1 + unidad;
+            primeraEtiqueta.style.paddingRight = configMargenes.MARG_RIGHT_1 + unidad;
+        }
+
+        if (segundaEtiqueta) {
+            segundaEtiqueta.style.paddingTop = configMargenes.MARG_TOP_2 + unidad;
+            segundaEtiqueta.style.paddingBottom = configMargenes.MARG_BOTTOM_2 + unidad;
+            segundaEtiqueta.style.paddingLeft = configMargenes.MARG_LEFT_2 + unidad;
+            segundaEtiqueta.style.paddingRight = configMargenes.MARG_RIGHT_2 + unidad;
+        }
+    }
+
     // LÓGICA DE RENDERIZADO Y CÁLCULOS AUTOMÁTICOS
     function renderEtiquetasAmarillas(pagina) {
         const d = datosAmarillo;
@@ -100,35 +136,105 @@
         if (partno) partno.innerText = 'PART NO. ' + d.PART_NUMBER;
 
         const logo = pagina.querySelector('.logo-energy-star');
+
         if (logo) {
             logo.style.visibility = (d.ENERGY_LOGO === 'Y' || d.ENERGY_LOGO === 'y') ? 'visible' : 'hidden';
         }
 
-        const globalMin = Math.min(d.LOW_AMOUNT, d.LOW_SIMILAR_MODEL, d.ENERGY_COST);
-        const globalMax = Math.max(d.HIGH_AMOUNT, d.HIGH_SIMILAR_MODEL, d.ENERGY_COST);
+        const toNumber = value => {
+            if (value === null || value === undefined) return 0;
+            return Number(String(value).replace(/[^0-9.-]/g, '')) || 0;
+        };
+
+        const lowAmount = toNumber(d.LOW_AMOUNT);
+        const highAmount = toNumber(d.HIGH_AMOUNT);
+        const lowSimilar = toNumber(d.LOW_SIMILAR_MODEL);
+        const highSimilar = toNumber(d.HIGH_SIMILAR_MODEL);
+        const energyCost = toNumber(d.ENERGY_COST);
+
+        const globalMin = Math.min(lowAmount, lowSimilar);
+        const globalMax = Math.max(highAmount, highSimilar);
         const rango = globalMax - globalMin;
+
         const pct = v => rango === 0 ? 0 : ((v - globalMin) / rango) * 100;
+        const clamp = v => Math.max(0, Math.min(100, v));
 
         const barraAll = pagina.querySelector('.barra-all');
+
         if (barraAll) {
-            barraAll.style.left = pct(d.LOW_AMOUNT) + '%';
-            barraAll.style.width = (pct(d.HIGH_AMOUNT) - pct(d.LOW_AMOUNT)) + '%';
+            const leftAll = clamp(pct(lowAmount));
+            const rightAll = clamp(pct(highAmount));
+
+            barraAll.style.left = leftAll + '%';
+            barraAll.style.width = Math.max(0, rightAll - leftAll) + '%';
         }
 
         const barraSim = pagina.querySelector('.barra-similar');
+
         if (barraSim) {
-            barraSim.style.left = pct(d.LOW_SIMILAR_MODEL) + '%';
-            barraSim.style.width = (pct(d.HIGH_SIMILAR_MODEL) - pct(d.LOW_SIMILAR_MODEL)) + '%';
+            const leftSim = clamp(pct(lowSimilar));
+            const rightSim = clamp(pct(highSimilar));
+
+            barraSim.style.left = leftSim + '%';
+            barraSim.style.width = Math.max(0, rightSim - leftSim) + '%';
         }
 
         const separador = pagina.querySelector('.separador-sim');
+
         if (separador) {
-            separador.style.left = pct(d.LOW_SIMILAR_MODEL) + '%';
+            separador.style.left = clamp(pct(lowSimilar)) + '%';
         }
 
         const indicador = pagina.querySelector('.indicador-maestro');
-        if (indicador) {
-            indicador.style.left = Math.max(0, Math.min(100, pct(d.ENERGY_COST))) + '%';
+        const contenedorIndicador = pagina.querySelector('.cost-scale-align');
+        const barraReal = pagina.querySelector('.track-outline');
+        const costBox = pagina.querySelector('.cost-box');
+
+        if (indicador && contenedorIndicador && barraReal && costBox) {
+            const posicionReal = pct(energyCost);
+            const posicionVisual = clamp(posicionReal);
+
+            const barraRect = barraReal.getBoundingClientRect();
+            const contenedorRect = contenedorIndicador.getBoundingClientRect();
+
+            const xBarra = barraRect.left - contenedorRect.left;
+            const anchoBarra = barraRect.width;
+
+            const posicionPx = xBarra + ((posicionVisual / 100) * anchoBarra);
+
+            indicador.style.left = posicionPx + 'px';
+            indicador.style.transform = 'none';
+
+            const valorCosto = indicador.querySelector('.cost-value');
+
+            if (valorCosto) {
+                /*
+                    Centramos el número sobre la flecha.
+                    Después medimos si se sale del cost-box.
+                    Si se sale, lo corregimos en pixeles.
+                */
+
+                valorCosto.style.transform = 'translateX(-50%)';
+
+                requestAnimationFrame(() => {
+                    const valorRect = valorCosto.getBoundingClientRect();
+                    const cajaRect = costBox.getBoundingClientRect();
+
+                    let ajustePx = 0;
+
+                    // Si el número se sale por la izquierda
+                    if (valorRect.left < cajaRect.left) {
+                        ajustePx = cajaRect.left - valorRect.left + 4;
+                    }
+
+                    // Si el número se sale por la derecha
+                    if (valorRect.right > cajaRect.right) {
+                        ajustePx = cajaRect.right - valorRect.right - 4;
+                    }
+
+                    valorCosto.style.transform = `translateX(calc(-50% + ${ajustePx}px))`;
+                });
+            }
         }
     }
 
