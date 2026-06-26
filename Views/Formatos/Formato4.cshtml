@@ -162,6 +162,7 @@
         const menorAlMinimo = d.MODEL_KW < d.LOW_KW;
 
         const arrow = contenedor.querySelector('.arrow');
+        const thisModel = contenedor.querySelector('.tmarr');
         const modelArrow = contenedor.querySelector('.model-arrow');
         const scaleEl = contenedor.querySelector('.scale');
 
@@ -182,24 +183,26 @@
                 // (scaleRect ya incluye el padding-inline de 2px, así que borde de barra = scaleRect.left + 2px)
                 const margenFlecha = distanciaHastaEscala + 2 - 2; // +2 por padding-inline, -2px antes de la barra
 
-                arrow.style.marginLeft = Math.max(0, margenFlecha) + 'px';
+                arrow.style.marginLeft = -2.5 + '%';
 
                 // Texto al lado derecho (normal), flecha a la izquierda del todo
-                modelArrow.style.flexDirection = 'row';
-                modelArrow.style.justifyContent = 'flex-start';
+                //modelArrow.style.flexDirection = 'row';
+                //modelArrow.style.justifyContent = 'flex-start';
 
             } else {
-                const pctClamped = Math.max(0, Math.min(100, porcentaje));
+                const pctClamped = Math.max(0, Math.min(100, porcentaje)) - 2.4;
                 arrow.style.marginLeft = pctClamped + '%';
+                thisModel.style.marginLeft = pctClamped + 2.5 + '%';
 
                 // Si supera el 70% de la escala, el texto "This Model / Ce Modèle"
                 // se mueve al lado izquierdo de la flecha para no salirse de la etiqueta
-                if (porcentaje > 90) {
-                    modelArrow.style.flexDirection = 'row-reverse';
-                    modelArrow.style.justifyContent = 'flex-end';
+                if (porcentaje > 60) {
+                    thisModel.style.marginLeft = 60 + '%';
+                    //modelArrow.style.flexDirection = 'row-reverse';
+                    //modelArrow.style.justifyContent = 'flex-end';
                 } else {
-                    modelArrow.style.flexDirection = 'row';
-                    modelArrow.style.justifyContent = 'flex-start';
+                    //modelArrow.style.flexDirection = 'row';
+                    //modelArrow.style.justifyContent = 'flex-start';
                 }
             }
         }
