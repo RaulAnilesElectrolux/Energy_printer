@@ -36,16 +36,9 @@ namespace Energy_printer.Services
             };
         }
 
-        public void AddUSASheet(PdfDocument doc, EnergyLabelDataUSA d, List<CONFIG_DATA_LABEL> config)
+        public void AddUSASheet(PdfDocument doc, EnergyLabelDataUSA d, object config)
         {
-            CONFIG_DATA_LABEL usaConfig = null;
-
-            if (config != null)
-            {
-                usaConfig = config.FirstOrDefault(x =>
-                    x.LABEL_TYPE != null &&
-                    x.LABEL_TYPE.Equals("USA", StringComparison.OrdinalIgnoreCase));
-            }
+            object usaConfig = GetUsaConfig(config);
 
             var page = doc.AddPage();
             page.Width = XUnit.FromCentimeter(27.8);
@@ -83,7 +76,7 @@ namespace Energy_printer.Services
         private void DrawUSALabel(
             XGraphics gfx,
             EnergyLabelDataUSA d,
-            CONFIG_DATA_LABEL cfg,
+            object cfg,
             double x,
             double y,
             double w,
@@ -149,13 +142,49 @@ namespace Energy_printer.Services
             DrawFooter(gfx, d, X, Y, CW, CH, fFooter, fFtc, fPart, black);
         }
 
-        private double GetCfg(CONFIG_DATA_LABEL cfg, string propertyName, double fallback)
+        private object GetUsaConfig(object config)
         {
-            if (cfg == null) return fallback;
+            if (config == null)
+                return null;
+
+            var enumerable = config as System.Collections.IEnumerable;
+
+            if (enumerable == null)
+                return null;
+
+            foreach (object item in enumerable)
+            {
+                if (item == null)
+                    continue;
+
+                var prop = item.GetType().GetProperty("LABEL_TYPE");
+
+                if (prop == null)
+                    continue;
+
+                object value = prop.GetValue(item, null);
+
+                if (value == null)
+                    continue;
+
+                string labelType = Convert.ToString(value);
+
+                if (labelType.Equals("USA", StringComparison.OrdinalIgnoreCase))
+                    return item;
+            }
+
+            return null;
+        }
+
+        private double GetCfg(object cfg, string propertyName, double fallback)
+        {
+            if (cfg == null)
+                return fallback;
 
             var prop = cfg.GetType().GetProperty(propertyName);
 
-            if (prop == null) return fallback;
+            if (prop == null)
+                return fallback;
 
             object value = prop.GetValue(cfg, null);
 

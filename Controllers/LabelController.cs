@@ -53,7 +53,7 @@ namespace Energy_printer.Controllers
                 if (datosLabel == null)
                     return new byte[0];
 
-                List<CONFIG_DATA_LABEL> config = db.CONFIG_DATA_LABEL.ToList();
+                var config = db.CONFIG_DATA_LABEL.ToList();
 
                 EnergyLabelServiceUSA usaService = new EnergyLabelServiceUSA(Server.MapPath("~/Content/"));
                 EnergyLabelServiceCanada canadaService = new EnergyLabelServiceCanada(Server.MapPath("~/Content/"));
