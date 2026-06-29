@@ -148,7 +148,7 @@ namespace Energy_printer.Services
 
             // 1. Ule (Lado izquierdo)
             string textoUle = "Uses least energy /\nConsomme le moins d'énergie";
-            XFont fuenteUle = new XFont("Arial", 11.5, XFontStyleEx.Bold);
+            XFont fuenteUle = new XFont("HelveticaNeue", 11, XFontStyleEx.Bold);
             XRect rectanguloUle = new XRect(x, y, cW * 0.40, In(0.60));
 
             XTextFormatter tfUle = new XTextFormatter(gfx);
@@ -161,7 +161,7 @@ namespace Energy_printer.Services
                 new XRect(x + cW * 0.3, y - In(0.05), cW * 0.4, rowH), FmtMC);
 
             string textoUme = "Uses most energy /\nConsomme le plus d'énergie";
-            XFont fuenteUme = new XFont("Arial", 11.5, XFontStyleEx.Bold);
+            XFont fuenteUme = new XFont("HelveticaNeue", 11, XFontStyleEx.Bold);
 
             // Recorremos la coordenada X para que empiece en el 75% del ancho de tu contenedor
             XRect rectanguloUme = new XRect(x + (cW * 0.73) - (cW * 0.10), y, cW * 0.35, In(0.60));
@@ -178,7 +178,7 @@ namespace Energy_printer.Services
             // Laterales en fuente pequeña, solo una palabra clave
             string textoSimEn = "Similar models \ncompared";
             XFont fuenteSimEn = new XFont("Arial Narrow", 10, XFontStyleEx.Regular);
-            XRect rectanguloSimEn = new XRect(x, y, cW * 0.25, rowSimilarH);
+            XRect rectanguloSimEn = new XRect(x, y + In(0.07), cW * 0.25, rowSimilarH);
 
             XTextFormatter tfSimEn = new XTextFormatter(gfx);
             tfSimEn.Alignment = XParagraphAlignment.Left;
@@ -198,7 +198,7 @@ namespace Energy_printer.Services
             // 3. Texto derecho (Francés) en multilínea
             string textoSimFr = "Modèles similaires\ncomparés";
             XFont fuenteSimFr = new XFont("Arial Narrow", 10, XFontStyleEx.Regular);
-            XRect rectanguloSimFr = new XRect(x + cW * 0.80 - (cW * 0.07), y, cW * 0.25, rowSimilarH);
+            XRect rectanguloSimFr = new XRect(x + cW * 0.80 - (cW * 0.07), y + In(0.04), cW * 0.25, rowSimilarH);
 
             XTextFormatter tfSimFr = new XTextFormatter(gfx);
             tfSimFr.Alignment = XParagraphAlignment.Right; // Alineado a la derecha
@@ -208,21 +208,21 @@ namespace Energy_printer.Services
             y += (rowSimilarH - In(0.05));
 
             gfx.DrawString("Model number",
-                new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
+                new XFont("Arial Narrow", 10, XFontStyleEx.Regular), XBrushes.Black,
                 new XRect(x, y + In(0.1), cW * 0.35, In(0.35)), FmtTL);
             gfx.DrawString(d.MODEL,
                 new XFont("Arial Narrow", 16, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x + cW * 0.2, y, cW * 0.6, In(0.35)), FmtMC);
             gfx.DrawString("Numéro du modèle",
-                new XFont("ElmsSans", 9, XFontStyleEx.Regular), XBrushes.Black,
+                new XFont("Arial Narrow", 10, XFontStyleEx.Regular), XBrushes.Black,
                 new XRect(x + cW * 0.63, y + In(0.1), cW * 0.35, In(0.35)), FmtTR);
 
             y += In(0.50);
 
             string removalLbel = "Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36)\n" +
                 "Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)";
-            XFont fuenteRl = new XFont("Arial", 7, XFontStyleEx.Regular);
-            XRect rectanguloRl = new XRect(x, y, cW, In(0.35));
+            XFont fuenteRl = new XFont("HelveticaNeue", 7, XFontStyleEx.Regular);
+            XRect rectanguloRl = new XRect(x, y - In(0.02), cW, In(0.35));
 
             XTextFormatter tfRl = new XTextFormatter(gfx);
 
@@ -246,7 +246,7 @@ namespace Energy_printer.Services
                 double textW = W - textX - pad - In(0.60);
 
                 // Instanciamos la fuente y el formateador una sola vez para ambos párrafos
-                XFont fuenteFooter = new XFont("Arial", 6, XFontStyleEx.Bold);
+                XFont fuenteFooter = new XFont("HelveticaNeue", 5.5, XFontStyleEx.Bold);
                 XTextFormatter tfFooter = new XTextFormatter(gfx);
                 tfFooter.Alignment = XParagraphAlignment.Left; // Equivalente a tu FmtTL
 
