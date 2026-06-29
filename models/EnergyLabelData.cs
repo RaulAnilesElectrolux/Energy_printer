@@ -39,4 +39,5 @@ namespace Energy_printer.Models
         /// <summary>"Y" = mostrar logo Energy Star en el pie</summary>
         public string ENERGY_LOGO  { get; set; }
     }
+
 }

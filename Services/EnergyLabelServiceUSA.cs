@@ -14,7 +14,13 @@ namespace Energy_printer.Services
         public EnergyLabelServiceUSA(string contentPath) : base(contentPath)
         {
         }
-
+        private class PdfMargins
+        {
+            public double Left { get; set; }
+            public double Right { get; set; }
+            public double Top { get; set; }
+            public double Bottom { get; set; }
+        }
         // ══════════════════════════════════════════════════════════════════════
         //  MAPEO DESDE DATA_LABEL (Entity Framework)
         // ══════════════════════════════════════════════════════════════════════
@@ -45,34 +51,119 @@ namespace Energy_printer.Services
         //  GENERACIÓN DE LA PÁGINA PDF
         // ══════════════════════════════════════════════════════════════════════
 
-        public void AddUSAPage(PdfDocument doc, EnergyLabelDataUSA d)
+        public void AddUSAPage(PdfDocument doc, EnergyLabelDataUSA d, CONFIG_DATA_LABEL config, int copyNumber)
         {
             var page = doc.AddPage();
-            page.Width = XUnit.FromCentimeter(14.5);
-            page.Height = XUnit.FromCentimeter(19.1);
+
+            page.Width = XUnit.FromCentimeter(14);
+            page.Height = XUnit.FromCentimeter(21.5);
             page.Orientation = PdfSharp.PageOrientation.Portrait;
 
             using (var gfx = XGraphics.FromPdfPage(page))
             {
-                DrawUSALabel(gfx, d, page.Width.Point, page.Height.Point);
+                var margins = GetUSAMargins(config, copyNumber);
+                DrawUSALabel(gfx, d, page.Width.Point, page.Height.Point, margins);
             }
         }
-
-        private void DrawUSALabel(XGraphics gfx, EnergyLabelDataUSA d, double W, double H)
+        private PdfMargins GetUSAMargins(CONFIG_DATA_LABEL config, int copyNumber)
         {
-            double pad = Cm(0.6);          // .usa-container padding
-            double CW = W - pad * 2;      // ancho de contenido (100%)
+            string unit = "cm";
+
+            if (config != null && !string.IsNullOrWhiteSpace(config.UNIT))
+            {
+                unit = config.UNIT.Trim().ToLower();
+            }
+
+            double left;
+            double right;
+            double top;
+            double bottom;
+
+            if (copyNumber == 1)
+            {
+                left = ToDouble(config?.MARG_LEFT_1, 0.400);
+                right = ToDouble(config?.MARG_RIGHT_1, 0.200);
+                top = ToDouble(config?.MARG_TOP_1, 3.900);
+                bottom = ToDouble(config?.MARG_BOTTOM_1, 0.400);
+            }
+            else
+            {
+                left = ToDouble(config?.MARG_LEFT_2, 0.500);
+                right = ToDouble(config?.MARG_RIGHT_2, 0.400);
+                top = ToDouble(config?.MARG_TOP_2, 3.900);
+                bottom = ToDouble(config?.MARG_BOTTOM_2, 0.400);
+            }
+
+            return new PdfMargins
+            {
+                Left = ConvertUnitToPoints(left, unit),
+                Right = ConvertUnitToPoints(right, unit),
+                Top = ConvertUnitToPoints(top, unit),
+                Bottom = ConvertUnitToPoints(bottom, unit)
+            };
+        }
+
+        private double ToDouble(object value, double fallback)
+        {
+            if (value == null)
+                return fallback;
+
+            double result;
+
+            if (double.TryParse(value.ToString(), out result))
+                return result;
+
+            return fallback;
+        }
+
+        private double ConvertUnitToPoints(double value, string unit)
+        {
+            switch ((unit ?? "cm").ToLower())
+            {
+                case "cm":
+                    return Cm(value);
+
+                case "mm":
+                    return value * 2.83465;
+
+                case "in":
+                case "inch":
+                case "inches":
+                    return In(value);
+
+                case "pt":
+                case "pts":
+                case "point":
+                case "points":
+                    return value;
+
+                case "px":
+                    return Px(value);
+
+                default:
+                    return Cm(value);
+            }
+        }
+        private void DrawUSALabel(XGraphics gfx, EnergyLabelDataUSA d, double W, double H, PdfMargins margins)
+        {
+            double padLeft = margins.Left;
+            double padRight = margins.Right;
+            double padTop = margins.Top;
+            double padBottom = margins.Bottom;
+
+            double CW = W - padLeft - padRight;
+
             var white = XBrushes.White;
             var black = XBrushes.Black;
 
             // ── 1. Gov header  (margin-top 0.3cm, Arial 8pt) ─────────────────────
-            double govY = pad + Cm(0.3);
+            double govY = padTop;
             gfx.DrawString("U.S. Government",
                 new XFont("Arial", 8, XFontStyleEx.Bold), black,
-                new XRect(pad, govY, CW * 0.5, Px(12)), FmtTL);
+                new XRect(padLeft, govY, CW * 0.5, Px(12)), FmtTL);
             gfx.DrawString("Federal law prohibits removal of this label before consumer purchase.",
                 new XFont("Arial", 8, XFontStyleEx.Regular), black,
-                new XRect(pad + CW * 0.25, govY, CW * 0.75, Px(12)), FmtTR);
+                new XRect(padLeft + CW * 0.25, govY, CW * 0.75, Px(12)), FmtTR);
             double y = govY + Px(14);
 
             // ── 2. Logo EnergyGuide  (SIN caja negra; imagen sola, aspect real) ──
@@ -81,14 +172,14 @@ namespace Energy_printer.Services
             if (logoTit != null)
             {
                 double logoH = CW * ((double)logoTit.PixelHeight / logoTit.PixelWidth);
-                gfx.DrawImage(logoTit, pad, logoTop, CW, logoH);
+                gfx.DrawImage(logoTit, padLeft, logoTop, CW, logoH);
                 logoBottom = logoTop + logoH;
             }
             else
             {
                 double logoH = Cm(1.6);
                 gfx.DrawString("EnergyGuide", new XFont("Arial Black", 28, XFontStyleEx.Bold),
-                    black, new XRect(pad, logoTop, CW, logoH), FmtMC);
+                    black, new XRect(padLeft, logoTop, CW, logoH), FmtMC);
                 logoBottom = logoTop + logoH;
             }
             // .usa-main-title margin-bottom:-45px  +  .specs-table padding-top:15px = -30px
@@ -101,22 +192,22 @@ namespace Energy_printer.Services
             string[] right = { d.CUST_NAME, "Model: " + d.MODEL, "Capacity: " + d.CAB_SIZE };
             for (int i = 0; i < left.Length; i++)
                 gfx.DrawString(left[i], fSpec, black,
-                    new XRect(pad, y + i * specLineH, CW * 0.5, specLineH), FmtTL);
+                    new XRect(padLeft, y + i * specLineH, CW * 0.5, specLineH), FmtTL);
             for (int i = 0; i < right.Length; i++)
                 gfx.DrawString(right[i], fSpec, black,
-                    new XRect(pad + CW * 0.5, y + i * specLineH, CW * 0.5, specLineH), FmtTR);
+                    new XRect(padLeft + CW * 0.5, y + i * specLineH, CW * 0.5, specLineH), FmtTR);
             y += 4 * specLineH + Px(15);   // margin-bottom 15px
 
             // ── 4. Compare box  (negro, texto blanco, padding 10px) ──────────────
             double cmpMain = 12 * 1.2, cmpSub = 9 * 1.2;
             double cmpH = Px(10) + cmpMain + Px(3) + cmpSub + Px(10);
-            gfx.DrawRectangle(black, pad, y, CW, cmpH);
+            gfx.DrawRectangle(black, padLeft, y, CW, cmpH);
             gfx.DrawString("Compare ONLY to other labels with yellow numbers.",
                 new XFont("Arial Black", 12, XFontStyleEx.Bold), white,
-                new XRect(pad, y + Px(10), CW, cmpMain), FmtTC);
+                new XRect(padLeft, y + Px(10), CW, cmpMain), FmtTC);
             gfx.DrawString("Labels with yellow numbers are based on the same test procedures.",
                 new XFont("Arial", 9, XFontStyleEx.Bold), white,
-                new XRect(pad, y + Px(10) + cmpMain + Px(3), CW, cmpSub), FmtTC);
+                new XRect(padLeft, y + Px(10) + cmpMain + Px(3), CW, cmpSub), FmtTC);
             y += cmpH + Px(10);   // margin-bottom 10px
 
             // ── 5. Cost box  (más aire, números Arial Bold, título separado) ──
@@ -124,14 +215,14 @@ namespace Energy_printer.Services
             double gapTitle = Px(25);                 // separación título ↔ número
             double numH = Px(20);                     // banda del número
             double costH = Px(12) + costTitleH + gapTitle + numH + Px(6) + Px(12) + Px(8) + Px(10);
-            gfx.DrawRectangle(black, pad, y, CW, costH);
+            gfx.DrawRectangle(black, padLeft, y, CW, costH);
             gfx.DrawString("Estimated Yearly Energy Cost",
                 new XFont("Arial Black", 18, XFontStyleEx.Bold), white,
-                new XRect(pad, y + Px(12), CW, costTitleH), FmtTC);
+                new XRect(padLeft, y + Px(12), CW, costTitleH), FmtTC);
 
             // posición horizontal según el pct del costo
             double costInnerW = CW - 2 * Px(15);
-            double scaleLeft = pad + Px(15) + Px(100);
+            double scaleLeft = padLeft + Px(15) + Px(100);
             double scaleW = costInnerW - Px(110);
             double gMin = Math.Min((sbyte) d.LOW_AMOUNT, Math.Min((sbyte) d.LOW_SIMILAR_MODEL, (sbyte) d.ENERGY_COST));
             double gMax = Math.Max((sbyte) d.HIGH_AMOUNT, Math.Max((sbyte) d.HIGH_SIMILAR_MODEL, (sbyte) d.ENERGY_COST));
@@ -167,10 +258,10 @@ namespace Energy_printer.Services
 
             // ── 6. Cost Ranges  (mismo bloque negro, esquinas inferiores redondas) ─
             double rngH = Px(88);
-            gfx.DrawRoundedRectangle(black, pad, y, CW, rngH, Px(10), Px(10));
-            gfx.DrawRectangle(black, pad, y, CW, Px(12));   // cuadra el borde superior (flush con cost-box)
+            gfx.DrawRoundedRectangle(black, padLeft, y, CW, rngH, Px(10), Px(10));
+            gfx.DrawRectangle(black, padLeft, y, CW, Px(12));   // cuadra el borde superior (flush con cost-box)
 
-            double innerLeft = pad + Px(5);
+            double innerLeft = padLeft + Px(5);
             double innerTop = y + Px(8);
             double innerW = CW - 2 * Px(5);
             double innerH = rngH - 2 * Px(8);
@@ -216,7 +307,7 @@ namespace Energy_printer.Services
             // ── 7. kWh box  (negro, width 50%, centrado) ─────────────────────────
             double kwhH = Px(94);
             double kwhBoxW = CW * 0.5;
-            double kwhBoxX = pad + (CW - kwhBoxW) / 2;
+            double kwhBoxX = padLeft + (CW - kwhBoxW) / 2;
             gfx.DrawRectangle(black, kwhBoxX, y, kwhBoxW, kwhH);
 
             var fKwh = new XFont("Arial Black", 34, XFontStyleEx.Bold);
@@ -238,18 +329,18 @@ namespace Energy_printer.Services
 
             // ── 8. Footer + ftc.gov/energy  (anclados al fondo) ──────────────────
             double ftcH = Px(20);
-            double ftcY = H - pad - ftcH;
+            double ftcY = H - padBottom - ftcH;
 
             gfx.DrawString("ftc.gov/energy",
                 new XFont("Arial", 12, XFontStyleEx.Regular),
                 black,
-                new XRect(pad, ftcY, CW, ftcH),
+                new XRect(padLeft, ftcY, CW, ftcH),
                 FmtTC);
 
             // Ancho para las notas y el logo
             double notesW = CW * 0.72;
             double starW = Px(85);
-            double starX = pad + CW - starW;
+            double starX = padLeft + CW - starW;
 
             // Ajustamos la posición inicial para que el texto y el logo no pisen el enlace
             double blockPaddingTop = Px(15);
@@ -275,14 +366,14 @@ namespace Energy_printer.Services
 
                 // Viñeta (siempre en negrita para que parezca un bullet point real)
                 gfx.DrawString("•", new XFont("Arial", 8, XFontStyleEx.Bold), black,
-                    new XRect(pad, ny, Px(10), Px(11)), FmtTL);
+                    new XRect(padLeft, ny, Px(10), Px(11)), FmtTL);
 
                 // Estimación dinámica de líneas: asumimos que en ese ancho caben unos 65 caracteres por línea.
                 int lineas = (int)Math.Ceiling((double)n.T.Length / 65.0);
                 double alturaTexto = lineas * Px(11); // Px(11) equivale a la altura de línea de la fuente
 
                 tf.DrawString(n.T, fn, black,
-                    new XRect(pad + Px(12), ny, notesW - Px(12), alturaTexto + Px(10)));
+                    new XRect(padLeft + Px(12), ny, notesW - Px(12), alturaTexto + Px(10)));
 
                 // Salto dinámico + margen inferior (equivale al margin-bottom: 2px del HTML)
                 ny += alturaTexto + Px(4);

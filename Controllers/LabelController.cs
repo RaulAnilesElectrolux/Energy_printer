@@ -24,6 +24,8 @@ namespace Energy_printer.Controllers
             using (var db = new JZAPPROVALEntities())
             {
                 var datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == 1);
+                var configUSA = db.CONFIG_DATA_LABEL
+                .FirstOrDefault(c => c.LABEL_TYPE.ToUpper() == "USA");
 
                 var canadaData = canadaService.FromDataLabel(datosLabel);
                 var usaData = usaService.FromDataLabel(datosLabel);
@@ -31,8 +33,8 @@ namespace Energy_printer.Controllers
                 canadaService.AddCanadaPage(doc, canadaData);
                 canadaService.AddCanadaPage(doc, canadaData);
 
-                usaService.AddUSAPage(doc, usaData);
-                usaService.AddUSAPage(doc, usaData);
+                usaService.AddUSAPage(doc, usaData, configUSA, 1);
+                usaService.AddUSAPage(doc, usaData, configUSA, 2);
 
                 using (var stream = new MemoryStream())
                 {

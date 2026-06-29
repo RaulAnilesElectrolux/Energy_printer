@@ -189,6 +189,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CONFIG_DATA_LABEL.cs">
+      <DependentUpon>EnergyLabel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DATA_LABEL.cs">
       <DependentUpon>EnergyLabel.tt</DependentUpon>
     </Compile>
@@ -297,7 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
