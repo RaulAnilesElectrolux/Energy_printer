@@ -185,7 +185,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FormatosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LabelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -254,6 +253,8 @@
     <Content Include="Models\EnergyLabel.edmx.diagram">
       <DependentUpon>EnergyLabel.edmx</DependentUpon>
     </Content>
+    <Content Include="Assets\HelveticaNeue-Medium.otf" />
+    <Content Include="Assets\HelveticaNeueBold.ttf" />
     <Content Include="fonts\arial.ttf" />
     <Content Include="fonts\arialbd.ttf" />
     <Content Include="fonts\arialbi.ttf" />
@@ -267,6 +268,7 @@
     <Content Include="fonts\HelveticaNeueBold.ttf" />
     <Content Include="fonts\HelveticaNeueMedium.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Formato4.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -298,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
