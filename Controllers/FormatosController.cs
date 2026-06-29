@@ -25,6 +25,11 @@ namespace Energy_printer.Controllers
             using (var db = new JZAPPROVALEntities())
             {
                 var datosLabel = db.DATA_LABEL.FirstOrDefault(d => d.ID_LABEL == 1);
+
+                var configDataLabel = db.CONFIG_DATA_LABEL.ToList();
+
+                ViewBag.ConfigDataLabel = configDataLabel;
+
                 return View(datosLabel);
             }
         }

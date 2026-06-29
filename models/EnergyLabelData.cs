@@ -39,4 +39,27 @@ namespace Energy_printer.Models
         /// <summary>"Y" = mostrar logo Energy Star en el pie</summary>
         public string ENERGY_LOGO  { get; set; }
     }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    //  CONFIGURACIÓN DE MÁRGENES — USA / CANADA
+    //  Equivale a la tabla CONFIG_DATA_LABEL
+    // ══════════════════════════════════════════════════════════════════════════
+    public class CONFIG_DATA_LABEL
+    {
+        public int ID_LABEL { get; set; }
+
+        public string LABEL_TYPE { get; set; }
+
+        public decimal MARG_LEFT_1 { get; set; }
+        public decimal MARG_RIGHT_1 { get; set; }
+        public decimal MARG_TOP_1 { get; set; }
+        public decimal MARG_BOTTOM_1 { get; set; }
+
+        public decimal MARG_LEFT_2 { get; set; }
+        public decimal MARG_RIGHT_2 { get; set; }
+        public decimal MARG_TOP_2 { get; set; }
+        public decimal MARG_BOTTOM_2 { get; set; }
+
+        public string UNIT { get; set; }
+    }
 }
