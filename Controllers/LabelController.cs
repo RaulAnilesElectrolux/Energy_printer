@@ -1,9 +1,12 @@
-using System.IO;
-using System.Linq;
 using System.Web.Mvc;
 using Energy_printer.Models;
 using Energy_printer.Services;
 using PdfSharp.Pdf;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.IO;
 
 namespace Energy_printer.Controllers
 {
@@ -33,8 +36,9 @@ namespace Energy_printer.Controllers
 
                 usaService.AddUSASheet(doc, usaData, configUSA);
 
-                /*canadaService.AddCanadaPage(doc, canadaData);
-                canadaService.AddCanadaPage(doc, canadaData);*/
+                var margenesCanada = db.CONFIG_DATA_LABEL.FirstOrDefault(c => c.LABEL_TYPE == "CAN");
+
+                canadaService.AddCanadaSheet(doc, canadaData, margenesCanada);
 
                 using (var stream = new MemoryStream())
                 {

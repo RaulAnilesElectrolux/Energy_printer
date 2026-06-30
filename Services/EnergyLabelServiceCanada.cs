@@ -16,6 +16,10 @@ namespace Energy_printer.Services
     // ══════════════════════════════════════════════════════════════════════
     public class EnergyLabelServiceCanada : EnergyLabelHelpersBase
     {
+        // Tamaño individual de cada etiqueta (igual que antes)
+        private const double LabelW = 5.375;
+        private const double LabelH = 7.3;
+
         public EnergyLabelServiceCanada(string contentPath) : base(contentPath)
         {
         }
@@ -39,23 +43,124 @@ namespace Energy_printer.Services
         }
 
         // ══════════════════════════════════════════════════════════════════════
-        //  GENERACIÓN DE LA PÁGINA PDF
+        //  GENERACIÓN DE UNA SOLA HOJA CON LAS DOS ETIQUETAS
         // ══════════════════════════════════════════════════════════════════════
-
-        public void AddCanadaPage(PdfDocument doc, EnergyLabelDataCanada d)
+        //  marginLeft / marginRight / marginTop / marginBottom: en pulgadas (in).
+        //  Definen el espacio entre el borde físico de la hoja y el bloque de
+        //  las dos etiquetas. Las etiquetas se colocan una junto a la otra
+        //  (lado a lado), pegadas entre sí, y todo el bloque se desplaza según
+        //  los 4 márgenes que indiques.
+        public void AddCanadaSheet(
+            PdfDocument doc,
+            EnergyLabelDataCanada d,
+            CONFIG_DATA_LABEL margins)
         {
+            double labelWpt = XUnit.FromInch(LabelW).Point;
+            double labelHpt = XUnit.FromInch(LabelH).Point;
+
+            // Tamaño físico de la hoja: las 2 etiquetas una al lado de la otra
+            // + los 4 márgenes externos que tú definas.
+            double sheetW = 0;
+            double sheetH = 0;
+            switch (margins.UNIT) {
+                case "cm":
+                    sheetW = Cm((double) margins.MARG_LEFT_1) + (labelWpt * 2) + 
+                        Cm((double) margins.MARG_RIGHT_1) +
+                        Cm((double) margins.MARG_LEFT_2) +
+                        Cm((double) margins.MARG_RIGHT_2);
+                    sheetH = Cm(Math.Max((double) margins.MARG_TOP_1, (double) margins.MARG_TOP_2)) + labelHpt +
+                        Cm(Math.Max((double) margins.MARG_BOTTOM_1, (double) margins.MARG_BOTTOM_2));
+                    break;
+                case "in":
+                    sheetW = In((double)margins.MARG_LEFT_1) + (labelWpt * 2) +
+                        In((double)margins.MARG_RIGHT_1) +
+                        In((double)margins.MARG_LEFT_2) +
+                        In((double)margins.MARG_RIGHT_2);
+                    sheetH = In(Math.Max((double)margins.MARG_TOP_1, (double)margins.MARG_TOP_2)) + labelHpt +
+                        In(Math.Max((double)margins.MARG_BOTTOM_1, (double)margins.MARG_BOTTOM_2));
+                    break;
+                case "px":
+                    sheetW = Px((double)margins.MARG_LEFT_1) + (labelWpt * 2) +
+                        Px((double)margins.MARG_RIGHT_1) +
+                        Px((double)margins.MARG_LEFT_2) +
+                        Px((double)margins.MARG_RIGHT_2);
+                    sheetH = Px(Math.Max((double)margins.MARG_TOP_1, (double)margins.MARG_TOP_2)) + labelHpt +
+                        Px(Math.Max((double)margins.MARG_BOTTOM_1, (double)margins.MARG_BOTTOM_2));
+                    break;
+            }
+
             var page = doc.AddPage();
-            page.Width = XUnit.FromInch(5.375);
-            page.Height = XUnit.FromInch(7.3);
+            page.Width = XUnit.FromPoint(sheetW);
+            page.Height = XUnit.FromPoint(sheetH);
 
             using (var gfx = XGraphics.FromPdfPage(page))
             {
-                DrawCanadaLabel(gfx, d, page.Width.Point, page.Height.Point);
+                double offsetY1 = 0;
+                double offsetY2 = 0;
+                double offsetX1 = 0;
+                double offsetX2 = 0;
+                switch (margins.UNIT)
+                {
+                    case "cm":
+                        offsetY1 = Cm((double)margins.MARG_TOP_1);
+                        offsetY2 = Cm((double)margins.MARG_TOP_2);
+                        offsetX1 = Cm((double)margins.MARG_LEFT_1);
+                        offsetX2 = offsetX1 + labelWpt + Cm((double)margins.MARG_RIGHT_1) + Cm((double)margins.MARG_LEFT_2);
+                        break;
+                    case "in":
+                        offsetY1 = In((double)margins.MARG_TOP_1);
+                        offsetY2 = In((double)margins.MARG_TOP_2);
+                        offsetX1 = In((double)margins.MARG_LEFT_1);
+                        offsetX2 = offsetX1 + labelWpt + In((double)margins.MARG_RIGHT_1) + In((double)margins.MARG_LEFT_2);
+                        break;
+                    case "px":
+                        offsetY1 = Px((double)margins.MARG_TOP_1);
+                        offsetY2 = Px((double)margins.MARG_TOP_2);
+                        offsetX1 = Px((double)margins.MARG_LEFT_1);
+                        offsetX2 = offsetX1 + labelWpt + Px((double)margins.MARG_RIGHT_1) + Px((double)margins.MARG_LEFT_2);
+                        break;
+                }
+
+
+
+                // Etiqueta 1: pegada al margen izquierdo
+                
+                DrawCanadaLabel(gfx, d, labelWpt, labelHpt, offsetX1, offsetY1);
+
+                // Etiqueta 2: justo a la derecha de la primera
+                DrawCanadaLabel(gfx, d, labelWpt, labelHpt, offsetX2, offsetY2);
             }
         }
 
-        private void DrawCanadaLabel(XGraphics gfx, EnergyLabelDataCanada d, double W, double H)
+        // ══════════════════════════════════════════════════════════════════════
+        //  (Se conserva por compatibilidad: una sola etiqueta por página)
+        // ══════════════════════════════════════════════════════════════════════
+        public void AddCanadaPage(PdfDocument doc, EnergyLabelDataCanada d)
         {
+            var page = doc.AddPage();
+            page.Width = XUnit.FromInch(LabelW);
+            page.Height = XUnit.FromInch(LabelH);
+
+            using (var gfx = XGraphics.FromPdfPage(page))
+            {
+                DrawCanadaLabel(gfx, d, page.Width.Point, page.Height.Point, 0, 0);
+            }
+        }
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  DIBUJO DE LA ETIQUETA
+        //  offsetX / offsetY: esquina superior-izquierda donde se dibuja esta
+        //  etiqueta dentro de la página (en puntos). El dibujo interno sigue
+        //  usando coordenadas relativas (0,0 = esquina de ESTA etiqueta); el
+        //  traslado al lugar correcto de la hoja se hace con Save/Translate/
+        //  Restore, así toda la lógica original de dibujo queda intacta.
+        // ══════════════════════════════════════════════════════════════════════
+        private void DrawCanadaLabel(XGraphics gfx, EnergyLabelDataCanada d, double W, double H,
+            double offsetX, double offsetY)
+        {
+            gfx.Save();
+            gfx.TranslateTransform(offsetX, offsetY);
+
             double pad = In(0.07);
             double padTop = In(0.19);
 
@@ -82,7 +187,7 @@ namespace Energy_printer.Services
 
             gfx.DrawString("Energy consumption / Consommation énergétique",
                 new XFont("HelveticaNeue", 12.5, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(x + (x/2.98), y, cW, In(0.25)), FmtMC);
+                new XRect(x + (x / 2.98), y, cW, In(0.25)), FmtMC);
             y += In(0.35);
 
             double kwhY = y;
@@ -145,7 +250,7 @@ namespace Energy_printer.Services
             y += In(0.28);
 
             double rowH = In(0.5);
-            x = (pad + (cW - posX) / 2 ) + pad;
+            x = (pad + (cW - posX) / 2) + pad;
 
             // 1. Ule (Lado izquierdo)
             string textoUle = "Uses least energy /\nConsomme le moins d'énergie";
@@ -269,6 +374,8 @@ namespace Energy_printer.Services
                 XRect rectanguloFr = new XRect(textX, botY + botH * 0.50, textW, botH * 0.6);
                 tfFooter.DrawString(textoEnergyFr, fuenteFooter, XBrushes.Black, rectanguloFr);
             }
+
+            gfx.Restore();
         }
     }
 }

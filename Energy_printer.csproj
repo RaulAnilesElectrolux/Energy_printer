@@ -268,7 +268,6 @@
     <Content Include="fonts\HelveticaNeue-Medium.otf" />
     <Content Include="fonts\HelveticaNeueBold.ttf" />
     <Content Include="fonts\HelveticaNeueMedium.ttf" />
-    <Content Include="fonts\ariblk.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -301,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
