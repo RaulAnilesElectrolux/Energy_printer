@@ -2,6 +2,8 @@ using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using System;
 using System.IO;
+using SD = System.Drawing;
+using SDI = System.Drawing.Imaging;
 
 namespace Energy_printer.Services
 {
@@ -48,9 +50,52 @@ namespace Energy_printer.Services
             string path = Path.Combine(_contentPath, filename);
             return File.Exists(path) ? XImage.FromFile(path) : null;
         }
+        protected XImage LoadImageHighContrastBlack(string filename, byte threshold = 190)
+        {
+            string path = Path.Combine(_contentPath, filename);
+
+            if (!File.Exists(path))
+                return null;
+
+            using (var original = new SD.Bitmap(path))
+            using (var processed = new SD.Bitmap(original.Width, original.Height, SDI.PixelFormat.Format32bppArgb))
+            {
+                for (int y = 0; y < original.Height; y++)
+                {
+                    for (int x = 0; x < original.Width; x++)
+                    {
+                        SD.Color pixel = original.GetPixel(x, y);
+
+                        if (pixel.A == 0)
+                        {
+                            processed.SetPixel(x, y, SD.Color.Transparent);
+                            continue;
+                        }
+
+                        int gray = (int)((pixel.R * 0.299) + (pixel.G * 0.587) + (pixel.B * 0.114));
+
+                        if (gray < threshold)
+                        {
+                            processed.SetPixel(x, y, SD.Color.FromArgb(pixel.A, 0, 0, 0));
+                        }
+                        else
+                        {
+                            processed.SetPixel(x, y, SD.Color.FromArgb(pixel.A, 255, 255, 255));
+                        }
+                    }
+                }
+
+                var ms = new MemoryStream();
+                processed.Save(ms, SDI.ImageFormat.Png);
+                ms.Position = 0;
+
+                return XImage.FromStream(ms);
+            }
+        }
+
     }
 
-public class CustomFontResolver : IFontResolver
+    public class CustomFontResolver : IFontResolver
     {
         public byte[] GetFont(string faceName)
         {
@@ -75,6 +120,11 @@ public class CustomFontResolver : IFontResolver
                     return new FontResolverInfo("ariali");
 
                 return new FontResolverInfo("arial");
+            }
+
+            if (familyName.Equals("Arial Black", StringComparison.OrdinalIgnoreCase))
+            {
+                return new FontResolverInfo("ariblk");
             }
 
             if (familyName.Equals("Arial Narrow", StringComparison.OrdinalIgnoreCase))

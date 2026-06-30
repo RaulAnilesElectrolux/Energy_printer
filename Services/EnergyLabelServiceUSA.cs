@@ -6,14 +6,12 @@ using System;
 
 namespace Energy_printer.Services
 {
-    // ══════════════════════════════════════════════════════════════════════
-    //  ETIQUETA USA (EnergyGuide)
-    // ══════════════════════════════════════════════════════════════════════
     public class EnergyLabelServiceUSA : EnergyLabelHelpersBase
     {
         public EnergyLabelServiceUSA(string contentPath) : base(contentPath)
         {
         }
+
         private class PdfMargins
         {
             public double Left { get; set; }
@@ -21,10 +19,10 @@ namespace Energy_printer.Services
             public double Top { get; set; }
             public double Bottom { get; set; }
         }
-        // ══════════════════════════════════════════════════════════════════════
-        //  MAPEO DESDE DATA_LABEL (Entity Framework)
-        // ══════════════════════════════════════════════════════════════════════
 
+        // ─────────────────────────────────────────────────────────────
+        // DATA MAPPING
+        // ─────────────────────────────────────────────────────────────
         public EnergyLabelDataUSA FromDataLabel(DATA_LABEL d)
         {
             return new EnergyLabelDataUSA
@@ -43,14 +41,45 @@ namespace Energy_printer.Services
                 LOW_AMOUNT = d.LOW_AMOUNT,
                 HIGH_AMOUNT = d.HIGH_AMOUNT,
                 ELECTRICITY_USE = d.MODEL_KW,
-                ENERGY_LOGO = d.ENERGY_LOGO,
+                ENERGY_LOGO = d.ENERGY_LOGO
             };
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        //  GENERACIÓN DE LA PÁGINA PDF
-        // ══════════════════════════════════════════════════════════════════════
+        // ─────────────────────────────────────────────────────────────
+        // MEASURES
+        // ─────────────────────────────────────────────────────────────
+        private static readonly double BoxW = Cm(13.3);
+        private static readonly double LogoW = Cm(13.2);
+        private static readonly double CompareH = Cm(1.78);
+        private static readonly double CostH = Cm(3);
+        private static readonly double RangesH = Cm(2.0);
+        private static readonly double KwhBoxW = Cm(6.4);
+        private static readonly double KwhBoxH = Cm(2.22);
+        private static readonly double TrackH = Cm(0.6);
+        private static readonly double RangeSidebarW = Cm(1.15);
+        private static readonly double RangeLabelW = Cm(2.45);
 
+        // ─────────────────────────────────────────────────────────────
+        // FONTS
+        // ─────────────────────────────────────────────────────────────
+        private XFont FontArial(double size, XFontStyleEx style = XFontStyleEx.Regular)
+        {
+            return new XFont("Arial", size, style);
+        }
+
+        private XFont FontArialNarrow(double size, XFontStyleEx style = XFontStyleEx.Regular)
+        {
+            return new XFont("Arial Narrow", size, style);
+        }
+
+        private XFont FontArialBlack(double size)
+        {
+            return new XFont("Arial Black", size, XFontStyleEx.Bold);
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // PDF PAGE GENERATION
+        // ─────────────────────────────────────────────────────────────
         public void AddUSAPage(PdfDocument doc, EnergyLabelDataUSA d, CONFIG_DATA_LABEL config, int copyNumber)
         {
             var page = doc.AddPage();
@@ -62,9 +91,34 @@ namespace Energy_printer.Services
             using (var gfx = XGraphics.FromPdfPage(page))
             {
                 var margins = GetUSAMargins(config, copyNumber);
-                DrawUSALabel(gfx, d, page.Width.Point, page.Height.Point, margins);
+                DrawUSALabel(gfx, d, 0, page.Width.Point, page.Height.Point, margins);
             }
         }
+
+        public void AddUSASheet(PdfDocument doc, EnergyLabelDataUSA d, CONFIG_DATA_LABEL config)
+        {
+            var page = doc.AddPage();
+
+            page.Width = XUnit.FromCentimeter(28.0);
+            page.Height = XUnit.FromCentimeter(21.5);
+            page.Orientation = PdfSharp.PageOrientation.Landscape;
+
+            using (var gfx = XGraphics.FromPdfPage(page))
+            {
+                double labelW = Cm(14.0);
+                double labelH = page.Height.Point;
+
+                var margins1 = GetUSAMargins(config, 1);
+                var margins2 = GetUSAMargins(config, 2);
+
+                DrawUSALabel(gfx, d, 0, labelW, labelH, margins1);
+                DrawUSALabel(gfx, d, Cm(14.0), labelW, labelH, margins2);
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // MARGINS FROM DATABASE
+        // ─────────────────────────────────────────────────────────────
         private PdfMargins GetUSAMargins(CONFIG_DATA_LABEL config, int copyNumber)
         {
             string unit = "cm";
@@ -101,6 +155,601 @@ namespace Energy_printer.Services
                 Top = ConvertUnitToPoints(top, unit),
                 Bottom = ConvertUnitToPoints(bottom, unit)
             };
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // DRAW USA LABEL
+        // ─────────────────────────────────────────────────────────────
+        private void DrawUSALabel(XGraphics gfx, EnergyLabelDataUSA d, double originX, double W, double H, PdfMargins margins)
+        {
+            double padLeft = originX + margins.Left;
+            double padTop = margins.Top;
+            double padBottom = margins.Bottom;
+            double CW = W - margins.Left - margins.Right;
+
+            double boxX = padLeft;
+            double boxW = BoxW;
+
+            var white = XBrushes.White;
+            var black = XBrushes.Black;
+
+            double lowAmount = ToDouble(d.LOW_AMOUNT, 0);
+            double highAmount = ToDouble(d.HIGH_AMOUNT, 0);
+            double lowSimilar = ToDouble(d.LOW_SIMILAR_MODEL, 0);
+            double highSimilar = ToDouble(d.HIGH_SIMILAR_MODEL, 0);
+            double energyCost = ToDouble(d.ENERGY_COST, 0);
+
+            double globalMin = Math.Min(lowAmount, lowSimilar);
+            double globalMax = Math.Max(highAmount, highSimilar);
+            double globalRange = globalMax - globalMin;
+
+            Func<double, double> pct01 = value =>
+            {
+                if (globalRange == 0)
+                    return 0;
+
+                return Clamp01((value - globalMin) / globalRange);
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // 1. HEADER
+            // ─────────────────────────────────────────────────────────
+            double govY = padTop;
+            double headerX = padLeft;
+            double headerW = CW;
+
+            gfx.DrawString(
+                "U.S. Government",
+                FontArialNarrow(10, XFontStyleEx.Regular),
+                black,
+                new XRect(headerX + Cm(0.3), govY, headerW * 0.35, Cm(0.38)),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                "Federal law prohibits removal of this label before consumer purchase.",
+                FontArialNarrow(9.5, XFontStyleEx.Regular),
+                black,
+                new XRect(headerX, govY + Cm(0.05), headerW - Cm(0.35), Cm(0.38)),
+                FmtTR
+            );
+
+            double y = govY + Cm(0.5);
+
+            // ─────────────────────────────────────────────────────────
+            // 2. LOGO
+            // ─────────────────────────────────────────────────────────
+            double logoTop = y;
+            double logoBottom = y;
+
+            var logoTit = LoadImageHighContrastBlack("Logo_titulo.png", 210);
+
+            if (logoTit != null)
+            {
+                double logoX = boxX + Cm(0.1);
+                double logoW = LogoW;
+                double logoH = logoW * ((double)logoTit.PixelHeight / logoTit.PixelWidth);
+
+                gfx.DrawImage(logoTit, logoX, logoTop, logoW, logoH);
+                logoBottom = logoTop + logoH;
+            }
+            else
+            {
+                double logoH = Cm(1.6);
+
+                gfx.DrawString(
+                    "EnergyGuide",
+                    FontArialBlack(28),
+                    black,
+                    new XRect(boxX + Cm(0.1), logoTop, LogoW, logoH),
+                    FmtMC
+                );
+
+                logoBottom = logoTop + logoH;
+            }
+
+            y = logoBottom - Px(43);
+
+            // ─────────────────────────────────────────────────────────
+            // 3. SPECIFICATIONS
+            // ─────────────────────────────────────────────────────────
+            double specTableX = boxX;
+            double specTableW = Cm(13.3);
+            double specPaddingLeft = Cm(0.1);
+            double specPaddingRight = Cm(0.1);
+            double specInsetFix = Cm(0.05);
+
+            double specContentX = specTableX + specPaddingLeft + specInsetFix;
+            double specContentW = specTableW - specPaddingLeft - specPaddingRight - (specInsetFix * 2);
+
+            double specLeftX = specContentX;
+            double specLeftW = specContentW * 0.50;
+            double specBulletX = specLeftX + Cm(0.3);
+
+            double specRightX = specContentX + specContentW * 0.50;
+            double specRightW = specContentW * 0.50;
+            double specRightPadding = Cm(0.1);
+
+            double specFontSize = 9.5;
+            double specLineH = specFontSize * 1.05;
+
+            var fSpec = FontArialNarrow(specFontSize, XFontStyleEx.Bold);
+
+            gfx.DrawString(
+                Safe(d.REF_TYPE),
+                fSpec,
+                black,
+                new XRect(specLeftX, y, specLeftW, specLineH),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                "• " + Safe(d.DEFROST_SYSTEM),
+                fSpec,
+                black,
+                new XRect(specBulletX, y + specLineH, specLeftW - Cm(0.3), specLineH),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                "• " + Safe(d.DOORTYPE),
+                fSpec,
+                black,
+                new XRect(specBulletX, y + specLineH * 2, specLeftW - Cm(0.3), specLineH),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                "• " + Safe(d.ICE_SERVICE),
+                fSpec,
+                black,
+                new XRect(specBulletX, y + specLineH * 3, specLeftW - Cm(0.3), specLineH),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                Safe(d.CUST_NAME),
+                fSpec,
+                black,
+                new XRect(specRightX, y, specRightW, specLineH),
+                FmtTR
+            );
+
+            gfx.DrawString(
+                Safe(d.MODEL),
+                fSpec,
+                black,
+                new XRect(specRightX, y + specLineH + Cm(0.05), specRightW - specRightPadding, specLineH),
+                FmtTR
+            );
+
+            gfx.DrawString(
+                "Capacity: " + Safe(d.CAB_SIZE),
+                fSpec,
+                black,
+                new XRect(specRightX, y + specLineH * 2 + Cm(0.1), specRightW - specRightPadding, specLineH),
+                FmtTR
+            );
+
+            y += specLineH * 4 + Cm(0.19);
+
+            // ─────────────────────────────────────────────────────────
+            // 4. COMPARE BOX
+            // ─────────────────────────────────────────────────────────
+            gfx.DrawRectangle(black, boxX, y, boxW, CompareH);
+
+            var fCompareMain = FontArialNarrow(16.2, XFontStyleEx.Bold);
+            var fCompareSub = FontArialNarrow(13.2, XFontStyleEx.Bold);
+
+            double compareMainX = boxX + Cm(0.6);
+            double compareMainW = boxW - Cm(1.3);
+            double compareSubX = boxX + Cm(0.4);
+            double compareSubW = boxW - Cm(0.7);
+
+            double compareMainY = y + Cm(0.27);
+            double compareSubY = compareMainY + Px(15.6 * 1.20) + Cm(0.22);
+
+            gfx.DrawString(
+                "Compare ONLY to other labels with yellow numbers.",
+                fCompareMain,
+                white,
+                new XRect(compareMainX, compareMainY, compareMainW, Px(15.6 * 1.20)),
+                FmtTC
+            );
+
+            gfx.DrawString(
+                "Labels with yellow numbers are based on the same test procedures.",
+                fCompareSub,
+                white,
+                new XRect(compareSubX, compareSubY, compareSubW, Px(13.1 * 1.20)),
+                FmtTC
+            );
+
+            y += CompareH + Cm(0.4);
+
+            // ─────────────────────────────────────────────────────────
+            // 5. COST BOX + COST RANGES
+            // ─────────────────────────────────────────────────────────
+            double costY = y;
+            double rangesY = costY + CostH;
+
+            double rangesInnerLeft = boxX + Cm(0.2);
+            double rangesInnerTop = rangesY + Cm(0.06);
+            double rangesInnerH = RangesH - Cm(0.12);
+
+            double rangesBoxX = rangesInnerLeft + RangeSidebarW - Cm(0.06);
+
+            double labelX = rangesBoxX;
+            double labelW = RangeLabelW;
+
+            double trackX = rangesBoxX + labelW + Cm(0.05);
+            double trackH = TrackH;
+
+            double rangesRightLimit = boxX + boxW - Cm(0.3);
+            double rangesBoxW = rangesRightLimit - rangesBoxX;
+            double trackW = rangesRightLimit - trackX - Cm(0.05);
+
+            if (trackW < Cm(1.0))
+            {
+                trackW = Cm(1.0);
+            }
+
+            double rowH = rangesInnerH / 2.0;
+            double row1Y = rangesInnerTop + (rowH - trackH) / 2.0;
+            double row2Y = rangesInnerTop + rowH + (rowH - trackH) / 2.0;
+
+            gfx.DrawRectangle(black, boxX, costY, boxW, CostH);
+
+            gfx.DrawString(
+                "Estimated Yearly Energy Cost",
+                FontArialNarrow(16, XFontStyleEx.Bold),
+                white,
+                new XRect(boxX + Cm(3.15), costY + Cm(0.10), boxW - Cm(6.30), Cm(0.55)),
+                FmtTC
+            );
+
+            double costPct = pct01(energyCost);
+            double cx = trackX + costPct * trackW;
+
+            var fDollar = FontArialBlack(38);
+            var fNum = FontArialBlack(50);
+
+            string costText = Safe(d.ENERGY_COST);
+
+            double dollarW = gfx.MeasureString("$", fDollar).Width;
+            double numberW = gfx.MeasureString(costText, fNum).Width;
+            double dollarGap = Cm(0.25) + Px(2);
+
+            double groupW = dollarW + dollarGap + numberW;
+
+            double costValueX = cx - groupW / 2.0;
+            double costValueY = costY + Cm(0.82);
+
+            double minValueX = boxX + Cm(0.1);
+            double maxValueX = boxX + boxW - Cm(0.1) - groupW;
+
+            if (costValueX < minValueX)
+                costValueX = minValueX;
+
+            if (costValueX > maxValueX)
+                costValueX = maxValueX;
+
+            gfx.DrawString(
+                "$",
+                fDollar,
+                white,
+                new XRect(costValueX, costValueY + Cm(0.04), dollarW + Cm(0.05), Cm(1.4)),
+                FmtML
+            );
+
+            gfx.DrawString(
+                costText,
+                fNum,
+                white,
+                new XRect(costValueX + dollarW + dollarGap, costValueY, numberW + Cm(0.15), Cm(1.4)),
+                FmtML
+            );
+
+            double triTopY = costY + Cm(2.18);
+            double triApexY = triTopY + Px(15);
+
+            gfx.DrawPolygon(
+                white,
+                new[]
+                {
+                    new XPoint(cx - Px(10), triTopY),
+                    new XPoint(cx + Px(10), triTopY),
+                    new XPoint(cx, triApexY)
+                },
+                XFillMode.Winding
+            );
+
+            y = rangesY;
+
+            gfx.DrawRectangle(black, boxX, y, boxW, RangesH);
+
+            gfx.Save();
+
+            double sidebarX = rangesInnerLeft;
+            double sidebarW = RangeSidebarW;
+            double sidebarCx = sidebarX + sidebarW / 2.0;
+            double sidebarCy = rangesInnerTop + rangesInnerH / 2.0;
+
+            gfx.RotateAtTransform(-90, new XPoint(sidebarCx, sidebarCy));
+
+            gfx.DrawString(
+                "Cost Ranges",
+                FontArialNarrow(9, XFontStyleEx.Bold),
+                white,
+                new XRect(sidebarCx - Cm(1.2), sidebarCy - Cm(0.2), Cm(2.4), Cm(0.4)),
+                FmtMC
+            );
+
+            gfx.Restore();
+
+            gfx.DrawRoundedRectangle(
+                new XPen(XColors.White, 1),
+                rangesBoxX,
+                rangesInnerTop,
+                rangesBoxW,
+                rangesInnerH,
+                Px(10),
+                Px(10)
+            );
+
+            gfx.DrawString(
+                "Models with",
+                FontArialNarrow(9.5, XFontStyleEx.Bold),
+                white,
+                new XRect(labelX + Cm(0.3), row1Y - Cm(0.02), labelW, Cm(0.3)),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                "similar features",
+                FontArialNarrow(9.5, XFontStyleEx.Bold),
+                white,
+                new XRect(labelX + Cm(0.3), row1Y + Cm(0.28), labelW, Cm(0.3)),
+                FmtTL
+            );
+
+            gfx.DrawString(
+                "All models",
+                FontArialNarrow(9.5, XFontStyleEx.Bold),
+                white,
+                new XRect(labelX + Cm(0.3), row2Y + Cm(0.08), labelW, Cm(0.3)),
+                FmtTL
+            );
+
+            DrawRangeBarByJsLogic(
+                gfx,
+                lowSimilar,
+                highSimilar,
+                trackX,
+                row1Y,
+                trackW,
+                trackH,
+                globalMin,
+                globalMax
+            );
+
+            DrawRangeBarByJsLogic(
+                gfx,
+                lowAmount,
+                highAmount,
+                trackX,
+                row2Y,
+                trackW,
+                trackH,
+                globalMin,
+                globalMax
+            );
+
+            y += RangesH + Cm(0.39);
+
+            // ─────────────────────────────────────────────────────────
+            // 6. KWH BOX
+            // ─────────────────────────────────────────────────────────
+            double kwhBoxX = boxX + Cm(3.7);
+
+            gfx.DrawRectangle(black, kwhBoxX, y, KwhBoxW, KwhBoxH);
+
+            var fKwh = FontArialBlack(36);
+            var fUnit = FontArialNarrow(13, XFontStyleEx.Bold);
+
+            string kwhStr = Safe(d.ELECTRICITY_USE);
+
+            double wKwh = gfx.MeasureString(kwhStr, fKwh).Width;
+            double wUnit = gfx.MeasureString("kWh", fUnit).Width;
+            double kg = Cm(0.5);
+
+            double grpLeft = kwhBoxX + (KwhBoxW - (wKwh + kg + wUnit)) / 2.0;
+            double valTop = y + Cm(0.35);
+
+            gfx.DrawString(
+                kwhStr,
+                fKwh,
+                white,
+                new XRect(grpLeft, valTop, wKwh + Px(4), Px(44)),
+                FmtBL
+            );
+
+            gfx.DrawString(
+                "kWh",
+                fUnit,
+                white,
+                new XRect(grpLeft + wKwh + kg, valTop, wUnit + Px(4), Px(44)),
+                FmtBL
+            );
+
+            gfx.DrawString(
+                "Estimated Yearly Electricity Use",
+                FontArialNarrow(11, XFontStyleEx.Bold),
+                white,
+                new XRect(kwhBoxX, y + Cm(1.55), KwhBoxW, Cm(0.4)),
+                FmtTC
+            );
+
+            y += KwhBoxH + Px(15);
+
+            // ─────────────────────────────────────────────────────────
+            // 7. FOOTER
+            // ─────────────────────────────────────────────────────────
+            double ftcH = Px(20);
+            double ftcY = H - padBottom - ftcH;
+
+            gfx.DrawString(
+                "ftc.gov/energy",
+                FontArialNarrow(15, XFontStyleEx.Regular),
+                black,
+                new XRect(boxX + Cm(3.2), ftcY, boxW, ftcH),
+                FmtTL
+            );
+
+            double notesW = CW * 0.72;
+            double starW = Cm(2.3);
+            double starH = Cm(2.4);
+            double starX = boxX + boxW - Cm(2.8);
+
+            double blockTop = H - padBottom - Cm(3.05);
+
+            var tf = new XTextFormatter(gfx);
+
+            var notes = new (bool Bold, string T)[]
+            {
+                (true,  "Your cost will depend on your utility rates and use."),
+                (false, "Both cost ranges based on models of similar size capacity."),
+                (false, "Models with similar features have automatic defrost, side-mounted freezer, and through-the-door ice."),
+                (false, "Estimated energy cost is based on a national average electricity cost of 14 cents per kWh.")
+            };
+
+            double ny = blockTop + Cm(0.15);
+
+            foreach (var n in notes)
+            {
+                var fn = FontArialNarrow(
+                    n.Bold ? 10.2 : 9.3,
+                    n.Bold ? XFontStyleEx.Bold : XFontStyleEx.Regular
+                );
+
+                gfx.DrawString(
+                    "•",
+                    FontArialNarrow(9.3, XFontStyleEx.Bold),
+                    black,
+                    new XRect(padLeft, ny, Px(10), Px(11)),
+                    FmtTL
+                );
+
+                int lineas = (int)Math.Ceiling((double)n.T.Length / 65.0);
+                double alturaTexto = lineas * Px(11);
+
+                tf.DrawString(
+                    n.T,
+                    fn,
+                    black,
+                    new XRect(padLeft + Px(12), ny, notesW - Px(12), alturaTexto + Px(10))
+                );
+
+                ny += alturaTexto + Px(4);
+            }
+
+            var logoPie = LoadImageHighContrastBlack("Logo_pie.png", 210);
+
+            if (d.ENERGY_LOGO != null && d.ENERGY_LOGO.ToUpper() == "Y")
+            {
+                if (logoPie != null)
+                {
+                    gfx.DrawImage(logoPie, starX, blockTop, starW, starH);
+                }
+            }
+
+            gfx.DrawString(
+                "PART NO. " + Safe(d.PART_NUMBER),
+                FontArialNarrow(8.5, XFontStyleEx.Bold),
+                black,
+                new XRect(starX, blockTop + starH + Px(4), starW + Px(50), Px(12)),
+                FmtTL
+            );
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // RANGE BAR DRAWING
+        // ─────────────────────────────────────────────────────────────
+        private void DrawRangeBarByJsLogic(
+            XGraphics gfx,
+            double low,
+            double high,
+            double trackX,
+            double trackY,
+            double trackW,
+            double trackH,
+            double globalMin,
+            double globalMax)
+        {
+            double range = globalMax - globalMin;
+
+            double pLow = range == 0 ? 0 : (low - globalMin) / range;
+            double pHigh = range == 0 ? 1 : (high - globalMin) / range;
+
+            pLow = Clamp01(pLow);
+            pHigh = Clamp01(pHigh);
+
+            double fillX = trackX + pLow * trackW;
+            double fillW = Math.Max(0, (pHigh - pLow) * trackW);
+
+            gfx.DrawRoundedRectangle(
+                XBrushes.Black,
+                trackX,
+                trackY,
+                trackW,
+                trackH,
+                Px(6),
+                Px(6)
+            );
+
+            if (fillW > 0)
+            {
+                gfx.DrawRoundedRectangle(
+                    XBrushes.White,
+                    fillX,
+                    trackY,
+                    fillW,
+                    trackH,
+                    Px(4),
+                    Px(4)
+                );
+            }
+
+            var f = FontArialNarrow(14.5, XFontStyleEx.Bold);
+
+            if (fillW > Cm(1.0))
+            {
+                double textPad = Px(8);
+
+                gfx.DrawString(
+                    "$" + low.ToString("0"),
+                    f,
+                    XBrushes.Black,
+                    new XRect(fillX + textPad, trackY, fillW / 2.0 - textPad, trackH),
+                    FmtML
+                );
+
+                gfx.DrawString(
+                    "$" + high.ToString("0"),
+                    f,
+                    XBrushes.Black,
+                    new XRect(fillX + fillW / 2.0, trackY, fillW / 2.0 - textPad, trackH),
+                    FmtMR
+                );
+            }
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // HELPERS
+        // ─────────────────────────────────────────────────────────────
+        private double Clamp01(double value)
+        {
+            return Math.Max(0, Math.Min(1, value));
         }
 
         private double ToDouble(object value, double fallback)
@@ -144,292 +793,10 @@ namespace Energy_printer.Services
                     return Cm(value);
             }
         }
-        private void DrawUSALabel(XGraphics gfx, EnergyLabelDataUSA d, double W, double H, PdfMargins margins)
+
+        private string Safe(object value)
         {
-            double padLeft = margins.Left;
-            double padRight = margins.Right;
-            double padTop = margins.Top;
-            double padBottom = margins.Bottom;
-
-            double CW = W - padLeft - padRight;
-
-            var white = XBrushes.White;
-            var black = XBrushes.Black;
-
-            // ── 1. Gov header  (margin-top 0.3cm, Arial 8pt) ─────────────────────
-            double govY = padTop;
-            gfx.DrawString("U.S. Government",
-                new XFont("Arial", 8, XFontStyleEx.Bold), black,
-                new XRect(padLeft, govY, CW * 0.5, Px(12)), FmtTL);
-            gfx.DrawString("Federal law prohibits removal of this label before consumer purchase.",
-                new XFont("Arial", 8, XFontStyleEx.Regular), black,
-                new XRect(padLeft + CW * 0.25, govY, CW * 0.75, Px(12)), FmtTR);
-            double y = govY + Px(14);
-
-            // ── 2. Logo EnergyGuide  (SIN caja negra; imagen sola, aspect real) ──
-            double logoTop = y, logoBottom = y;
-            var logoTit = LoadImage("Logo_titulo.png");
-            if (logoTit != null)
-            {
-                double logoH = CW * ((double)logoTit.PixelHeight / logoTit.PixelWidth);
-                gfx.DrawImage(logoTit, padLeft, logoTop, CW, logoH);
-                logoBottom = logoTop + logoH;
-            }
-            else
-            {
-                double logoH = Cm(1.6);
-                gfx.DrawString("EnergyGuide", new XFont("Arial Black", 28, XFontStyleEx.Bold),
-                    black, new XRect(padLeft, logoTop, CW, logoH), FmtMC);
-                logoBottom = logoTop + logoH;
-            }
-            // .usa-main-title margin-bottom:-45px  +  .specs-table padding-top:15px = -30px
-            y = logoBottom - Px(30);
-
-            // ── 3. Specs  (Arial 8.5pt bold, line-height 1.2) ────────────────────
-            double specLineH = 8.5 * 1.2;
-            var fSpec = new XFont("Arial", 8.5, XFontStyleEx.Bold);
-            string[] left = { d.REF_TYPE, "• " + d.DEFROST_SYSTEM, "• " + d.DOORTYPE, "• " + d.ICE_SERVICE };
-            string[] right = { d.CUST_NAME, "Model: " + d.MODEL, "Capacity: " + d.CAB_SIZE };
-            for (int i = 0; i < left.Length; i++)
-                gfx.DrawString(left[i], fSpec, black,
-                    new XRect(padLeft, y + i * specLineH, CW * 0.5, specLineH), FmtTL);
-            for (int i = 0; i < right.Length; i++)
-                gfx.DrawString(right[i], fSpec, black,
-                    new XRect(padLeft + CW * 0.5, y + i * specLineH, CW * 0.5, specLineH), FmtTR);
-            y += 4 * specLineH + Px(15);   // margin-bottom 15px
-
-            // ── 4. Compare box  (negro, texto blanco, padding 10px) ──────────────
-            double cmpMain = 12 * 1.2, cmpSub = 9 * 1.2;
-            double cmpH = Px(10) + cmpMain + Px(3) + cmpSub + Px(10);
-            gfx.DrawRectangle(black, padLeft, y, CW, cmpH);
-            gfx.DrawString("Compare ONLY to other labels with yellow numbers.",
-                new XFont("Arial Black", 12, XFontStyleEx.Bold), white,
-                new XRect(padLeft, y + Px(10), CW, cmpMain), FmtTC);
-            gfx.DrawString("Labels with yellow numbers are based on the same test procedures.",
-                new XFont("Arial", 9, XFontStyleEx.Bold), white,
-                new XRect(padLeft, y + Px(10) + cmpMain + Px(3), CW, cmpSub), FmtTC);
-            y += cmpH + Px(10);   // margin-bottom 10px
-
-            // ── 5. Cost box  (más aire, números Arial Bold, título separado) ──
-            double costTitleH = 14 * 1.2;
-            double gapTitle = Px(25);                 // separación título ↔ número
-            double numH = Px(20);                     // banda del número
-            double costH = Px(12) + costTitleH + gapTitle + numH + Px(6) + Px(12) + Px(8) + Px(10);
-            gfx.DrawRectangle(black, padLeft, y, CW, costH);
-            gfx.DrawString("Estimated Yearly Energy Cost",
-                new XFont("Arial Black", 18, XFontStyleEx.Bold), white,
-                new XRect(padLeft, y + Px(12), CW, costTitleH), FmtTC);
-
-            // posición horizontal según el pct del costo
-            double costInnerW = CW - 2 * Px(15);
-            double scaleLeft = padLeft + Px(15) + Px(100);
-            double scaleW = costInnerW - Px(110);
-            double gMin = Math.Min((sbyte) d.LOW_AMOUNT, Math.Min((sbyte) d.LOW_SIMILAR_MODEL, (sbyte) d.ENERGY_COST));
-            double gMax = Math.Max((sbyte) d.HIGH_AMOUNT, Math.Max((sbyte) d.HIGH_SIMILAR_MODEL, (sbyte) d.ENERGY_COST));
-            double pct = (gMax == gMin) ? 0.5 : (double) (d.ENERGY_COST - gMin) / (double)(gMax - gMin);
-            pct = Math.Max(0, Math.Min(1, pct));
-            double cx = scaleLeft + pct * scaleW;
-
-            // valor DEBAJO del título — Arial Bold (no Arial Black)
-            double valTopCost = y + Px(12) + costTitleH + gapTitle;
-            var fDollar = new XFont("Arial Black", 26, XFontStyleEx.Bold);
-            var fNum = new XFont("Arial Black", 38, XFontStyleEx.Bold);
-            string numStr = d.ENERGY_COST.ToString();
-            double wNum = gfx.MeasureString(numStr, fNum).Width;
-            double wDol = gfx.MeasureString("$", fDollar).Width;
-            double gap = Px(4);
-            double gLeft = cx - (wDol + gap + wNum) / 2;
-            gfx.DrawString(numStr, fNum, white,
-                new XRect((double) gLeft + wDol + gap, valTopCost, wNum + Px(4), numH), FmtML);
-            gfx.DrawString("$", fDollar, white,
-                new XRect((double) gLeft, valTopCost, wDol + Px(2), numH), FmtML);
-
-            // triángulo abajo del número
-            double triTopY = valTopCost + numH + 15;
-            double triApexY = triTopY + Px(12);
-            gfx.DrawPolygon(white, new[]
-            {
-                new XPoint((double) cx - Px(10), triTopY),
-                new XPoint((double) cx + Px(10), triTopY),
-                new XPoint((double) cx,          triApexY),
-            }, XFillMode.Winding);
-
-            y += costH;
-
-            // ── 6. Cost Ranges  (mismo bloque negro, esquinas inferiores redondas) ─
-            double rngH = Px(88);
-            gfx.DrawRoundedRectangle(black, padLeft, y, CW, rngH, Px(10), Px(10));
-            gfx.DrawRectangle(black, padLeft, y, CW, Px(12));   // cuadra el borde superior (flush con cost-box)
-
-            double innerLeft = padLeft + Px(5);
-            double innerTop = y + Px(8);
-            double innerW = CW - 2 * Px(5);
-            double innerH = rngH - 2 * Px(8);
-
-            // "Cost Ranges" rotado en la columna izquierda (25px)
-            gfx.Save();
-            double sbCx = innerLeft + Px(12.5);
-            double sbCy = innerTop + innerH / 2;
-            gfx.RotateAtTransform(-90, new XPoint(sbCx, sbCy));
-            gfx.DrawString("Cost Ranges", new XFont("Arial", 9, XFontStyleEx.Regular), white,
-                new XRect(sbCx - Px(40), sbCy - Px(8), Px(80), Px(16)), FmtMC);
-            gfx.Restore();
-
-            // Caja con borde BLANCO alrededor de las dos barras
-            double boxLeft = innerLeft + Px(25);
-            double boxW = innerW - Px(25);
-            gfx.DrawRoundedRectangle(new XPen(XColors.White, 1), boxLeft, innerTop, boxW, innerH, Px(10), Px(10));
-
-            double labelW = Px(105);
-            double trackLeft = boxLeft + labelW;
-            double trackW = boxW - labelW - Px(12);
-            double rowH = innerH / 2;
-            double pillH = Px(18);
-
-            // Fila 1: Models with similar features  (con notch)
-            double r1cy = innerTop + rowH / 2;
-            gfx.DrawString("Models with", new XFont("Arial", 9, XFontStyleEx.Regular), white,
-                new XRect(boxLeft + Px(6), r1cy - Px(11), labelW, Px(11)), FmtML);
-            gfx.DrawString("similar features", new XFont("Arial", 9, XFontStyleEx.Regular), white,
-                new XRect(boxLeft + Px(6), r1cy + Px(1), labelW, Px(11)), FmtML);
-            DrawPill(gfx, (sbyte) d.LOW_SIMILAR_MODEL, (sbyte) d.HIGH_SIMILAR_MODEL,
-                     trackLeft, r1cy - pillH / 2, trackW, pillH, gMin, gMax, true);
-
-            // Fila 2: All models
-            double r2cy = innerTop + rowH + rowH / 2;
-            gfx.DrawString("All models", new XFont("Arial", 10, XFontStyleEx.Regular), white,
-                new XRect(boxLeft + Px(6), r2cy - Px(5.5), labelW, Px(11)), FmtML);
-            DrawPill(gfx, (sbyte) d.LOW_AMOUNT, (sbyte) d.HIGH_AMOUNT,
-                     trackLeft, r2cy - pillH / 2, trackW, pillH, gMin, gMax, false);
-
-            y += rngH + Px(20);   // margin-bottom 20px
-
-            // ── 7. kWh box  (negro, width 50%, centrado) ─────────────────────────
-            double kwhH = Px(94);
-            double kwhBoxW = CW * 0.5;
-            double kwhBoxX = padLeft + (CW - kwhBoxW) / 2;
-            gfx.DrawRectangle(black, kwhBoxX, y, kwhBoxW, kwhH);
-
-            var fKwh = new XFont("Arial Black", 34, XFontStyleEx.Bold);
-            var fUnit = new XFont("Arial Black", 14, XFontStyleEx.Bold);
-            string kwhStr = d.ELECTRICITY_USE.ToString();
-            double wKwh = gfx.MeasureString(kwhStr, fKwh).Width;
-            double wUnit = gfx.MeasureString("kWh", fUnit).Width;
-            double kg = Px(5);
-            double grpLeft = kwhBoxX + (kwhBoxW - (wKwh + kg + wUnit)) / 2;
-            double valTop = y + Px(20);
-            gfx.DrawString(kwhStr, fKwh, white,
-                new XRect(grpLeft, valTop, wKwh + Px(4), Px(44)), FmtBL);
-            gfx.DrawString("kWh", fUnit, white,
-                new XRect(grpLeft + wKwh + kg, valTop, wUnit + Px(4), Px(44)), FmtBL);
-            gfx.DrawString("Estimated Yearly Electricity Use",
-                new XFont("Arial", 9, XFontStyleEx.Bold), white,
-                new XRect(kwhBoxX, valTop + Px(44) + Px(5), kwhBoxW, Px(12)), FmtTC);
-            y += kwhH + Px(15);
-
-            // ── 8. Footer + ftc.gov/energy  (anclados al fondo) ──────────────────
-            double ftcH = Px(20);
-            double ftcY = H - padBottom - ftcH;
-
-            gfx.DrawString("ftc.gov/energy",
-                new XFont("Arial", 12, XFontStyleEx.Regular),
-                black,
-                new XRect(padLeft, ftcY, CW, ftcH),
-                FmtTC);
-
-            // Ancho para las notas y el logo
-            double notesW = CW * 0.72;
-            double starW = Px(85);
-            double starX = padLeft + CW - starW;
-
-            // Ajustamos la posición inicial para que el texto y el logo no pisen el enlace
-            double blockPaddingTop = Px(15);
-            double blockTop = ftcY - blockPaddingTop - Px(85);
-
-            // Formatter para multilínea
-            var tf = new XTextFormatter(gfx);
-
-            var notes = new (bool Bold, string T)[]
-            {
-            (true,  "Your cost will depend on your utility rates and use."),
-            (false, "Both cost ranges based on models of similar size capacity."),
-            (false, "Models with similar features have automatic defrost, side-mounted freezer, and through-the-door ice."),
-            (false, "Estimated energy cost is based on a national average electricity cost of 14 cents per kWh.")
-            };
-
-            // Súmale los pixeles que necesites para empujar el texto hacia abajo
-            double ny = blockTop + Px(25);
-
-            foreach (var n in notes)
-            {
-                var fn = new XFont("Arial", 8, n.Bold ? XFontStyleEx.Bold : XFontStyleEx.Regular);
-
-                // Viñeta (siempre en negrita para que parezca un bullet point real)
-                gfx.DrawString("•", new XFont("Arial", 8, XFontStyleEx.Bold), black,
-                    new XRect(padLeft, ny, Px(10), Px(11)), FmtTL);
-
-                // Estimación dinámica de líneas: asumimos que en ese ancho caben unos 65 caracteres por línea.
-                int lineas = (int)Math.Ceiling((double)n.T.Length / 65.0);
-                double alturaTexto = lineas * Px(11); // Px(11) equivale a la altura de línea de la fuente
-
-                tf.DrawString(n.T, fn, black,
-                    new XRect(padLeft + Px(12), ny, notesW - Px(12), alturaTexto + Px(10)));
-
-                // Salto dinámico + margen inferior (equivale al margin-bottom: 2px del HTML)
-                ny += alturaTexto + Px(4);
-            }
-
-            // Calculamos la altura del logo SIEMPRE, para reservar su espacio
-            double sH = starW; // Valor cuadrado por defecto por si no encuentra la imagen
-            var logoPie = LoadImage("Logo_pie.png");
-            if (logoPie != null)
-            {
-                sH = starW * ((double)logoPie.PixelHeight / logoPie.PixelWidth);
-            }
-
-            // Dibujamos la imagen SOLO si lleva el logo
-            if (d.ENERGY_LOGO != null && d.ENERGY_LOGO.ToUpper() == "Y")
-            {
-                if (logoPie != null)
-                {
-                    gfx.DrawImage(logoPie, starX, blockTop, starW, sH);
-                }
-            }
-
-            // Dibujamos el número de parte SIEMPRE, posicionado justo debajo del espacio del logo
-            gfx.DrawString("PART NO. " + d.PART_NUMBER,
-                new XFont("Arial", 7, XFontStyleEx.Bold),
-                black,
-                new XRect(starX, blockTop + sH + Px(4), starW + Px(50), Px(10)),
-                FmtTL);
-
-        }
-
-        // ── Pill blanca con $low / $high adentro  (+ notch negro opcional) ──────
-        private void DrawPill(XGraphics gfx, int low, int high,
-                              double tX, double tY, double tW, double tH,
-                              double gMin, double gMax, bool sep)
-        {
-            double range = gMax - gMin;
-            double pL = range == 0 ? 0 : (low - gMin) / range;
-            double pH = range == 0 ? 1 : (high - gMin) / range;
-            double left = tX + pL * tW;
-            double w = (pH - pL) * tW;
-
-            double minW = Cm(1.2);                      // mínimo para que quepan los textos
-            if (w < minW) w = minW;
-            if (left + w > tX + tW) left = tX + tW - w;
-
-            gfx.DrawRoundedRectangle(XBrushes.White, left, tY, w, tH, tH, tH);
-
-            var f = new XFont("Arial Black", 10, XFontStyleEx.Bold);
-            gfx.DrawString("$" + low, f, XBrushes.Black,
-                new XRect(left + Px(6), tY, w * 0.5, tH), FmtML);
-            gfx.DrawString("$" + high, f, XBrushes.Black,
-                new XRect(left + w - Px(6) - Cm(1), tY, Cm(1), tH), FmtMR);
-
-            if (sep)   // .separador-sim (3px negro en el borde izquierdo)
-                gfx.DrawRectangle(XBrushes.Black, left, tY, Px(3), tH);
+            return value == null ? string.Empty : value.ToString();
         }
     }
 }
