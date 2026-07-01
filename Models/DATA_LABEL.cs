@@ -23,16 +23,16 @@ namespace Energy_printer.Models
         public string CUST_NAME { get; set; }
         public string MODEL { get; set; }
         public string CAB_SIZE { get; set; }
-        public Nullable<int> ENERGY_COST { get; set; }
-        public Nullable<int> LOW_SIMILAR_MODEL { get; set; }
-        public Nullable<int> HIGH_SIMILAR_MODEL { get; set; }
-        public Nullable<int> LOW_AMOUNT { get; set; }
-        public Nullable<int> HIGH_AMOUNT { get; set; }
+        public int ENERGY_COST { get; set; }
+        public int LOW_SIMILAR_MODEL { get; set; }
+        public int HIGH_SIMILAR_MODEL { get; set; }
+        public int LOW_AMOUNT { get; set; }
+        public int HIGH_AMOUNT { get; set; }
         public string ENERGY_LOGO { get; set; }
         public string PART_NUMBER { get; set; }
-        public Nullable<int> MODEL_KW { get; set; }
-        public Nullable<int> LOW_KW { get; set; }
-        public Nullable<int> HIGH_KW { get; set; }
+        public int MODEL_KW { get; set; }
+        public int LOW_KW { get; set; }
+        public int HIGH_KW { get; set; }
         public string TYPE { get; set; }
         public string RANGE { get; set; }
     }

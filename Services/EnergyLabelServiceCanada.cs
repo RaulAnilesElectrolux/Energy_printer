@@ -1,0 +1,381 @@
+using Energy_printer.Models;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Pdf;
+using System;
+using PdfSharp;
+using System.IO;
+using System.Reflection;
+using PdfSharp.Fonts;
+using System.Collections.Generic;
+
+namespace Energy_printer.Services
+{
+    // ══════════════════════════════════════════════════════════════════════
+    //  ETIQUETA CANADA (BLANCA / EnerGuide)
+    // ══════════════════════════════════════════════════════════════════════
+    public class EnergyLabelServiceCanada : EnergyLabelHelpersBase
+    {
+        // Tamaño individual de cada etiqueta (igual que antes)
+        private const double LabelW = 5.375;
+        private const double LabelH = 7.3;
+
+        public EnergyLabelServiceCanada(string contentPath) : base(contentPath)
+        {
+        }
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  MAPEO DESDE DATA_LABEL (Entity Framework)
+        // ══════════════════════════════════════════════════════════════════════
+
+        public EnergyLabelDataCanada FromDataLabel(DATA_LABEL d)
+        {
+            return new EnergyLabelDataCanada
+            {
+                MODEL = d.MODEL,
+                MODEL_KW = d.MODEL_KW,
+                LOW_KW = d.LOW_KW,
+                HIGH_KW = d.HIGH_KW,
+                TYPE = d.TYPE,
+                RANGE = d.RANGE,
+                ENERGY_LOGO = d.ENERGY_LOGO,
+            };
+        }
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  GENERACIÓN DE UNA SOLA HOJA CON LAS DOS ETIQUETAS
+        // ══════════════════════════════════════════════════════════════════════
+        //  marginLeft / marginRight / marginTop / marginBottom: en pulgadas (in).
+        //  Definen el espacio entre el borde físico de la hoja y el bloque de
+        //  las dos etiquetas. Las etiquetas se colocan una junto a la otra
+        //  (lado a lado), pegadas entre sí, y todo el bloque se desplaza según
+        //  los 4 márgenes que indiques.
+        public void AddCanadaSheet(
+            PdfDocument doc,
+            EnergyLabelDataCanada d,
+            CONFIG_DATA_LABEL margins)
+        {
+            double labelWpt = XUnit.FromInch(LabelW).Point;
+            double labelHpt = XUnit.FromInch(LabelH).Point;
+
+            // Tamaño físico de la hoja: las 2 etiquetas una al lado de la otra
+            // + los 4 márgenes externos que tú definas.
+            double sheetW = 0;
+            double sheetH = 0;
+            switch (margins.UNIT) {
+                case "cm":
+                    sheetW = Cm((double) margins.MARG_LEFT_1) + (labelWpt * 2) + 
+                        Cm((double) margins.MARG_RIGHT_1) +
+                        Cm((double) margins.MARG_LEFT_2) +
+                        Cm((double) margins.MARG_RIGHT_2);
+                    sheetH = Cm(Math.Max((double) margins.MARG_TOP_1, (double) margins.MARG_TOP_2)) + labelHpt +
+                        Cm(Math.Max((double) margins.MARG_BOTTOM_1, (double) margins.MARG_BOTTOM_2));
+                    break;
+                case "in":
+                    sheetW = In((double)margins.MARG_LEFT_1) + (labelWpt * 2) +
+                        In((double)margins.MARG_RIGHT_1) +
+                        In((double)margins.MARG_LEFT_2) +
+                        In((double)margins.MARG_RIGHT_2);
+                    sheetH = In(Math.Max((double)margins.MARG_TOP_1, (double)margins.MARG_TOP_2)) + labelHpt +
+                        In(Math.Max((double)margins.MARG_BOTTOM_1, (double)margins.MARG_BOTTOM_2));
+                    break;
+                case "px":
+                    sheetW = Px((double)margins.MARG_LEFT_1) + (labelWpt * 2) +
+                        Px((double)margins.MARG_RIGHT_1) +
+                        Px((double)margins.MARG_LEFT_2) +
+                        Px((double)margins.MARG_RIGHT_2);
+                    sheetH = Px(Math.Max((double)margins.MARG_TOP_1, (double)margins.MARG_TOP_2)) + labelHpt +
+                        Px(Math.Max((double)margins.MARG_BOTTOM_1, (double)margins.MARG_BOTTOM_2));
+                    break;
+            }
+
+            var page = doc.AddPage();
+            page.Width = XUnit.FromPoint(sheetW);
+            page.Height = XUnit.FromPoint(sheetH);
+
+            using (var gfx = XGraphics.FromPdfPage(page))
+            {
+                double offsetY1 = 0;
+                double offsetY2 = 0;
+                double offsetX1 = 0;
+                double offsetX2 = 0;
+                switch (margins.UNIT)
+                {
+                    case "cm":
+                        offsetY1 = Cm((double)margins.MARG_TOP_1);
+                        offsetY2 = Cm((double)margins.MARG_TOP_2);
+                        offsetX1 = Cm((double)margins.MARG_LEFT_1);
+                        offsetX2 = offsetX1 + labelWpt + Cm((double)margins.MARG_RIGHT_1) + Cm((double)margins.MARG_LEFT_2);
+                        break;
+                    case "in":
+                        offsetY1 = In((double)margins.MARG_TOP_1);
+                        offsetY2 = In((double)margins.MARG_TOP_2);
+                        offsetX1 = In((double)margins.MARG_LEFT_1);
+                        offsetX2 = offsetX1 + labelWpt + In((double)margins.MARG_RIGHT_1) + In((double)margins.MARG_LEFT_2);
+                        break;
+                    case "px":
+                        offsetY1 = Px((double)margins.MARG_TOP_1);
+                        offsetY2 = Px((double)margins.MARG_TOP_2);
+                        offsetX1 = Px((double)margins.MARG_LEFT_1);
+                        offsetX2 = offsetX1 + labelWpt + Px((double)margins.MARG_RIGHT_1) + Px((double)margins.MARG_LEFT_2);
+                        break;
+                }
+
+
+
+                // Etiqueta 1: pegada al margen izquierdo
+                
+                DrawCanadaLabel(gfx, d, labelWpt, labelHpt, offsetX1, offsetY1);
+
+                // Etiqueta 2: justo a la derecha de la primera
+                DrawCanadaLabel(gfx, d, labelWpt, labelHpt, offsetX2, offsetY2);
+            }
+        }
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  (Se conserva por compatibilidad: una sola etiqueta por página)
+        // ══════════════════════════════════════════════════════════════════════
+        public void AddCanadaPage(PdfDocument doc, EnergyLabelDataCanada d)
+        {
+            var page = doc.AddPage();
+            page.Width = XUnit.FromInch(LabelW);
+            page.Height = XUnit.FromInch(LabelH);
+
+            using (var gfx = XGraphics.FromPdfPage(page))
+            {
+                DrawCanadaLabel(gfx, d, page.Width.Point, page.Height.Point, 0, 0);
+            }
+        }
+
+        // ══════════════════════════════════════════════════════════════════════
+        //  DIBUJO DE LA ETIQUETA
+        //  offsetX / offsetY: esquina superior-izquierda donde se dibuja esta
+        //  etiqueta dentro de la página (en puntos). El dibujo interno sigue
+        //  usando coordenadas relativas (0,0 = esquina de ESTA etiqueta); el
+        //  traslado al lugar correcto de la hoja se hace con Save/Translate/
+        //  Restore, así toda la lógica original de dibujo queda intacta.
+        // ══════════════════════════════════════════════════════════════════════
+        private void DrawCanadaLabel(XGraphics gfx, EnergyLabelDataCanada d, double W, double H,
+            double offsetX, double offsetY)
+        {
+            gfx.Save();
+            gfx.TranslateTransform(offsetX, offsetY);
+
+            double pad = In(0.07);
+            double padTop = In(0.19);
+
+            // Fondo blanco y Borde
+            gfx.DrawRectangle(XBrushes.White, 0, 0, W, H);
+            gfx.DrawRectangle(new XPen(XColors.Black, 1.5), 0, 0, W, H);
+
+            double innerH = In(6.08) + pad;
+            gfx.DrawRectangle(new XPen(XColors.Black, 1), pad / 2, pad / 2, W - pad, innerH);
+
+            double x = pad * 2;
+            double cW = W - pad * 4;
+            double y = pad + padTop;
+            double logoW = 0;
+            var logoEner = LoadImage("Energuide2.png");
+            if (logoEner != null)
+            {
+                logoW = cW * 0.93;
+                double logoH = logoW * (208.0 / 656.0);
+                double logoX = pad + (cW - logoW) / 2 + pad;
+                gfx.DrawImage(logoEner, logoX, y, logoW, logoH);
+                y += logoH + In(0.10);
+            }
+
+            gfx.DrawString("Energy consumption / Consommation énergétique",
+                new XFont("HelveticaNeue", 12.5, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + (x / 2.98), y, cW, In(0.25)), FmtMC);
+            y += In(0.35);
+
+            double kwhY = y;
+            double kwhNumW = cW * 0.55;
+            gfx.DrawString(d.MODEL_KW.ToString(),
+                new XFont("HelveticaNeue", 45, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x - In(0.35), kwhY, kwhNumW, In(0.85)), FmtBR);
+
+            double unitX = x * 0.70 + kwhNumW;
+            gfx.DrawString("kWh",
+                new XFont("HelveticaNeue", 30, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(unitX, kwhY + In(0.26), cW * 0.3, In(0.45)), FmtTL);
+            gfx.DrawString("per year / par année",
+                new XFont("Arial", 11.8, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(unitX, kwhY + In(0.68), cW * 0.3, In(0.3)), FmtTL);
+            y += In(1.1);
+
+            double arrowPct = (double)((d.HIGH_KW - d.LOW_KW) <= 0 ? 0
+                : (double)(d.MODEL_KW - d.LOW_KW) / (d.HIGH_KW - d.LOW_KW));
+            arrowPct = Math.Max(0, Math.Min(1, arrowPct));
+
+            double arrowSize = In(0.22);
+            double arrowX = x + arrowPct * (cW * 0.965) + pad;
+            gfx.DrawPolygon(XBrushes.Black, new[]
+            {
+                new XPoint(arrowX,                  y + arrowSize),
+                new XPoint(arrowX - arrowSize * 0.6, y),
+                new XPoint(arrowX + arrowSize * 0.6, y),
+            }, XFillMode.Winding);
+
+            double thisModel = arrowPct <= 0.6 ? arrowX + In(0.2) : arrowX - In(1.65);
+            gfx.DrawString("This Model / Ce Modèle",
+                new XFont("Arial", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(thisModel, y * 0.95, cW * 0.5, In(0.22)), FmtML);
+            y += In(0.35);
+
+            double barH = In(0.23);
+            int steps = 120;
+            double posX = cW * 0.965;
+            double stepW = posX / steps;
+            double tam = 0;
+            for (int i = 0; i < steps; i++)
+            {
+                int gray = (int)(255.0 * i / (steps - 1));
+                var brush = new XSolidBrush(XColor.FromArgb(255 - gray, 255 - gray, 255 - gray));
+                tam = (pad + (cW - posX) / 2 + pad) + i * stepW;
+                gfx.DrawRectangle(brush, tam, y, stepW + 0.5, barH);
+            }
+            gfx.DrawRectangle(new XPen(XColors.Black, 1), pad + (cW - posX) / 2 + pad, y, posX, barH);
+            gfx.DrawRectangle(new XPen(XColors.Black, 1.25), pad + (cW - posX) / 2 + pad, y, In(0.01), barH + (barH / 2));
+            gfx.DrawRectangle(new XPen(XColors.Black, 1.25), tam + In(0.03), y, In(0.01), barH + (barH / 2));
+            y += barH;
+
+            gfx.DrawString(d.LOW_KW + " kWh",
+                new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect((pad * 3 + (cW - posX) / 2), y + In(0.04), cW / 2, In(0.2)), FmtTL);
+            gfx.DrawString(d.HIGH_KW + " kWh",
+                new XFont("Arial Narrow", 9, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW / 2 - In(0.15), y + In(0.04), cW / 2, In(0.2)), FmtTR);
+            y += In(0.28);
+
+            double rowH = In(0.5);
+            x = (pad + (cW - posX) / 2) + pad;
+
+            // 1. Ule (Lado izquierdo)
+            string textoUle = "Uses least energy /\nConsomme le moins d'énergie";
+            XFont fuenteUle = new XFont("HelveticaNeue", 12, XFontStyleEx.Bold);
+            XRect rectanguloUle = new XRect(x, y, cW * 0.40, In(0.65));
+
+            XTextFormatter tfUle = new XTextFormatter(gfx);
+            tfUle.Alignment = XParagraphAlignment.Left;
+            tfUle.DrawString(textoUle, fuenteUle, XBrushes.Black, rectanguloUle);
+
+            // 2. TYPE (Centro)
+            gfx.DrawString(d.TYPE,
+                new XFont("Arial Narrow", 18, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.3, y - In(0.05), cW * 0.4, rowH), FmtMC);
+
+            string textoUme = "Uses most energy /\nConsomme le plus d'énergie";
+            XFont fuenteUme = new XFont("HelveticaNeue", 12, XFontStyleEx.Bold);
+
+            // Recorremos la coordenada X para que empiece en el 75% del ancho de tu contenedor
+            XRect rectanguloUme = new XRect(x + (cW * 0.73) - (cW * 0.10), y, cW * 0.35, In(0.65));
+
+            XTextFormatter tfUme = new XTextFormatter(gfx);
+            // Lo alineamos a la derecha para respetar la estética de la etiqueta
+            tfUme.Alignment = XParagraphAlignment.Right;
+            tfUme.DrawString(textoUme, fuenteUme, XBrushes.Black, rectanguloUme);
+
+            // AHORA SÍ, bajamos la coordenada "y" para preparar el siguiente elemento (el volumen)
+            y += rowH + In(0.20);
+            double rowSimilarH = In(0.55);
+
+            // Laterales en fuente pequeña, solo una palabra clave
+            string textoSimEn = "Similar models \ncompared";
+            XFont fuenteSimEn = new XFont("Arial Narrow", 11, XFontStyleEx.Regular);
+            XRect rectanguloSimEn = new XRect(x, y + In(0.07), cW * 0.25, rowSimilarH);
+
+            XTextFormatter tfSimEn = new XTextFormatter(gfx);
+            tfSimEn.Alignment = XParagraphAlignment.Left;
+            tfSimEn.DrawString(textoSimEn, fuenteSimEn, XBrushes.Black, rectanguloSimEn);
+
+
+            // 2. Textos centrales (Rango y Volumen)
+            gfx.DrawString(d.RANGE,
+                new XFont("Arial Narrow", 12, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.15, y, cW * 0.64, In(0.20)), FmtTC);
+
+            gfx.DrawString("volume in ft.3 / volume en pi³",
+                new XFont("Arial", 12, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.18, y + In(0.20), cW * 0.64, In(0.25)), FmtTC);
+
+
+            // 3. Texto derecho (Francés) en multilínea
+            string textoSimFr = "Modèles similaires\ncomparés";
+            XFont fuenteSimFr = new XFont("Arial Narrow", 11, XFontStyleEx.Regular);
+            XRect rectanguloSimFr = new XRect(x + cW * 0.80 - (cW * 0.07), y + In(0.04), cW * 0.25, rowSimilarH);
+
+            XTextFormatter tfSimFr = new XTextFormatter(gfx);
+            tfSimFr.Alignment = XParagraphAlignment.Right; // Alineado a la derecha
+            tfSimFr.DrawString(textoSimFr, fuenteSimFr, XBrushes.Black, rectanguloSimFr);
+
+            // 4. Bajamos la coordenada "y" para la siguiente fila
+            y += (rowSimilarH - In(0.05));
+
+            gfx.DrawString("Model number",
+                new XFont("Arial Narrow", 11, XFontStyleEx.Regular), XBrushes.Black,
+                new XRect(x, y + In(0.1), cW * 0.35, In(0.35)), FmtTL);
+            gfx.DrawString(d.MODEL,
+                new XFont("Arial Narrow", 18, XFontStyleEx.Bold), XBrushes.Black,
+                new XRect(x + cW * 0.2, y, cW * 0.6, In(0.35)), FmtMC);
+            gfx.DrawString("Numéro du modèle",
+                new XFont("Arial Narrow", 11, XFontStyleEx.Regular), XBrushes.Black,
+                new XRect(x + cW * 0.63, y + In(0.1), cW * 0.35, In(0.35)), FmtTR);
+
+            y += In(0.50);
+
+            string removalLbel = "Removal of this label before first retail purchase is an offence (S.C. 1992, c. 36)\n" +
+                "Enlever cette étiquette avant le premier achat au détail constitue une infraction (L.C. 1992, ch. 36)";
+            XFont fuenteRl = new XFont("HelveticaNeue", 7.5, XFontStyleEx.Regular);
+            XRect rectanguloRl = new XRect(x, y + In(0.03), cW, In(0.35));
+
+            XTextFormatter tfRl = new XTextFormatter(gfx);
+
+            tfRl.Alignment = XParagraphAlignment.Center;
+            tfRl.DrawString(removalLbel, fuenteRl, XBrushes.Black, rectanguloRl);
+
+            if (d.ENERGY_LOGO != null && d.ENERGY_LOGO.ToUpper() == "Y")
+            {
+                double botY = pad + innerH + In(0.02);
+                double botH = H - botY - pad;
+                double starW = In(0.77);
+
+                var canStar = LoadImage("CanStar2.jpg");
+                if (canStar != null)
+                {
+                    double imgH = starW + In(0.22);
+                    gfx.DrawImage(canStar, In(0.35), botY, starW, imgH);
+                }
+
+                double textX = In(0.30) + starW + In(0.45);
+                double textW = W - textX - pad - In(0.60);
+
+                // Instanciamos la fuente y el formateador una sola vez para ambos párrafos
+                XFont fuenteFooter = new XFont("HelveticaNeue", 6.2, XFontStyleEx.Bold);
+                XTextFormatter tfFooter = new XTextFormatter(gfx);
+                tfFooter.Alignment = XParagraphAlignment.Left; // Equivalente a tu FmtTL
+
+                // 1. Párrafo en Inglés
+                string textoEnergyEn = "The Energy Star® mark on this EnerGuide label signifies that this is \nan energy-efficient " +
+                                       "appliance. Its energy performance meets or \nexceeds the Government of Canada's high efficiency " +
+                                       "levels. Use the \nEnerGuide rating to determine how this appliance compares to other \nsimilar models.";
+
+                XRect rectanguloEn = new XRect(textX, botY - In(0.02), textW, botH * 0.55);
+                tfFooter.DrawString(textoEnergyEn, fuenteFooter, XBrushes.Black, rectanguloEn);
+
+
+                // 2. Párrafo en Francés
+                string textoEnergyFr = "La marque Energy Star® sur cette étiquette Énerguide signifie \nque l'appareil est éconergétique " +
+                                       "et que son rendement énergétique \nsatisfait ou dépasse les niveaux de haute efficacité du " +
+                                       "gouvernement \ndu Canada. Utilisez la cote Énerguide afin de comparer le rendement \nDe l'appareil " +
+                                       "avec celui d'autres modèles similaires.";
+
+                XRect rectanguloFr = new XRect(textX, botY + botH * 0.50, textW, botH * 0.6);
+                tfFooter.DrawString(textoEnergyFr, fuenteFooter, XBrushes.Black, rectanguloFr);
+            }
+
+            gfx.Restore();
+        }
+    }
+}
