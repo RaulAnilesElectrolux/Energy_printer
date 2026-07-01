@@ -1,33 +1,63 @@
 /* =========================================================================
    ESTILOS: ETIQUETA BLANCA (CANADA ENERGUIDE)
    ========================================================================= */
-.page-blanca .usa-container {
-    width: 14cm;
-    height: 19cm;
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url("../Assets/HelveticaNeue-Medium.otf") format('otf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue Bold';
+    src: url("../Assets/HelveticaNeueBold.ttf");
+    font-weight: 700;
+    font-style: normal;
+}
+
+.printP {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: end;
+    height: 100vh;
+    margin-bottom: 0.3in;
+}
+
+.canada-container {
+    width: 5.3in;
+    height: 7.125in;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.cc1 {
+    margin-left: 3px;
+}
+
+.cc2 {
+    margin-right: 3px;
 }
 
 .page-blanca .label {
-    width: 5.2in;
-    height: 7.15in;
+    width: 5.3in;
+    height: 7.125in;
     background: white;
     border: 1px solid #000;
-    padding: 1px;
+    padding: 2px;
     position: relative;
     overflow: hidden;
 }
 
 .canada {
     border: 1px solid black;
-    padding-left: 0.11in;
-    padding-right: 0.11in;
+    padding-left: 0.16in;
+    padding-right: 0.16in;
     padding-top: 0.19in;
-    margin-bottom: 2px;
-    height: 5.86in;
+    height: 6.05in;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,10 +99,11 @@
 
 .sub-title {
     text-align: center;
-    font-size: unset;
+    font-size: 17px;
     font-weight: bold;
     margin-top: 0.15in;
-    margin-bottom: 0.30in;
+    margin-bottom: 0.20in;
+    margin-left: 0.16in;
 }
 
 .consumption {
@@ -80,55 +111,69 @@
     justify-content: center;
     align-items: flex-end;
     gap: 25px;
-    margin-bottom: 15px;
-    padding-left: 16%;
+    margin-bottom: 2px;
+    padding-left: 12%;
+    width: 100%;
 }
 
-    .consumption .value {
-        font-size: 65px;
-        font-weight: bold;
-        line-height: 1;
-    }
+.consumption .value {
+    font-size: 65px;
+    font-weight: 700;
+    line-height: 1;
+    font-family: 'Helvetica Neue Bold';
+    height: stretch;
+    transform: scaleX(0.97);
+    letter-spacing: 0.02in;
+}
 
-    .consumption .unit {
-        font-size: 35px;
-        font-weight: bold;
-        line-height: 1.1;
-    }
+.consumption .unit {
+    font-size: 40px;
+    font-family: 'Helvetica Neue Bold';
+    line-height: 1.1;
+    margin-top: 0.17in;
+    padding-left: 1.8%;
+}
 
-        .consumption .unit small {
-            display: block;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.consumption .unit p {
+    display: block;
+    font-size: 16.7px;
+    margin: 0;
+    font-weight: bold;
+    font-family: 'Helvetica Neue Bold';
+}
+
+.this-model {
+    font-family: 'Helvetica Neue', sans-serif; 
+    display: inline-block;
+    padding-left: 0.19in;
+}
 
 .model-arrow {
     display: flex;
-    align-items: flex-end;
-    gap: 8px;
     font-size: 13px;
     font-weight: bold;
     width: 100%;
     white-space: nowrap;
+    flex-direction: column;
 }
 
 .arrow {
     width: 0.19in;
     height: 0.19in;
-    border-left: 0.11in solid transparent;
-    border-right: 0.11in solid transparent;
-    border-top: 0.22in solid #000;
+    border-left: 0.12in solid transparent;
+    border-right: 0.12in solid transparent;
+    border-top: 0.18in solid #000;
 }
 
 .scale {
     margin-bottom: 0.15in;
-    box-shadow: inset 2px 20px 0 0 black, inset -2px 20px 0 0 black;
-    padding-inline: 2px;
-    width: 97%;
+    box-shadow: inset 3px 20px 0 0 black, inset -3px 20px 0 0 black;
+    padding-inline: 3px;
+    width: 100%;
 }
 
 .bar {
-    height: 0.23in;
+    height: 0.25in;
     background: linear-gradient(to right,#f3f3f3,#111);
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
@@ -140,7 +185,8 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    font-weight: 600;
+    font-family: Arial;
+    font-weight: bolder;
     margin-top: 5px;
     margin-left: 3px;
     margin-right: 3px;
@@ -149,7 +195,7 @@
 .energy-info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.15in;
+    margin-bottom: 0.1in;
     font-weight: bold;
     font-size: 15px;
 }
@@ -171,7 +217,8 @@
     .type-section .volume {
         width: 80%;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 16px;
+        font-family: Arial;
     }
 
 .model {
@@ -180,7 +227,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 15px;
-    align-items: center;
+    align-items: end;
     width: 100%;
 }
 
@@ -189,14 +236,15 @@
     }
 
     .model .number {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: bold;
-        margin-top: 8px;
+        margin-top: 4px;
     }
 
 .warning {
     text-align: center;
-    font-size: 10px;
+    font-size: 9px;
+    margin-top: 3px;
 }
 
 .bottom {
@@ -206,14 +254,13 @@
 
 .bottom-text {
     flex: 1;
-    font-size: 9.7px;
+    font-size: 8.5px;
     line-height: 1.1;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-top: 2px;
 }
 
 .bottom-section {
-    margin-right: 10%;
 }
 
 .imagen {
@@ -226,9 +273,24 @@
 /* =========================================================================
    CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - CANADÁ
    ========================================================================= */
+
 @media print {
-    .page-blanca .usa-container {
-        width: 14cm !important;
-        height: 19cm !important;
+    .printP {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: end;
+        height: 100vh;
+    }
+
+    .canada-container {
+        width: 5.3in;
+        height: 7.125in;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: 'Helvetica Neue', sans-serif;
+        margin-bottom: 0.3in;
     }
 }
