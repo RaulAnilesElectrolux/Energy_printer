@@ -53,10 +53,17 @@
         @Html.Partial("_LabelUSA")
         @Html.Partial("_LabelUSA")
     </div>
-    <div class="print-page page-blanca">
-        @Html.Partial("_LabelCanada")
-        @Html.Partial("_LabelCanada")
-     </div>
+    <div class="printP page-blanca">
+        <div class="canada-container cc1">
+            @Html.Partial("_LabelCanada")
+        </div>
+        <div class="canada-container cc2">
+            @Html.Partial("_LabelCanada")
+        </div>
+
+    </div>
+
+    <script src="@Url.Content("~/Scripts/Formato4.js")"></script>
 </body>
 
 <script>
