@@ -17,8 +17,8 @@ namespace Energy_printer.Services
     public class EnergyLabelServiceCanada : EnergyLabelHelpersBase
     {
         // Tamaño individual de cada etiqueta (igual que antes)
-        private const double LabelW = 5.375;
-        private const double LabelH = 7.3;
+        private const double LabelW = 5.2;
+        private const double LabelH = 7.25;
 
         public EnergyLabelServiceCanada(string contentPath) : base(contentPath)
         {
@@ -168,7 +168,7 @@ namespace Energy_printer.Services
             gfx.DrawRectangle(XBrushes.White, 0, 0, W, H);
             gfx.DrawRectangle(new XPen(XColors.Black, 1.5), 0, 0, W, H);
 
-            double innerH = In(6.08) + pad;
+            double innerH = In(6.03) + pad;
             gfx.DrawRectangle(new XPen(XColors.Black, 1), pad / 2, pad / 2, W - pad, innerH);
 
             double x = pad * 2;
@@ -193,15 +193,15 @@ namespace Energy_printer.Services
             double kwhY = y;
             double kwhNumW = cW * 0.55;
             gfx.DrawString(d.MODEL_KW.ToString(),
-                new XFont("HelveticaNeue", 45, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("HelveticaNeue", 48, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(x - In(0.35), kwhY, kwhNumW, In(0.85)), FmtBR);
 
             double unitX = x * 0.70 + kwhNumW;
             gfx.DrawString("kWh",
-                new XFont("HelveticaNeue", 30, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("HelveticaNeue", 32, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(unitX, kwhY + In(0.26), cW * 0.3, In(0.45)), FmtTL);
             gfx.DrawString("per year / par année",
-                new XFont("Arial", 11.8, XFontStyleEx.Bold), XBrushes.Black,
+                new XFont("Arial", 12, XFontStyleEx.Bold), XBrushes.Black,
                 new XRect(unitX, kwhY + In(0.68), cW * 0.3, In(0.3)), FmtTL);
             y += In(1.1);
 
@@ -213,15 +213,15 @@ namespace Energy_printer.Services
             double arrowX = x + arrowPct * (cW * 0.965) + pad;
             gfx.DrawPolygon(XBrushes.Black, new[]
             {
-                new XPoint(arrowX,                  y + arrowSize),
-                new XPoint(arrowX - arrowSize * 0.6, y),
-                new XPoint(arrowX + arrowSize * 0.6, y),
+                new XPoint(arrowX,                  y + arrowSize + In(0.07)),
+                new XPoint(arrowX - arrowSize * 0.6, y + In(0.07)),
+                new XPoint(arrowX + arrowSize * 0.6, y + In(0.07)),
             }, XFillMode.Winding);
 
             double thisModel = arrowPct <= 0.6 ? arrowX + In(0.2) : arrowX - In(1.65);
             gfx.DrawString("This Model / Ce Modèle",
                 new XFont("Arial", 9, XFontStyleEx.Bold), XBrushes.Black,
-                new XRect(thisModel, y * 0.95, cW * 0.5, In(0.22)), FmtML);
+                new XRect(thisModel, y * 0.96, cW * 0.5, In(0.22)), FmtML);
             y += In(0.35);
 
             double barH = In(0.23);
@@ -345,10 +345,10 @@ namespace Energy_printer.Services
                 if (canStar != null)
                 {
                     double imgH = starW + In(0.22);
-                    gfx.DrawImage(canStar, In(0.35), botY, starW, imgH);
+                    gfx.DrawImage(canStar, In(0.42), botY, starW, imgH);
                 }
 
-                double textX = In(0.30) + starW + In(0.45);
+                double textX = In(0.30) + starW + In(0.48);
                 double textW = W - textX - pad - In(0.60);
 
                 // Instanciamos la fuente y el formateador una sola vez para ambos párrafos
