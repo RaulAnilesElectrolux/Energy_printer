@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="JZAPPROVALModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CONFIG_DATA_LABEL">
+          <Key>
+            <PropertyRef Name="ID_LABEL" />
+          </Key>
+          <Property Name="ID_LABEL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LABEL_TYPE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MARG_LEFT_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_RIGHT_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_TOP_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_BOTTOM_1" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_LEFT_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_RIGHT_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_TOP_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="MARG_BOTTOM_2" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="UNIT" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="DATA_LABEL">
           <Key>
             <PropertyRef Name="ID_LABEL" />
@@ -32,6 +48,7 @@
           <Property Name="RANGE" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityContainer Name="JZAPPROVALModelStoreContainer">
+          <EntitySet Name="CONFIG_DATA_LABEL" EntityType="Self.CONFIG_DATA_LABEL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DATA_LABEL" EntityType="Self.DATA_LABEL" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -66,7 +83,24 @@
         </EntityType>
         <EntityContainer Name="JZAPPROVALEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DATA_LABEL" EntityType="Self.DATA_LABEL" />
+          <EntitySet Name="CONFIG_DATA_LABEL" EntityType="JZAPPROVALModel.CONFIG_DATA_LABEL" />
         </EntityContainer>
+        <EntityType Name="CONFIG_DATA_LABEL">
+          <Key>
+            <PropertyRef Name="ID_LABEL" />
+          </Key>
+          <Property Name="ID_LABEL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LABEL_TYPE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MARG_LEFT_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_RIGHT_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_TOP_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_BOTTOM_1" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_LEFT_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_RIGHT_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_TOP_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="MARG_BOTTOM_2" Type="Decimal" Nullable="false" Precision="10" Scale="3" />
+          <Property Name="UNIT" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -97,6 +131,23 @@
                 <ScalarProperty Name="HIGH_KW" ColumnName="HIGH_KW" />
                 <ScalarProperty Name="TYPE" ColumnName="TYPE" />
                 <ScalarProperty Name="RANGE" ColumnName="RANGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONFIG_DATA_LABEL">
+            <EntityTypeMapping TypeName="JZAPPROVALModel.CONFIG_DATA_LABEL">
+              <MappingFragment StoreEntitySet="CONFIG_DATA_LABEL">
+                <ScalarProperty Name="UNIT" ColumnName="UNIT" />
+                <ScalarProperty Name="MARG_BOTTOM_2" ColumnName="MARG_BOTTOM_2" />
+                <ScalarProperty Name="MARG_TOP_2" ColumnName="MARG_TOP_2" />
+                <ScalarProperty Name="MARG_RIGHT_2" ColumnName="MARG_RIGHT_2" />
+                <ScalarProperty Name="MARG_LEFT_2" ColumnName="MARG_LEFT_2" />
+                <ScalarProperty Name="MARG_BOTTOM_1" ColumnName="MARG_BOTTOM_1" />
+                <ScalarProperty Name="MARG_TOP_1" ColumnName="MARG_TOP_1" />
+                <ScalarProperty Name="MARG_RIGHT_1" ColumnName="MARG_RIGHT_1" />
+                <ScalarProperty Name="MARG_LEFT_1" ColumnName="MARG_LEFT_1" />
+                <ScalarProperty Name="LABEL_TYPE" ColumnName="LABEL_TYPE" />
+                <ScalarProperty Name="ID_LABEL" ColumnName="ID_LABEL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

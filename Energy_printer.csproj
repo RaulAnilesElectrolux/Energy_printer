@@ -189,6 +189,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CONFIG_DATA_LABEL.cs">
+      <DependentUpon>EnergyLabel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DATA_LABEL.cs">
       <DependentUpon>EnergyLabel.tt</DependentUpon>
     </Compile>
@@ -257,6 +260,14 @@
     <Content Include="fonts\arialbd.ttf" />
     <Content Include="fonts\arialbi.ttf" />
     <Content Include="fonts\ariali.ttf" />
+    <Content Include="fonts\ARIALN.TTF" />
+    <Content Include="fonts\ARIALNB.TTF" />
+    <Content Include="fonts\ARIALNBI.TTF" />
+    <Content Include="fonts\ElmsSans-Regular.ttf" />
+    <Content Include="fonts\ElmsSans-SemiBold.ttf" />
+    <Content Include="fonts\HelveticaNeue-Medium.otf" />
+    <Content Include="fonts\HelveticaNeueBold.ttf" />
+    <Content Include="fonts\HelveticaNeueMedium.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -289,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
