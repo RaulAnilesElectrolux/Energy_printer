@@ -188,6 +188,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CONFIG_DATA_LABEL.cs">
+      <DependentUpon>EnergyLabel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DATA_LABEL.cs">
       <DependentUpon>EnergyLabel.tt</DependentUpon>
     </Compile>
@@ -251,7 +254,10 @@
     </Content>
     <Content Include="Assets\HelveticaNeue-Medium.otf" />
     <Content Include="Assets\HelveticaNeueBold.ttf" />
+    <Content Include="fonts\HelveticaNeueBold.ttf" />
+    <Content Include="fonts\HelveticaNeue-Medium.otf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Formato4.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

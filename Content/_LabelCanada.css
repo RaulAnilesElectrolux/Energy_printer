@@ -116,34 +116,34 @@
     width: 100%;
 }
 
-.consumption .value {
-    font-size: 65px;
-    font-weight: 700;
-    line-height: 1;
-    font-family: 'Helvetica Neue Bold';
-    height: stretch;
-    transform: scaleX(0.97);
-    letter-spacing: 0.02in;
-}
+    .consumption .value {
+        font-size: 65px;
+        font-weight: 700;
+        line-height: 1;
+        font-family: 'Helvetica Neue Bold';
+        height: stretch;
+        transform: scaleX(0.97);
+        letter-spacing: 0.02in;
+    }
 
-.consumption .unit {
-    font-size: 40px;
-    font-family: 'Helvetica Neue Bold';
-    line-height: 1.1;
-    margin-top: 0.17in;
-    padding-left: 1.8%;
-}
+    .consumption .unit {
+        font-size: 40px;
+        font-family: 'Helvetica Neue Bold';
+        line-height: 1.1;
+        margin-top: 0.17in;
+        padding-left: 1.8%;
+    }
 
-.consumption .unit p {
-    display: block;
-    font-size: 16.7px;
-    margin: 0;
-    font-weight: bold;
-    font-family: 'Helvetica Neue Bold';
-}
+        .consumption .unit p {
+            display: block;
+            font-size: 16.7px;
+            margin: 0;
+            font-weight: bold;
+            font-family: 'Helvetica Neue Bold';
+        }
 
 .this-model {
-    font-family: 'Helvetica Neue', sans-serif; 
+    font-family: 'Helvetica Neue', sans-serif;
     display: inline-block;
     padding-left: 0.19in;
 }
