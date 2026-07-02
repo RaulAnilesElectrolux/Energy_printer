@@ -214,6 +214,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\CanStar2.jpg" />
+    <Content Include="bin\Energy_printer.dll" />
+    <Content Include="bin\Energy_printer.pdb" />
     <Content Include="Content\_LabelCanada.css" />
     <Content Include="Content\_LabelUSA.css" />
     <Content Include="Assets\Energuide2.png" />
@@ -223,12 +225,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\CanStar2.jpg" />
-    <Content Include="Content\Energuide2.png" />
-    <Content Include="Content\Logo_pie.png" />
-    <Content Include="Content\Logo_titulo.png" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\HelveticaNeue-Medium.otf" />
+    <Content Include="fonts\HelveticaNeueBold.ttf" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Models\EnergyLabel.Context.tt">
@@ -254,8 +258,17 @@
     </Content>
     <Content Include="Assets\HelveticaNeue-Medium.otf" />
     <Content Include="Assets\HelveticaNeueBold.ttf" />
-    <Content Include="fonts\HelveticaNeueBold.ttf" />
-    <Content Include="fonts\HelveticaNeue-Medium.otf" />
+    <Content Include="fonts\arial.ttf" />
+    <Content Include="fonts\arialbd.ttf" />
+    <Content Include="fonts\arialbi.ttf" />
+    <Content Include="fonts\ariali.ttf" />
+    <Content Include="fonts\ARIALN.TTF" />
+    <Content Include="fonts\ARIALNB.TTF" />
+    <Content Include="fonts\ARIALNBI.TTF" />
+    <Content Include="fonts\ariblk.ttf" />
+    <Content Include="fonts\ElmsSans-Regular.ttf" />
+    <Content Include="fonts\ElmsSans-SemiBold.ttf" />
+    <Content Include="fonts\HelveticaNeueMedium.ttf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Formato4.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -288,13 +301,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
