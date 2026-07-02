@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta charset="iso-8859-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Etiquetas Unidas - EnergyGuide & EnerGuide</title>
 
@@ -60,10 +61,7 @@
         <div class="canada-container cc2">
             @Html.Partial("_LabelCanada")
         </div>
-
     </div>
-
-    <script src="@Url.Content("~/Scripts/Formato4.js")"></script>
 </body>
 
 <script>
@@ -147,13 +145,13 @@
         if (elHighKw) elHighKw.textContent = d.HIGH_KW;
 
         const elType = contenedor.querySelector('.val-type');
-        if (elType) elType.textContent = d.TYPE.toUpperCase();
+        if (elType) elType.textContent = d.TYPE;
 
         const elRange = contenedor.querySelector('.val-range');
-        if (elRange) elRange.textContent = d.RANGE.toUpperCase();
+        if (elRange) elRange.textContent = d.RANGE;
 
         const elModel = contenedor.querySelector('.val-model');
-        if (elModel) elModel.textContent = d.MODEL.toUpperCase();
+        if (elModel) elModel.textContent = d.MODEL;
 
         const rango = d.HIGH_KW - d.LOW_KW;
         let porcentaje = 0;
@@ -164,6 +162,7 @@
         const menorAlMinimo = d.MODEL_KW < d.LOW_KW;
 
         const arrow = contenedor.querySelector('.arrow');
+        const thisModel = contenedor.querySelector('.tmarr');
         const modelArrow = contenedor.querySelector('.model-arrow');
         const scaleEl = contenedor.querySelector('.scale');
 
@@ -184,24 +183,26 @@
                 // (scaleRect ya incluye el padding-inline de 2px, así que borde de barra = scaleRect.left + 2px)
                 const margenFlecha = distanciaHastaEscala + 2 - 2; // +2 por padding-inline, -2px antes de la barra
 
-                arrow.style.marginLeft = Math.max(0, margenFlecha) + 'px';
+                arrow.style.marginLeft = -2.5 + '%';
 
                 // Texto al lado derecho (normal), flecha a la izquierda del todo
-                modelArrow.style.flexDirection = 'row';
-                modelArrow.style.justifyContent = 'flex-start';
+                //modelArrow.style.flexDirection = 'row';
+                //modelArrow.style.justifyContent = 'flex-start';
 
             } else {
-                const pctClamped = Math.max(0, Math.min(100, porcentaje));
+                const pctClamped = Math.max(0, Math.min(100, porcentaje)) - 2.4;
                 arrow.style.marginLeft = pctClamped + '%';
+                thisModel.style.marginLeft = pctClamped + 2.5 + '%';
 
                 // Si supera el 70% de la escala, el texto "This Model / Ce Modèle"
                 // se mueve al lado izquierdo de la flecha para no salirse de la etiqueta
-                if (porcentaje > 90) {
-                    modelArrow.style.flexDirection = 'row-reverse';
-                    modelArrow.style.justifyContent = 'flex-end';
+                if (porcentaje > 60) {
+                    thisModel.style.marginLeft = 60 + '%';
+                    //modelArrow.style.flexDirection = 'row-reverse';
+                    //modelArrow.style.justifyContent = 'flex-end';
                 } else {
-                    modelArrow.style.flexDirection = 'row';
-                    modelArrow.style.justifyContent = 'flex-start';
+                    //modelArrow.style.flexDirection = 'row';
+                    //modelArrow.style.justifyContent = 'flex-start';
                 }
             }
         }
@@ -218,7 +219,7 @@
         contenedoresAmarillos.forEach(renderEtiquetasAmarillas);
 
         // Inicializar sección Blanca
-        const contenedoresBlancos = document.querySelectorAll('.page-blanca .usa-container');
+        const contenedoresBlancos = document.querySelectorAll('.page-blanca .canada-container');
         contenedoresBlancos.forEach(renderEtiquetasBlancas);
     };
 </script>
