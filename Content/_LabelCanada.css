@@ -15,35 +15,48 @@
     font-style: normal;
 }
 
+* {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+}
+
 .printP {
-    width: 100%;
     display: flex;
-    justify-content: space-evenly;
-    align-items: end;
-    height: 100vh;
-    margin-bottom: 0.3in;
+    width: 27.8cm;
+    height: 21.5cm;
+    /* justify-content: space-evenly; */
+    align-items: flex-end;
+    overflow: visible;
+    page-break-before: always;
+    break-before: page;
 }
 
 .canada-container {
-    width: 5.3in;
+    width: 5.27in;
     height: 7.125in;
-    display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     font-family: 'Helvetica Neue', sans-serif;
 }
 
 .cc1 {
-    margin-left: 3px;
+    margin-left: var(--canada-marg-left-1);
+    margin-right: var(--canada-marg-right-1);
+    margin-top: var(--canada-marg-top-1);
+    margin-bottom: var(--canada-marg-bottom-1);
 }
 
 .cc2 {
-    margin-right: 3px;
+    margin-left: var(--canada-marg-left-2);
+    margin-right: var(--canada-marg-right-2);
+    margin-top: var(--canada-marg-top-2);
+    margin-bottom: var(--canada-marg-bottom-2);
 }
 
 .page-blanca .label {
-    width: 5.3in;
+    width: 5.27in;
     height: 7.125in;
     background: white;
     border: 1px solid #000;
@@ -136,10 +149,10 @@
 
         .consumption .unit p {
             display: block;
-            font-size: 16.7px;
+            font-size: 16px;
             margin: 0;
             font-weight: bold;
-            font-family: 'Helvetica Neue Bold';
+            font-family: Arial;
         }
 
 .this-model {
@@ -268,29 +281,4 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-}
-
-/* =========================================================================
-   CONFIGURACIÓN MEDIAS DE IMPRESIÓN (PRINT) - CANADÁ
-   ========================================================================= */
-
-@media print {
-    .printP {
-        width: 100%;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: end;
-        height: 100vh;
-    }
-
-    .canada-container {
-        width: 5.3in;
-        height: 7.125in;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        font-family: 'Helvetica Neue', sans-serif;
-        margin-bottom: 0.3in;
-    }
 }

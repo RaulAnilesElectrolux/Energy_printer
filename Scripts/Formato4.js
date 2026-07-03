@@ -34,7 +34,7 @@ function aplicarMargenesDesdeBD() {
             document.documentElement.style.setProperty('--usa-marg-bottom-2', config.MARG_BOTTOM_2 + unidad);
         }
 
-        if (tipoEtiqueta === 'CANADA') {
+        if (tipoEtiqueta === 'CAN') {
             document.documentElement.style.setProperty('--canada-marg-left-1', config.MARG_LEFT_1 + unidad);
             document.documentElement.style.setProperty('--canada-marg-right-1', config.MARG_RIGHT_1 + unidad);
             document.documentElement.style.setProperty('--canada-marg-top-1', config.MARG_TOP_1 + unidad);
@@ -209,6 +209,7 @@ function renderEtiquetasBlancas(contenedor) {
     const arrow = contenedor.querySelector('.arrow');
     const modelArrow = contenedor.querySelector('.model-arrow');
     const scaleEl = contenedor.querySelector('.scale');
+    const thisModel = contenedor.querySelector('.this-model');
 
     if (arrow && modelArrow && scaleEl) {
         if (menorAlMinimo) {
@@ -218,21 +219,15 @@ function renderEtiquetasBlancas(contenedor) {
             const distanciaHastaEscala = scaleRect.left - arrowContainerRect.left;
             const margenFlecha = distanciaHastaEscala;
 
-            arrow.style.marginLeft = Math.max(0, margenFlecha) + 'px';
+            arrow.style.marginLeft = -2.5 + '%';
 
-            modelArrow.style.flexDirection = 'row';
-            modelArrow.style.justifyContent = 'flex-start';
         } else {
-            const pctClamped = Math.max(0, Math.min(100, porcentaje));
-
+            const pctClamped = Math.max(0, Math.min(100, porcentaje)) - 2.4;
             arrow.style.marginLeft = pctClamped + '%';
+            thisModel.style.marginLeft = pctClamped + 2.5 + '%';
 
-            if (porcentaje > 90) {
-                modelArrow.style.flexDirection = 'row-reverse';
-                modelArrow.style.justifyContent = 'flex-end';
-            } else {
-                modelArrow.style.flexDirection = 'row';
-                modelArrow.style.justifyContent = 'flex-start';
+            if (porcentaje > 60) {
+                thisModel.style.marginLeft = 60 + '%';
             }
         }
     }
